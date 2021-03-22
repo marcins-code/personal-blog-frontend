@@ -1,12 +1,15 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Homepage from 'views/site/Homepage';
+import GlobalTemplate from 'templates/GlobalTemplate';
+import Homepage from 'views/page/Homepage';
 
 const App = () => (
   <BrowserRouter>
-    <Switch>
-      <Route path="/" exact component={Homepage} />
-    </Switch>
+    <GlobalTemplate>
+      <Switch>
+        <Route path="/" exact component={Homepage} />
+      </Switch>
+    </GlobalTemplate>
   </BrowserRouter>
 );
 
