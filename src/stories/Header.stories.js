@@ -1,18 +1,19 @@
-import React from 'react';
+// import React from 'react';
 
-import { Header } from './Header';
+// import { Header } from './Header';
 
-export default {
-  title: 'Example/Header',
-  component: Header,
-};
+// export default {
+//   title: 'Example/Header',
+//   component: Header,
+// };
 
-const Template = (args) => <Header {...args} />;
+// // eslint-disable-next-line react/jsx-props-no-spreading
+// const Template = (args) => <Header {...args} />;
 
-export const LoggedIn = Template.bind({});
-LoggedIn.args = {
-  user: {},
-};
+// export const LoggedIn = Template.bind({});
+// LoggedIn.args = {
+//   user: {},
+// };
 
-export const LoggedOut = Template.bind({});
-LoggedOut.args = {};
+// export const LoggedOut = Template.bind({});
+// LoggedOut.args = {};
