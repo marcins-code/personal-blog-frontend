@@ -1,9 +1,14 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+// const styledIcon = styled.FontAwesomeIcon`
+// margin: 5px;
+// `;
 
 const StyledButton = styled.button`
-  padding: 8px 15px;
+  padding: 8px 10px;
   border-radius: 15px;
   color: ${({ theme }) => theme.color};
   font-size: 1.6rem;
@@ -22,14 +27,7 @@ const StyledButton = styled.button`
     box-shadow: 0 2px 1px rgba(0, 0, 0, 0.4);
   }
 
-  ${(props) => props.switch
-    && css`
-      border-radius: 50%;
-      height: 40px;
-      width: 42px;
-      /* border-style: solid !important; */
-      border-width: 1px !important;
-    `}
+  > svg{ margin-right:3px }
 
   ${(props) => props.btnColor
     && css`
@@ -48,16 +46,14 @@ const StyledButton = styled.button`
         color: ${({ theme }) => theme[props.btnColor].backgroundColor};
 
         &:hover {
-          background: ${({ theme }) => theme[props.btnColor].backgroundColor};
-          color: ${({ theme }) => (theme[props.btnColor].color ? theme[props.btnColor].color : theme.grey100)};
+          box-shadow: 0 4px 10px -4px rgba(0, 0, 0, 0.5);
         }
-      `};
-
-  ${(props) => props.btnBig
-    && css`
-      font-size: 1.8rem;
-      padding: 15px 20px;
-    `}
+      `}
+    ${(props) => props.btnBig
+      && css`
+        font-size: 1.9rem;
+        padding: 10px;
+      `}
 
   ${(props) => props.btnSmall
     && css`
@@ -66,84 +62,40 @@ const StyledButton = styled.button`
     `}
 `;
 
-const StyledSwitchButton = styled.input.attrs({ type: 'button' })`
-  width: 30px;
-  height: 30px;
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.6);
-  border-radius: 10px;
-  margin: 10px;
-  color: transparent;
-  cursor: pointer;
-  ${(props) => props.btnColor
-    && css`
-      background-image: linear-gradient(
-        ${({ theme }) => theme[props.btnColor].backgroundColor},
-        ${({ theme }) => theme[props.btnColor].backgroundDarken}
-      );
-      border: groove 1px ${({ theme }) => theme[props.btnColor].backgroundDarken};
-    `}
-  &:active, :focus {
-    outline: none;
-  }
-
-  &.active {
-    border-color: ${({ theme }) => theme.primary.backgroundColor};
-    border-width: 3px;
-  }
-`;
-
 const Button = ({
-  btnColor,
-  btnOutline,
-  btnBig,
-  btnSmall,
-  children,
-  clicked,
-  btnSwitch,
-  value,
-  classess,
-}) => {
-  if (!btnSwitch) {
-    return (
-      <StyledButton
-        btnColor={btnColor}
-        btnOutline={btnOutline}
-        btnBig={btnBig}
-        btnSmall={btnSmall}
-        onClick={clicked}
-      >
-        {children}
-      </StyledButton>
-    );
-  }
-
-  return (
-    <StyledSwitchButton btnColor={btnColor} value={value} onClick={clicked} className={classess} />
-  );
-};
+  btnColor, btnOutline, btnBig, btnSmall, label, btnClick, icon,
+}) => (
+  <StyledButton
+    btnColor={btnColor}
+    btnOutline={btnOutline}
+    btnBig={btnBig}
+    btnSmall={btnSmall}
+    icon={icon}
+    onClick={btnClick}
+  >
+    {icon && <FontAwesomeIcon icon={icon.split(' ')} />}
+    {label}
+  </StyledButton>
+);
 
 Button.propTypes = {
-  classess: propTypes.string,
-  btnSwitch: propTypes.bool,
-  btnColor: propTypes.string,
-  btnOutline: propTypes.bool,
-  btnBig: propTypes.bool,
-  btnSmall: propTypes.bool,
-  children: propTypes.string,
-  clicked: propTypes.func,
-  value: propTypes.string,
+  btnColor: PropTypes.oneOf(['primary', 'secondary', 'tertiary', 'light', 'dark']),
+  btnOutline: PropTypes.bool,
+  btnBig: PropTypes.bool,
+  btnSmall: PropTypes.bool,
+  label: PropTypes.string,
+  btnClick: PropTypes.func,
+  icon: PropTypes.string,
 };
 
 Button.defaultProps = {
-  classess: null,
-  btnSwitch: false,
   btnColor: 'primary',
   btnOutline: false,
   btnBig: false,
   btnSmall: false,
-  children: '',
-  clicked: null,
-  value: undefined,
+  label: '',
+  btnClick: null,
+  icon: '',
 };
 
 export default Button;
