@@ -12,11 +12,12 @@ const StyledAppWrapper = styled.div`
   background-image: url(${theme.backgrounImage});
   color: ${theme.color};
   min-height: 100vh;
-  display: grid;
+  display: flex;
+`;
 
-  &.sidebar {
-    grid-auto-flow: column;
-  }
+const StyledWarpper = styled.div`
+  padding: 20px;
+  width: 100%;
 `;
 
 const AdminTemplate = (props) => (
@@ -24,7 +25,7 @@ const AdminTemplate = (props) => (
     <GlobalStyle />
     <StyledAppWrapper className="sidebar">
       <AdminNavigation />
-      {props.children}
+      <StyledWarpper>{props.children}</StyledWarpper>
     </StyledAppWrapper>
   </>
 );

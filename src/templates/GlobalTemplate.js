@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import React from 'react';
 import useWindowSize from 'hooks/useWindowSize';
 import PageContext from 'context';
 import { ThemeProvider } from 'styled-components';
@@ -9,7 +8,7 @@ import {
   commonTheme, darkTheme, lightTheme, chocoladeTheme,
 } from 'themes/Theme';
 
-const GlobalTemplate = (props) => {
+const GlobalTemplate = ({ children }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [appTheme, setAppTheme] = useState('dark');
   const [sidebarTheme, setSidebarTheme] = useState('dark');
@@ -73,13 +72,13 @@ const GlobalTemplate = (props) => {
     >
       <GlobalStyle />
       <ThemeProvider theme={theme}>
-        <>{props.children}</>
+        <>{children}</>
       </ThemeProvider>
     </PageContext.Provider>
   );
 };
 
 GlobalTemplate.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.node.isRequired,
 };
 export default GlobalTemplate;
