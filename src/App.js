@@ -19,14 +19,6 @@ const App = () => (
         <Route path="/admin/series" exact component={AdminSeries} />
       </GlobalTemplate>
     </Switch>
-
-    {/* <AdminTemplate>
-      <Switch>
-        <Route path="/admin" component={Homepage} />
-        <Route path="/admin/categories" component={Homepage} />
-        <Route path="/admin/series" exact component={AdminSeries} />
-      </Switch>
-    </AdminTemplate> */}
   </BrowserRouter>
 );
 
