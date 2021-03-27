@@ -3,10 +3,6 @@ import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-// const styledIcon = styled.FontAwesomeIcon`
-// margin: 5px;
-// `;
-
 const StyledButton = styled.button`
   padding: 8px 10px;
   border-radius: 15px;
@@ -28,6 +24,17 @@ const StyledButton = styled.button`
   }
 
   > svg{ margin-right:3px }
+
+
+  ${(props) => props.btnIcon
+    && css`
+      display: flex;
+      padding: 10px !important;
+      border-radius: 50%;
+      > svg {
+        margin: auto !important;
+      }
+    `}
 
   ${(props) => props.btnColor
     && css`
@@ -63,18 +70,28 @@ const StyledButton = styled.button`
 `;
 
 const Button = ({
-  btnColor, btnOutline, btnBig, btnSmall, label, btnClick, icon,
+  btnColor,
+  btnOutline,
+  btnBig,
+  btnSmall,
+  label,
+  btnClick,
+  labelIcon,
+  type,
+  btnIcon,
 }) => (
   <StyledButton
     btnColor={btnColor}
     btnOutline={btnOutline}
     btnBig={btnBig}
     btnSmall={btnSmall}
-    icon={icon}
+    labelIcon={labelIcon}
     onClick={btnClick}
+    type={type}
+    btnIcon={btnIcon}
   >
-    {icon && <FontAwesomeIcon icon={icon.split(' ')} />}
-    {label}
+    {labelIcon && <FontAwesomeIcon icon={labelIcon} />}
+    {!btnIcon && label}
   </StyledButton>
 );
 
@@ -85,7 +102,9 @@ Button.propTypes = {
   btnSmall: PropTypes.bool,
   label: PropTypes.string,
   btnClick: PropTypes.func,
-  icon: PropTypes.string,
+  labelIcon: PropTypes.instanceOf(Array),
+  type: PropTypes.string.isRequired,
+  btnIcon: PropTypes.bool,
 };
 
 Button.defaultProps = {
@@ -95,7 +114,8 @@ Button.defaultProps = {
   btnSmall: false,
   label: '',
   btnClick: null,
-  icon: '',
+  labelIcon: [],
+  btnIcon: false,
 };
 
 export default Button;
