@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import PageContext from 'context';
-import Button from 'components/atoms/Button/Button';
 import InlineSwitcher from 'components/molecules/InlineSwitcher/InlineSwitcher';
+import { darkTheme, lightTheme, chocolateTheme } from 'themes/Theme';
 
 const StyledPanelWrapper = styled.div`
   display: block;
   position: fixed;
+  z-index: 50000;
   width: 250px;
   top: 120px;
   right: 0;
@@ -37,96 +38,127 @@ const StyledSectionWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-items: center;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   margin-bottom: 10px;
+  padding: 0 30px;
+`;
+
+const StyledSettingButton = css`
+  width: 30px;
+  height: 30px;
+  border: solid 1px transparent;
+  box-shadow: 0 4px 12px -4px rgba(0, 0, 0, 0.9);
+  border-radius: 10px;
+  position: relative;
+  &:focus,
+  :active {
+    outline: none;
+  }
+  &.active {
+    &::before {
+      content: '✔︎';
+      color: #29b64f;
+      text-shadow: 0 1px 1px black;
+    }
+  }
+`;
+
+const StyledDarkButton = styled.button`
+  ${StyledSettingButton};
+  background: linear-gradient(${darkTheme.background}, ${darkTheme.backgroundDarken});
+  border-color: ${darkTheme.backgroundDarken};
+`;
+
+const StyledLightButton = styled.button`
+  ${StyledSettingButton};
+  background: linear-gradient(${lightTheme.background}, ${lightTheme.backgroundDarken});
+  border-color: ${lightTheme.backgroundDarken};
+`;
+
+const StyledChocolateButton = styled.button`
+  ${StyledSettingButton};
+  background: linear-gradient(${chocolateTheme.background}, ${chocolateTheme.backgroundDarken});
+  border-color: ${chocolateTheme.backgroundDarken};
 `;
 
 const SettingsPanel = () => {
-  const contextData = useContext(PageContext);
+  const appContext = useContext(PageContext);
   const {
-    theme,
-    toggleTheme,
-    toggleNav,
-    menuStyle,
-    toggleSidebarTheme,
-    sidebarTheme,
-  } = contextData;
-
-  console.log(contextData);
+    appTheme,
+    // sidebarTheme,
+    navPosition,
+    appThemeHandler,
+    // sidebarThemeHandler,
+    navPositionHandler,
+  } = appContext;
 
   return (
     <>
       <StyledPanelWrapper>
         <p>choose color</p>
         <StyledSectionWrapper>
-          <Button
-            btnSwitch
-            btnColor="dark"
-            value="dark"
-            clicked={toggleTheme}
-            classess={theme === 'dark' ? 'active' : null}
+          <StyledDarkButton
+            data-apptheme="dark"
+            onClick={appThemeHandler}
+            className={appTheme === 'dark' && 'active'}
           />
-          <Button
-            btnSwitch
-            btnColor="light"
-            value="light"
-            clicked={toggleTheme}
-            classess={theme === 'light' ? 'active' : null}
+          <StyledLightButton
+            data-apptheme="light"
+            onClick={appThemeHandler}
+            className={appTheme === 'light' && 'active'}
           />
-          <Button
-            btnSwitch
-            btnColor="chocolade"
-            value="chocolade"
-            clicked={toggleTheme}
-            classess={theme === 'chocolade' ? 'active' : null}
+          <StyledChocolateButton
+            data-apptheme="chocolate"
+            onClick={appThemeHandler}
+            className={appTheme === 'chocolate' && 'active'}
           />
         </StyledSectionWrapper>
         <p>choose laout</p>
         <StyledSectionWrapper>
           <InlineSwitcher
-            isChecked={menuStyle === 'sidebar'}
+            isChecked={navPosition === 'sidebar'}
             switchColor="secondary"
             notCheckedColor="tertiary"
-            change={toggleNav}
+            change={navPositionHandler}
             labelBefore="Top Menu"
             labelAfter="Sidebar"
             labelBeforeStyle={{ fontSize: '1.2rem' }}
             labelAfterStyle={{ fontSize: '1.2rem' }}
           />
         </StyledSectionWrapper>
-        {menuStyle === 'sidebar' && (
+        {navPosition === 'sidebar' && (
           <>
             <p>choose color</p>
             <StyledSectionWrapper>
-              <Button
+              {/* <Button
                 btnSwitch
                 btnColor="dark"
                 value="dark"
-                clicked={toggleSidebarTheme}
+                clicked={sidebarThemeHandler}
                 classess={sidebarTheme === 'dark' ? 'active' : null}
               />
               <Button
                 btnSwitch
                 btnColor="light"
                 value="light"
-                clicked={toggleSidebarTheme}
+                clicked={sidebarThemeHandler}
                 classess={sidebarTheme === 'light' ? 'active' : null}
               />
               <Button
                 btnSwitch
                 btnColor="chocolade"
                 value="chocolade"
-                clicked={toggleSidebarTheme}
+                clicked={sidebarThemeHandler}
                 classess={sidebarTheme === 'chocolade' ? 'active' : null}
               />
               <Button
                 btnSwitch
                 btnColor="secondary"
                 value="blue"
-                clicked={toggleSidebarTheme}
+                clicked={sidebarThemeHandler}
                 classess={sidebarTheme === 'blue' ? 'active' : null}
-              />
+              /> */}
             </StyledSectionWrapper>
           </>
         )}
