@@ -1,34 +1,45 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import useWindowSize from 'hooks/useWindowSize';
 import PageContext from 'context';
 import { ThemeProvider } from 'styled-components';
 import GlobalStyle from 'themes/GlobalStyle';
 import PropTypes from 'prop-types';
 import {
-  commonTheme, darkTheme, lightTheme, chocoladeTheme,
+  commonTheme, chocolateTheme, darkTheme, lightTheme,
 } from 'themes/Theme';
 
 const GlobalTemplate = ({ children }) => {
   const [isMobile, setIsMobile] = useState(false);
+  // const [isLayotChanged, setIsLayotChanged] = useState(false);
   const [appTheme, setAppTheme] = useState('dark');
   const [sidebarTheme, setSidebarTheme] = useState('dark');
   const [navPosition, setNavPosition] = useState('menu-top');
   const [lang, setLang] = useState('pl');
   const size = useWindowSize();
+
+  // setting window size
   useEffect(() => {
     setIsMobile(size.width <= 760);
   }, [size]);
 
+  // set app theme
   const appThemeHandler = (e) => {
-    setAppTheme(e.target.value);
+    setAppTheme(e.target.dataset.apptheme);
+  };
+
+  // set app layout
+  // const layoutChangeIndictator = () => setIsLayotChanged(true);
+  const prevNavPosition = useRef();
+  useEffect(() => {
+    prevNavPosition.current = navPosition;
+  });
+
+  const navPositionHandler = (e) => {
+    setNavPosition(e.target.checked ? 'sidebar' : 'menu-top');
   };
 
   const sidebarThemeHandler = (e) => {
     setSidebarTheme(e.target.value);
-  };
-
-  const navPositionHandler = (e) => {
-    setNavPosition(e.target.checked ? 'sidebar' : 'menu-top');
   };
 
   const langSwitchHandler = (e) => {
@@ -36,7 +47,7 @@ const GlobalTemplate = ({ children }) => {
   };
 
   let theme;
-  switch (sidebarTheme) {
+  switch (appTheme) {
     case 'dark': {
       theme = { ...commonTheme, ...darkTheme };
       break;
@@ -47,8 +58,8 @@ const GlobalTemplate = ({ children }) => {
       break;
     }
 
-    case 'chocolade': {
-      theme = { ...commonTheme, ...chocoladeTheme };
+    case 'chocolate': {
+      theme = { ...commonTheme, ...chocolateTheme };
       break;
     }
 
@@ -63,6 +74,7 @@ const GlobalTemplate = ({ children }) => {
         appTheme,
         sidebarTheme,
         navPosition,
+        prevNavPosition: prevNavPosition.current,
         lang,
         appThemeHandler,
         sidebarThemeHandler,
