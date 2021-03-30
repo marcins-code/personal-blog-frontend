@@ -30,7 +30,7 @@ const StyledButton = styled.button`
     && css`
       display: flex;
       padding: 10px !important;
-      border-radius: 50%;
+      border-radius: 20%;
       > svg {
         margin: auto !important;
       }
