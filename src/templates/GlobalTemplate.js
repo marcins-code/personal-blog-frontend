@@ -7,14 +7,16 @@ import PropTypes from 'prop-types';
 import {
   commonTheme, chocolateTheme, darkTheme, lightTheme,
 } from 'themes/Theme';
+import { useLocation } from 'react-router-dom';
 
 const GlobalTemplate = ({ children }) => {
   const [isMobile, setIsMobile] = useState(false);
-  // const [isLayotChanged, setIsLayotChanged] = useState(false);
   const [appTheme, setAppTheme] = useState('dark');
   const [sidebarTheme, setSidebarTheme] = useState('dark');
+  const [isAdminPage, setIsAdminPage] = useState(false);
   const [navPosition, setNavPosition] = useState('menu-top');
   const [lang, setLang] = useState('pl');
+
   const size = useWindowSize();
 
   // setting window size
@@ -28,7 +30,6 @@ const GlobalTemplate = ({ children }) => {
   };
 
   // set app layout
-  // const layoutChangeIndictator = () => setIsLayotChanged(true);
   const prevNavPosition = useRef();
   useEffect(() => {
     prevNavPosition.current = navPosition;
@@ -39,12 +40,20 @@ const GlobalTemplate = ({ children }) => {
   };
 
   const sidebarThemeHandler = (e) => {
-    setSidebarTheme(e.target.value);
+    setSidebarTheme(e.target.dataset.sidebartheme);
   };
 
+  // lanquage switching
   const langSwitchHandler = (e) => {
     setLang(e.target.checked ? 'en' : 'pl');
   };
+
+  const location = useLocation();
+  useEffect(() => {
+    const regex = /^\/admin/g;
+    const found = location.pathname.match(regex);
+    setIsAdminPage(Boolean(found));
+  }, [location]);
 
   let theme;
   switch (appTheme) {
@@ -67,6 +76,8 @@ const GlobalTemplate = ({ children }) => {
       theme = { ...commonTheme, ...darkTheme };
   }
 
+  console.log(theme);
+
   return (
     <PageContext.Provider
       value={{
@@ -76,6 +87,7 @@ const GlobalTemplate = ({ children }) => {
         navPosition,
         prevNavPosition: prevNavPosition.current,
         lang,
+        isAdminPage,
         appThemeHandler,
         sidebarThemeHandler,
         navPositionHandler,
