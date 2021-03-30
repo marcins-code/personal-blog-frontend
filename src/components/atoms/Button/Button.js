@@ -114,7 +114,7 @@ Button.defaultProps = {
   btnSmall: false,
   label: '',
   btnClick: null,
-  labelIcon: [],
+  labelIcon: undefined,
   btnIcon: false,
 };
 
