@@ -1,0 +1,42 @@
+.menutop-enter {
+    opacity: 1;
+    transform: translateY(-100px);
+    height: 0;
+  }
+  .menutop-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    height: 80px;
+    transition: all 800ms;
+    transition-delay: 500ms;
+  }
+  .menutop-exit {
+    height: 80px;
+    opacity: 1;
+    /* transform: translateY(0px); */
+  }
+  .menutop-exit-active {
+    opacity: 0;
+    height: 0;
+    /* transform: translateY(-200px); */
+    transition: height 500ms, transform 500ms ease-in-out;
+    /* transition-delay: 300ms;  */
+  }
+  
+  .sidebar-enter {
+    transform: translateX(-270px);
+  }
+  .sidebar-enter-active {
+    /* opacity: 1; */
+    transform: translateY(0);
+    transition: transform 800ms;
+    transition-delay: 300ms;
+  }
+  .sidebar-exit {
+    transform: translateY(0px);
+  }
+  .sidebar-exit-active {
+    transform: translateX(-270px);
+    transition: transform 600ms;
+    /* transition-delay: 300ms;  */
+  }
