@@ -54,18 +54,23 @@ export const commonTheme = { ...common, ...colors };
 
 export const darkTheme = {
   backgrounImage: bodyBackgroundImage,
-  background: '#414345',
+  background: colors.dark.backgroundColor,
+  backgroundDarken: colors.dark.backgroundDarken,
   color: colors.grey200,
 };
 
 export const lightTheme = {
   backgrounImage: bodyBackgroundImageLigth,
-  background: '#808080',
+  background: colors.light.backgroundColor,
+  backgroundDarken: colors.light.backgroundDarken,
   color: '#000',
 };
 
-export const chocoladeTheme = {
+export const chocolateTheme = {
   backgrounImage: bodyBackgroundImage,
   background: colors.chocolade.backgroundColor,
+  backgroundDarken: colors.chocolade.backgroundDarken,
   color: colors.grey200,
 };
+
+// TODO order
