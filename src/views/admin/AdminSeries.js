@@ -1,11 +1,11 @@
 import React from 'react';
-import AdminTemplate from '../../templates/AdminTemplate';
+import MainTemplate from 'templates/MainTemplate';
 
 const AdminSeries = () => (
-  <AdminTemplate>
+  <MainTemplate>
     {' '}
     <h3>Series</h3>
-  </AdminTemplate>
+  </MainTemplate>
 );
 
 export default AdminSeries;
