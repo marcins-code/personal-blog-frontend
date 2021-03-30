@@ -76,8 +76,6 @@ const GlobalTemplate = ({ children }) => {
       theme = { ...commonTheme, ...darkTheme };
   }
 
-  console.log(theme);
-
   return (
     <PageContext.Provider
       value={{

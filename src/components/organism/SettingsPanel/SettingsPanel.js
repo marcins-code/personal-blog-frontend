@@ -143,8 +143,6 @@ const SettingsPanel = () => {
   const panelShowHandler = () => setIsPanleVisible(true);
   const panelHideHandler = () => setIsPanleVisible(false);
 
-  console.log(isPanelVisible);
-
   const appContext = useContext(PageContext);
   const {
     isMobile,

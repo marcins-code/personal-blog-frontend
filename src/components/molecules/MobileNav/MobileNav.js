@@ -70,10 +70,8 @@ const StyledList = styled.ul`
 
 const MobileNav = ({ isShown }) => {
   const appContext = useContext(PageContext);
-  const { appTheme, lang, isAdminPage } = appContext;
+  const { lang, isAdminPage } = appContext;
   const menuItems = isAdminPage ? adminMenuItems : mainMenuItems;
-
-  console.log(appTheme);
 
   return (
     <StyleMobileNavWrapper className={isShown && 'isShown'}>

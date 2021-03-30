@@ -81,8 +81,6 @@ const PageTemplate = (props) => {
     navPosition, prevNavPosition, isMobile, appTheme, isAdminPage,
   } = appContext;
 
-  console.log(showMobileNav);
-
   const navClass = isAdminPage ? 'sidebar' : navPosition;
 
   const appClasses = isMobile ? ['sidebar-mobile', 'hidden'] : [navClass, appTheme];
