@@ -8,6 +8,17 @@ const Backdrop = styled.div`
   z-index: 100;
   top: 0;
   left: 0;
+  opacity: 1;
+  animation: fadein 300ms;
+
+  @keyframes fadein {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 `;
 
 export default Backdrop;
