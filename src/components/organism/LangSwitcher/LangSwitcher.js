@@ -8,6 +8,7 @@ const StyleLangSwitchWrapper = styled.div`
   position: absolute;
   top: 20px;
   right: 60px;
+  z-index: 100;
 `;
 
 const LangSwitcher = () => {
