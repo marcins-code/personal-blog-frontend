@@ -16,7 +16,6 @@ const StyledInput = styled.input`
   background-color: ${theme.dark.backgroundDarken};
   border-radius: 10px;
   border: solid 2px ${theme.light.backgroundDarken};
-
   &:focus,
   :active {
     border-color: ${theme.secondary.backgroundColor};
@@ -48,7 +47,7 @@ const FormikInput = ({
   if (touched && !errors) {
     inputStatusClassses = 'success';
   }
-  if ((touched && errors) || (value.length > 3 && errors)) {
+  if (touched && errors) {
     inputStatusClassses = 'error';
   }
 
@@ -67,7 +66,7 @@ const FormikInput = ({
         touched={touched}
         className={inputStatusClassses}
       />
-      <FormikError errors={errors} touched={touched} value={value} />
+      <FormikError errors={errors} touched={touched} />
     </InputWrapper>
   );
 };
@@ -93,7 +92,7 @@ FormikInput.defaultProps = {
   onBlur: undefined,
   touched: undefined,
   errors: undefined,
-  labelIcon: [],
+  labelIcon: undefined,
 };
 
 export default FormikInput;
