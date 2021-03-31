@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import InlineSwitcher from 'components/molecules/InlineSwitcher/InlineSwitcher';
-import PageContext from 'context';
+import { PageContext } from 'context';
 
 const StyleLangSwitchWrapper = styled.div`
   position: absolute;

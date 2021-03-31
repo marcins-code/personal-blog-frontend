@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import useWindowSize from 'hooks/useWindowSize';
-import PageContext from 'context';
+import { PageContext } from 'context';
 import { ThemeProvider } from 'styled-components';
 import GlobalStyle from 'themes/GlobalStyle';
 import PropTypes from 'prop-types';
@@ -11,10 +11,10 @@ import { useLocation } from 'react-router-dom';
 
 const GlobalTemplate = ({ children }) => {
   const [isMobile, setIsMobile] = useState(false);
-  const [appTheme, setAppTheme] = useState('dark');
-  const [sidebarTheme, setSidebarTheme] = useState('dark');
+  const [appTheme, setAppTheme] = useState('chocolate');
+  const [sidebarTheme, setSidebarTheme] = useState('blue');
   const [isAdminPage, setIsAdminPage] = useState(false);
-  const [navPosition, setNavPosition] = useState('menu-top');
+  const [navPosition, setNavPosition] = useState('sidebar');
   const [lang, setLang] = useState('pl');
 
   const size = useWindowSize();

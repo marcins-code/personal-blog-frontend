@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { CSSTransition } from 'react-transition-group';
-import PageContext from 'context';
+import { PageContext } from 'context';
 import TopMenu from 'components/molecules/TopMenu/TopMenu';
 import Sidebar from 'components/molecules/Sidebar/Sidebar';
 import './animations.css';

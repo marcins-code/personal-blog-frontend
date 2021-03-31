@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import PageContext from 'context';
+import { PageContext } from 'context';
 import styled from 'styled-components';
 import Link from 'components/atoms/Link/Link';
 import { NavLink } from 'react-router-dom';

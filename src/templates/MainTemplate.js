@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import PageContext from 'context';
+import { PageContext } from 'context';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import SettingsPanel from 'components/organism/SettingsPanel/SettingsPanel';

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import PageContext from 'context';
+import { PageContext } from 'context';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Link from 'components/atoms/Link/Link';

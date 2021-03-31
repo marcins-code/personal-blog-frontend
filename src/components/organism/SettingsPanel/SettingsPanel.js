@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import ReactDOM from 'react-dom';
 import styled, { css } from 'styled-components';
-import PageContext from 'context';
+import { PageContext } from 'context';
 import InlineSwitcher from 'components/molecules/InlineSwitcher/InlineSwitcher';
 import { darkTheme, lightTheme, chocolateTheme } from 'themes/Theme';
 import { settingsPanelItems } from 'languages/language';
