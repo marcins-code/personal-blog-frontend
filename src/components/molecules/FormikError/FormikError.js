@@ -19,7 +19,7 @@ const FormikError = ({ errors, touched }) => {
   const animRef = useRef(null);
   return (
     <CSSTransition
-      in={touched && errors}
+      in={Boolean(touched) && Boolean(errors)}
       timeout={200}
       classNames="formik-error"
       unmountOnExit
