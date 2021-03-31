@@ -16,7 +16,7 @@ const FormikLabel = ({ label, labelIcon, labelFor }) => (
   <>
     {/* {labelIcon && <FontAwesomeIcon icon={labelIcon} />} */}
     <StyledLabel htmlFor={labelFor}>
-      {labelIcon && <FontAwesomeIcon icon={labelIcon} />}
+      {labelIcon ? <FontAwesomeIcon icon={labelIcon} /> : null}
       {label}
     </StyledLabel>
   </>
@@ -30,7 +30,7 @@ FormikLabel.propTypes = {
 
 FormikLabel.defaultProps = {
   label: '',
-  labelIcon: [],
+  labelIcon: null,
 };
 
 export default FormikLabel;
