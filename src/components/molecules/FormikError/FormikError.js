@@ -15,11 +15,11 @@ const StyledErrorContainer = styled.div`
   box-shadow: 0 4px 8px -3px rgba(0, 0, 0, 1) inset;
   z-index: 10;
 `;
-const FormikError = ({ errors, touched, value }) => {
+const FormikError = ({ errors, touched }) => {
   const animRef = useRef(null);
   return (
     <CSSTransition
-      in={(errors.length !== 0 && touched) || (value.length > 3 && errors)}
+      in={touched && errors}
       timeout={200}
       classNames="formik-error"
       unmountOnExit
@@ -37,7 +37,6 @@ const FormikError = ({ errors, touched, value }) => {
 FormikError.propTypes = {
   errors: PropTypes.string,
   touched: PropTypes.bool,
-  value: PropTypes.string.isRequired,
 };
 
 FormikError.defaultProps = {
