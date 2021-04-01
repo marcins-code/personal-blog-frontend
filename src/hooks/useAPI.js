@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export const useApi = (url, method = 'GET', body = null) => {
+export const useApi = (url, method = 'GET', body = null, trigger) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
   const [data, setData] = useState();
@@ -32,12 +32,8 @@ export const useApi = (url, method = 'GET', body = null) => {
         setIsLoading(false);
       }
     };
-
-    // fetchData()
-
     return fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [trigger]);
 
   return {
     isLoading,
