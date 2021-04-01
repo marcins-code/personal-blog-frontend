@@ -18,7 +18,6 @@ const GlobalTemplate = ({ children }) => {
   const [lang, setLang] = useState('pl');
 
   const size = useWindowSize();
-
   // setting window size
   useEffect(() => {
     setIsMobile(size.width <= 760);
@@ -104,3 +103,5 @@ GlobalTemplate.propTypes = {
   children: PropTypes.node.isRequired,
 };
 export default GlobalTemplate;
+
+// TODO create hook for page context
