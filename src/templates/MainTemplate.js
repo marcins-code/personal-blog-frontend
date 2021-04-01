@@ -77,13 +77,14 @@ const PageTemplate = (props) => {
   };
 
   const appContext = useContext(PageContext);
+
   const {
     navPosition, prevNavPosition, isMobile, appTheme, isAdminPage,
   } = appContext;
 
   const navClass = isAdminPage ? 'sidebar' : navPosition;
 
-  const appClasses = isMobile ? ['sidebar-mobile', 'hidden'] : [navClass, appTheme];
+  const appClasses = isMobile ? ['sidebar-mobile'] : [navClass, appTheme];
 
   return (
     <>
