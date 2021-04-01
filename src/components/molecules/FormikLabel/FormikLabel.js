@@ -6,7 +6,7 @@ import styled from 'styled-components';
 const StyledLabel = styled.label`
   display: block;
   font-weight: bold;
-  margin-bottom: 10px;
+  padding: 0px 0px 5px 10px;
   > svg {
     margin-right: 5px;
   }
