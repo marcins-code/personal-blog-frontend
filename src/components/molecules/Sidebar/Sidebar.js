@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { PageContext } from 'context';
+import { AuthContext, PageContext } from 'context';
 import styled from 'styled-components';
 import Link from 'components/atoms/Link/Link';
 import { NavLink } from 'react-router-dom';
@@ -130,21 +130,44 @@ const StyledNavigationWrapper = styled.div`
 
 const SideBar = () => {
   const appContext = useContext(PageContext);
+  const authContext = useContext(AuthContext);
   const { lang, isAdminPage, sidebarTheme } = appContext;
   const menuItems = isAdminPage ? adminMenuItems : mainMenuItems;
-
+  console.log(authContext.isLoggedIn);
+  console.log(menuItems);
   return (
     <StyledNavigationWrapper>
       <StyledSidebarWrapper id="top-navigation" className={sidebarTheme}>
         <StyledList>
-          {menuItems.map((menuItem) => (
+          {mainMenuItems.map((menuItem) => (
             <li key={menuItem.name_en}>
               <Link as={NavLink} to={menuItem.path} exact={menuItem.exact}>
                 {lang === 'pl' ? menuItem.name_pl : menuItem.name_en}
               </Link>
             </li>
           ))}
+          {!authContext.isLoggedIn && (
+            <Link as={NavLink} to="/authorization">
+              Auth
+            </Link>
+          )}
         </StyledList>
+        {authContext.isLoggedIn && (
+          <>
+            <hr />
+            <StyledList>
+              <p>Admin </p>
+              {adminMenuItems.map((menuItem) => (
+                <li key={menuItem.name_en}>
+                  <Link as={NavLink} to={menuItem.path} exact={menuItem.exact}>
+                    {lang === 'pl' ? menuItem.name_pl : menuItem.name_en}
+                  </Link>
+                </li>
+              ))}
+              <Link onClick={authContext.logout}>Logout</Link>
+            </StyledList>
+          </>
+        )}
       </StyledSidebarWrapper>
     </StyledNavigationWrapper>
   );
