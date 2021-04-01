@@ -17,11 +17,13 @@ import 'codemirror/mode/css/css';
 import 'codemirror/addon/fold/foldgutter.css';
 import 'codemirror/mode/htmlmixed/htmlmixed';
 import styled from 'styled-components';
+import './Codemirror.css';
 
 const StyledEditorWrapper = styled.div`
   box-shadow: 0px 4px 4px -2px black;
   border-radius: 20px;
-  min-height: 40vh;
+  min-height: 30vh;
+  overflow: hidden;
 `;
 
 const Codemirror = ({ value, setStateFunc, style }) => (
@@ -41,6 +43,7 @@ const Codemirror = ({ value, setStateFunc, style }) => (
         scrollbarStyle: null,
         autoCloseTags: true,
         lineWrapping: true,
+        value: ' \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n ',
         extraKeys: {
           // eslint-disable-next-line func-names
           'Ctrl-Q': function (cm) {

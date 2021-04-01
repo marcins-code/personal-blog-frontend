@@ -1,0 +1,9 @@
+.CodeMirror-scroll {
+    overflow: scroll !important;
+    margin-bottom: 0 !important;
+    margin-right: -30px;
+    padding-bottom: 0 !important;
+    height: 100%;
+    outline: none;
+    position: static !important;
+}
