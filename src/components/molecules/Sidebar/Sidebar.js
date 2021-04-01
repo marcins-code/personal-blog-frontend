@@ -131,10 +131,8 @@ const StyledNavigationWrapper = styled.div`
 const SideBar = () => {
   const appContext = useContext(PageContext);
   const authContext = useContext(AuthContext);
-  const { lang, isAdminPage, sidebarTheme } = appContext;
-  const menuItems = isAdminPage ? adminMenuItems : mainMenuItems;
-  console.log(authContext.isLoggedIn);
-  console.log(menuItems);
+  const { lang, sidebarTheme } = appContext;
+
   return (
     <StyledNavigationWrapper>
       <StyledSidebarWrapper id="top-navigation" className={sidebarTheme}>
