@@ -5,7 +5,11 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import './style.css';
 
+const StyledErrorWrapper = styled.div`
+  display: block;
+`;
 const StyledErrorContainer = styled.div`
+  display: block;
   background-color: #bc2600;
   border: ridge 2px #eb5934;
   position: absolute;
@@ -25,11 +29,13 @@ const FormikError = ({ errors, touched }) => {
       unmountOnExit
       animRef={animRef}
     >
-      <StyledErrorContainer ref={animRef}>
-        <FontAwesomeIcon icon="exclamation-triangle" />
-        &nbsp;
-        {errors}
-      </StyledErrorContainer>
+      <StyledErrorWrapper>
+        <StyledErrorContainer ref={animRef}>
+          <FontAwesomeIcon icon="exclamation-triangle" />
+          &nbsp;
+          {errors}
+        </StyledErrorContainer>
+      </StyledErrorWrapper>
     </CSSTransition>
   );
 };
