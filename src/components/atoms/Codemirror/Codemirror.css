@@ -6,4 +6,18 @@
     height: 100%;
     outline: none;
     position: static !important;
+
+}
+
+.CodeMirror-gutters {
+    padding:0  10px;
+}
+
+.CodeMirror {
+    font-size:1.6rem !important;
+    font-family: 'Roboto', Menlo, monospace !important;
+    /* line-height: 2rem; */
+    /* height: auto; */
+    height: 100%;
+    position: relative;
 }

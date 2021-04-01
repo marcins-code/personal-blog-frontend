@@ -1,8 +1,9 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
-import PropTypes from 'prop-types';
-import CodeMirror from '@uiw/react-codemirror';
+// import PropTypes from 'prop-types';
+import { UnControlled as CodeMirror } from 'react-codemirror2';
 import 'codemirror/keymap/sublime';
+import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/dracula.css';
 import 'codemirror/addon/scroll/simplescrollbars';
 import 'codemirror/addon/edit/closetag';
@@ -24,18 +25,23 @@ const StyledEditorWrapper = styled.div`
   border-radius: 20px;
   min-height: 30vh;
   overflow: hidden;
+  position: relative;
 `;
 
-const Codemirror = ({ value, setStateFunc, style }) => (
+// eslint-disable-next-line react/prop-types
+const Codemirror = ({ setStateFunc, codeValue }) => (
   <StyledEditorWrapper>
     <CodeMirror
-      style={style}
-      value={value}
-      onChange={(_editor) => {
-        setStateFunc(_editor.getValue());
+      value={codeValue || '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n'}
+      onBeforeChange={(editor, data, value) => {
+        setStateFunc(value);
       }}
+      autoCursor={false}
+      // onChange={(editor, data, value) => {
+      // }}
       options={{
         theme: 'dracula',
+        lineNumbers: true,
         tabSize: 2,
         keyMap: 'sublime',
         mode: 'htmlmixed',
@@ -43,7 +49,6 @@ const Codemirror = ({ value, setStateFunc, style }) => (
         scrollbarStyle: null,
         autoCloseTags: true,
         lineWrapping: true,
-        value: ' \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n ',
         extraKeys: {
           // eslint-disable-next-line func-names
           'Ctrl-Q': function (cm) {
@@ -58,15 +63,15 @@ const Codemirror = ({ value, setStateFunc, style }) => (
 );
 
 Codemirror.propTypes = {
-  value: PropTypes.string,
-  setStateFunc: PropTypes.func,
-  style: PropTypes.instanceOf(Object),
+  // value: PropTypes.string,
+  // setStateFunc: PropTypes.func,
+  // style: PropTypes.instanceOf(Object),
 };
 
 Codemirror.defaultProps = {
-  value: '',
-  setStateFunc: undefined,
-  style: { overflow: 'hidden', borderRadius: '50px' },
+  // value: '',
+  //   setStateFunc: undefined,
+  //   style: { overflow: 'hidden', borderRadius: '50px' },
+  // };
 };
-
 export default Codemirror;
