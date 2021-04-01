@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 import FormikInput from 'components/molecules/FormikInput/FormikInput';
 import Codemirror from 'components/atoms/Codemirror/Codemirror';
 import MainTemplate from 'templates/MainTemplate';
+import AdminPageWrapper from 'components/atoms/Wrappers/AdminPageWrapper';
 
 const AdminCategories = () => {
   const formik = useFormik({
@@ -30,40 +31,42 @@ const AdminCategories = () => {
 
   return (
     <MainTemplate>
-      <h5>Categories</h5>
-      <br />
-      <div style={{ position: 'relative', height: 'auto' }}>
-        <form onSubmit={formik.handleSubmit} style={{ position: 'relative' }}>
-          <FormikInput
-            type="text"
-            name="title"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            label="Tytuł"
-            labelIcon={['fas', 'quote-right']}
-            value={formik.values.title.trimStart()}
-            touched={formik.touched.title}
-            errors={formik.errors.title}
-            placeholder="Wpisz tytuł"
-          />
-          <FormikInput
-            type="text"
-            name="test"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            label="Tytuł 33"
-            labelIcon={['fas', 'quote-right']}
-            value={formik.values.test.trimStart()}
-            touched={formik.touched.test}
-            errors={formik.errors.test}
-            placeholder="Wpisz tytuł"
-          />
-          {isFormValid && (
-            <Button type="submit" label="submit" btnSmall btnOutline btnColor="light" />
-          )}
-        </form>
-        <Codemirror setStateFunc={setDescCode} />
-      </div>
+      <AdminPageWrapper>
+        <h5>Categories</h5>
+        <br />
+        <div style={{ position: 'relative', height: 'auto' }}>
+          <form onSubmit={formik.handleSubmit} style={{ position: 'relative' }}>
+            <FormikInput
+              type="text"
+              name="title"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              label="Tytuł"
+              labelIcon={['fas', 'quote-right']}
+              value={formik.values.title.trimStart()}
+              touched={formik.touched.title}
+              errors={formik.errors.title}
+              placeholder="Wpisz tytuł"
+            />
+            <FormikInput
+              type="text"
+              name="test"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              label="Tytuł 33"
+              labelIcon={['fas', 'quote-right']}
+              value={formik.values.test}
+              touched={formik.touched.test}
+              errors={formik.errors.test}
+              placeholder="Wpisz tytuł"
+            />
+            {isFormValid && (
+              <Button type="submit" label="submit" btnSmall btnOutline btnColor="light" />
+            )}
+          </form>
+          <Codemirror setStateFunc={setDescCode} />
+        </div>
+      </AdminPageWrapper>
     </MainTemplate>
   );
 };

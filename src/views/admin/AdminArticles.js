@@ -1,4 +1,5 @@
 /* eslint-disable consistent-return */
+import AdminPageWrapper from 'components/atoms/Wrappers/AdminPageWrapper';
 import React from 'react';
 // import { useHttpClient } from 'hooks/useHttpClient';
 // import ErrorModal from 'components/atoms/ErrorModal/ErrorModal';
@@ -20,10 +21,12 @@ const AdminArticles = () => {
   // console.log(status);
   return (
     <MainTemplate>
-      {/* <ErrorModal error={error} onClear={clearError} /> */}
-      {isLoading && <div className="center">{/* <LoadingSpinner /> */}</div>}
-      {!isLoading && <AdminNewArticle />}
-      <pre />
+      <AdminPageWrapper>
+        {/* <ErrorModal error={error} onClear={clearError} /> */}
+        {isLoading && <div className="center">{/* <LoadingSpinner /> */}</div>}
+        {!isLoading && <AdminNewArticle />}
+        <pre />
+      </AdminPageWrapper>
     </MainTemplate>
   );
 };
