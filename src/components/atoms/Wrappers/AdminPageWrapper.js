@@ -6,8 +6,6 @@ import { Redirect } from 'react-router-dom';
 const AdminPageWrapper = ({ children }) => {
   const pageContext = useContext(PageContext);
   const authContext = useContext(AuthContext);
-
-  console.log('ddd');
   return pageContext.isAdminPage && !authContext.isLoggedIn ? <Redirect to="/" /> : <>{children}</>;
 };
 
