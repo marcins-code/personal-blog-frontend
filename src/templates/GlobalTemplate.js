@@ -93,7 +93,7 @@ const GlobalTemplate = ({ children }) => {
       }}
     >
       <GlobalStyle />
-      <NotificationContainer leaveTimeout={100} />
+      <NotificationContainer leaveTimeout={100} enterTimeout={700} />
       <ThemeProvider theme={theme}>
         <>{children}</>
       </ThemeProvider>
