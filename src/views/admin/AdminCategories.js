@@ -1,5 +1,5 @@
-/* eslint-disable no-alert */
-import React, { useState } from 'react';
+/* eslint-disable no-underscore-dangle */
+import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import Button from 'components/atoms/Button/Button';
 import * as Yup from 'yup';
@@ -9,10 +9,13 @@ import MainTemplate from 'templates/MainTemplate';
 import AdminPageWrapper from 'components/atoms/Wrappers/AdminPageWrapper';
 import FormikSelect from 'components/molecules/FormikSelect/FormikSelect';
 import styled from 'styled-components';
+import { useApi } from 'hooks/useAPI';
+import Spinner from 'components/molecules/Spinner/Spinner';
 
 const StyledInputsWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  position: static;
 `;
 
 const StyledFormWrapper = styled.div`
@@ -27,10 +30,12 @@ const iteoptionItems = [
 ];
 
 const AdminCategories = () => {
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [typID, setTypeID] = useState();
   const formik = useFormik({
     initialValues: {
-      titlePL: 'dupa',
-      titleEN: 'dupa',
+      titlePL: '',
+      titleEN: '',
       type: '',
     },
 
@@ -40,26 +45,52 @@ const AdminCategories = () => {
         .min(3, 'Minimal length 3 char')
         .max(15, 'Max length 15')
         .required('Pole wymagane'),
-      titleEN: Yup.string().trim().max(5, 'i dupa').required('wymagane'),
+      titleEN: Yup.string()
+        .trim()
+        .min(3, 'Minimal length 3 char')
+        .max(15, 'Max length 15')
+        .required('Pole wymagane'),
       type: Yup.string().required('Pole wymagane'),
     }),
     onSubmit: (values) => {
-      alert(
-        JSON.stringify(
-          { ...values, desc: descCode, modifiedAt: new Date().toISOString() },
-          null,
-          1,
-        ),
-      );
+      setIsSubmitted(formik.isValid && formik.isSubmitting);
     },
   });
 
   const [descCode, setDescCode] = useState('');
-  // const isFormValid = formik.isValid
-  // && Object.values(formik.values).filter((v) => v !== '').length !== 0;
 
+  const body = JSON.stringify({
+    ...formik.values,
+    creator: '60640e5697c82cc7ff14c9ec',
+    descriptionPL: descCode,
+  });
+
+  const baseUrl = process.env.REACT_APP_BASE_API_URL;
+  const url = !typID ? `${baseUrl}/article-type` : `${baseUrl}/article-type/${typID}`;
+
+  const method = !typID ? 'POST' : 'PUT';
+
+  const {
+    isLoading, resultData, status, error, statusOK, resultDataID,
+  } = useApi(
+    url,
+    method,
+    body,
+    isSubmitted,
+    setIsSubmitted,
+  );
+  useEffect(() => {
+    setTypeID(resultDataID);
+  });
+
+  console.log(status);
+  console.log(statusOK);
+  console.log(resultData);
+  console.log(error);
+  console.log(resultDataID);
   return (
     <MainTemplate>
+      {isLoading && <Spinner />}
       <AdminPageWrapper>
         <h5>Categories</h5>
         <form onSubmit={formik.handleSubmit} style={{ position: 'relative' }}>
@@ -110,4 +141,6 @@ const AdminCategories = () => {
 };
 
 export default AdminCategories;
+
+// eslint-disable-next-line no-unused-vars
 // TODO refcrot
