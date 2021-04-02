@@ -20,13 +20,12 @@ import './Codemirror.css';
 
 const Codemirror = ({ setStateFunc, codeValue }) => (
   <CodeMirror
-    value={codeValue || '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n'}
-    onBeforeChange={(editor, data, value) => {
+    value={codeValue || ''}
+    autoCursor={false}
+    onChange={(editor, data, value) => {
       setStateFunc(value);
     }}
-    autoCursor={false}
-    // onChange={(editor, data, value) => {
-    // }}
+    // onBeforeChange={(editor, data, value) => {};
     options={{
       theme: 'dracula',
       lineNumbers: true,
