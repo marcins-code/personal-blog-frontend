@@ -8,9 +8,9 @@ import Series from 'views/page/Series';
 import Contact from 'views/page/Contact';
 import Authorization from 'views/page/Authorization';
 import AdminArticles from 'views/admin/AdminArticles';
-import AdminCategories from 'views/admin/AdminCategories';
-import AdminSeries from 'views/admin/AdminSeries';
+import AdminCategories from 'views/admin/AdminArticleTypes';
 import { useAuth } from 'hooks/useAuth';
+import ManageArticleTypes from 'views/admin/ManageArticleTypes';
 
 const App = () => {
   const authHandler = useAuth();
@@ -48,9 +48,10 @@ const App = () => {
             <Route path="/series" component={Series} />
             <Route path="/contact" component={Contact} />
             <Route path="/admin" exact component={AdminArticles} />
-            <Route path="/admin/categories" component={AdminCategories} />
-            <Route path="/admin/series" exact component={AdminSeries} />
+            <Route path="/admin/article-types" component={AdminCategories} />
             <Route path="/authorization" component={Authorization} />
+            <Route path="/admin/manage-article-type" component={ManageArticleTypes} />
+            <Route path="/admin/manage-article-type/:atid" component={ManageArticleTypes} />
           </GlobalTemplate>
         </Switch>
       </BrowserRouter>
