@@ -14,23 +14,7 @@ const StyleWraperr = styled.div`
 
 const LoginForm = (props) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [status, setStatus] = useState();
-  const [statusOK, setStatusOK] = useState();
-  const [fetchedData, setFetchedData] = useState();
   const auth = useContext(AuthContext);
-  console.log(auth);
-
-  console.log(isLoading);
-  if (error) {
-    console.log(error);
-  }
-  console.log(status);
-  console.log(statusOK);
-  if (fetchedData) {
-    console.log(fetchedData);
-  }
-
   const formik = useFormik({
     initialValues: {
       email: 'email@email.com',
@@ -43,49 +27,37 @@ const LoginForm = (props) => {
         .min(6, 'Password must have min ${min} characters')
         .max(50, 'Password must have max ${max} characters'),
     }),
+    // eslint-disable-next-line consistent-return
     onSubmit: async (values, { setFieldError }) => {
-      console.log(formik.errors);
-
-      if (formik.isSubmitting) {
-        setIsLoading(true);
-        const fetchData = async () => {
-          try {
-            const response = await fetch('http://localhost:5000/api/user/login', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ ...values }),
-            });
-            const responseData = await response.json();
-            setStatus(response.status);
-            setStatusOK(response.ok);
-            if (!response.ok) {
-              setError(responseData);
-              if (responseData.message === 'Invalid password') {
-                setFieldError('password', responseData.message);
-              }
-              if (responseData.message === 'Invalid email') {
-                setFieldError('email', responseData.message);
-              }
-            } else {
-              setFetchedData(responseData);
-              auth.login(
-                response.ok,
-                responseData.userId,
-                responseData.roles,
-                responseData.firstName,
-                responseData.lastName,
-                responseData.token,
-                responseData.tokenExpiration,
-              );
-            }
-
-            setIsLoading(false);
-          } catch (err) {
-            setError(err);
-            setIsLoading(false);
+      setIsLoading(true);
+      try {
+        const response = await fetch('http://localhost:5000/api/user/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...values }),
+        });
+        const responseData = await response.json();
+        if (!response.ok) {
+          if (responseData.message === 'Invalid password') {
+            setFieldError('password', responseData.message);
           }
-        };
-        fetchData();
+          if (responseData.message === 'Invalid email') {
+            setFieldError('email', responseData.message);
+          }
+        }
+
+        auth.login(
+          response.ok,
+          responseData.userId,
+          responseData.roles,
+          responseData.firstName,
+          responseData.lastName,
+          responseData.token,
+          responseData.tokenExpiration,
+        );
+        setIsLoading(false);
+      } catch (err) {
+        setIsLoading(false);
       }
     },
   });
@@ -120,10 +92,7 @@ const LoginForm = (props) => {
           </form>
         ) : (
           <>
-            <h3>
-              Jestś zalogowany jako
-              {auth.userFirstName + auth.userLastName}
-            </h3>
+            <h3>{`Jesteś zalogowany jako ${auth.userFirstName} ${auth.userLastName}`}</h3>
             <Button type="button" btnClick={auth.logout} label="logout" />
           </>
         )}
