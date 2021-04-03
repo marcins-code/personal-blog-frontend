@@ -9,6 +9,7 @@ import {
 } from 'themes/Theme';
 import { useLocation } from 'react-router-dom';
 import { NotificationContainer } from 'react-notifications';
+import './notification.css';
 
 const GlobalTemplate = ({ children }) => {
   const [isMobile, setIsMobile] = useState(false);
@@ -93,7 +94,7 @@ const GlobalTemplate = ({ children }) => {
       }}
     >
       <GlobalStyle />
-      <NotificationContainer leaveTimeout={100} enterTimeout={700} />
+      <NotificationContainer leaveTimeout={100} />
       <ThemeProvider theme={theme}>
         <>{children}</>
       </ThemeProvider>
