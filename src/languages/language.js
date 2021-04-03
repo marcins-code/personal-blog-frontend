@@ -5,7 +5,7 @@ export const mainMenuItems = [
     path: '/',
     exact: true,
   },
-  { name_en: 'categories', name_pl: 'kategorie', path: '/categories' },
+  { name_en: 'categories', name_pl: 'kategorie', path: '/article-types' },
   { name_en: 'series', name_pl: 'serie', path: '/series' },
   { name_en: 'contact', name_pl: 'kontakt', path: '/contact' },
 ];
@@ -17,7 +17,7 @@ export const adminMenuItems = [
     path: '/admin',
     exact: true,
   },
-  { name_en: 'Article types', name_pl: 'typy artkułów', path: '/admin/categories' },
+  { name_en: 'Article types', name_pl: 'typy artkułów', path: '/admin/article-types' },
 ];
 
 export const settingsPanelItems = {
