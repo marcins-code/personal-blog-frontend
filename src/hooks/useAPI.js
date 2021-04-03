@@ -1,8 +1,11 @@
 /* eslint-disable no-underscore-dangle */
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useNotification } from 'hooks/useNotification';
+import { AuthContext, PageContext } from 'context';
 
-export const useApi = (url, method = 'GET', body, trigger, setTriggerFunc) => {
+export const useApi = (url, method = 'GET', body, trigger, setTriggerFunc, withAuth) => {
+  const auth = useContext(AuthContext);
+  const pageType = useContext(PageContext);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [resultData, setResultData] = useState();
@@ -13,11 +16,15 @@ export const useApi = (url, method = 'GET', body, trigger, setTriggerFunc) => {
   useEffect(() => {
     if (trigger) {
       setIsLoading(true);
+      const regHeaders = new Headers();
+      regHeaders.append('Content-Type', 'application/json');
+      (withAuth || pageType.isAdminPage)
+        && regHeaders.append('Authorization', `Bearer ${auth.token}`);
       const fetchData = async () => {
         try {
           const response = await fetch(url, {
             method,
-            headers: { 'Content-Type': 'application/json' },
+            headers: regHeaders,
             body,
           });
           const responseData = await response.json();
@@ -29,12 +36,11 @@ export const useApi = (url, method = 'GET', body, trigger, setTriggerFunc) => {
             response.status === 201
               && addSuccessNotification('Utworzono nowy zapis', `${response.status}`);
             setResultData(responseData);
-            setResultDataID(responseData._id);
           } else {
             setError(responseData);
             addErrorNotification(responseData.message, response.status);
-            setResultDataID(responseData._id);
           }
+          method !== 'GET' && setResultDataID(responseData._id);
         } catch (err) {
           setError(err);
         }
