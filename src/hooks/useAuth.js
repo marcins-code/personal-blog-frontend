@@ -12,9 +12,9 @@ export const useAuth = () => {
   const [tokenExpiration, setTokenExpiration] = useState();
 
   const login = useCallback(
-    (logged, ResUserId, roles, firstName, lastName, ResToken, ResTokenExpiration) => {
+    (logged, resUserId, roles, firstName, lastName, ResToken, ResTokenExpiration) => {
       setIsLoggedIn(logged);
-      setUserID(ResUserId);
+      setUserID(resUserId);
       setUserRoles(roles);
       setUserFirstName(firstName);
       setUserLastName(lastName);
@@ -24,7 +24,7 @@ export const useAuth = () => {
         'userData',
         JSON.stringify({
           token: ResToken,
-          userId: ResUserId,
+          UserId: resUserId,
           roles,
           firstName,
           lastName,
