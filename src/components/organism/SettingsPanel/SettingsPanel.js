@@ -13,7 +13,6 @@ import './animation.css';
 
 const StyledPanelWrapper = styled.div`
   display: block;
-
   position: fixed;
   z-index: 50000;
   width: 270px;
@@ -35,6 +34,10 @@ const StyledPanelWrapper = styled.div`
   justify-content: center;
   text-align: center;
   border: solid #6d6d6d 2px;
+
+  @media (max-height: 575px) {
+    position: absolute;
+  }
 `;
 
 const StyledSectionWrapper = styled.div`
@@ -213,7 +216,7 @@ const SettingsPanel = () => {
             </>
           )}
 
-          {(navPosition === 'sidebar' || isAdminPage) && (
+          {(navPosition === 'sidebar' || isAdminPage) && !isMobile && (
             <>
               <StyledDivider />
               <StyledLabel>{phrazes.chooseSidebarTheme}</StyledLabel>
