@@ -73,8 +73,7 @@ const ArticleTypeForm = () => {
     descriptionPL: descCode,
   });
 
-  const baseUrl = process.env.REACT_APP_BASE_API_URL;
-  const url = !typID ? `${baseUrl}/article-type` : `${baseUrl}/article-type/${typID}`;
+  const url = !typID ? '/article-type' : `/article-type/${typID}`;
 
   const method = !typID ? 'POST' : 'PUT';
   const {
@@ -98,10 +97,6 @@ const ArticleTypeForm = () => {
     console.log(error);
     console.log(resultDataID);
   }, [isSubmitted]);
-
-  // useEffect(() => {
-  //   setDescCode(resultData);
-  // }, [resultData]);
 
   return (
     <>
