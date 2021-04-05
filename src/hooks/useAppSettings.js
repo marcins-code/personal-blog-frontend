@@ -57,7 +57,7 @@ export const useAppSettings = (pageInitSettings) => {
   }, [location]);
   const size = useWindowSize();
   useEffect(() => {
-    setIsMobile(size.width <= 760);
+    setIsMobile(size.width <= 768);
   }, [size]);
 
   const appThemeHandler = useCallback(
