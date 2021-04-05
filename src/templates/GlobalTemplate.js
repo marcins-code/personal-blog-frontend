@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
-import useWindowSize from 'hooks/useWindowSize';
+import React from 'react';
 import { PageContext } from 'context';
 import { ThemeProvider } from 'styled-components';
 import GlobalStyle from 'themes/GlobalStyle';
@@ -7,54 +6,32 @@ import PropTypes from 'prop-types';
 import {
   commonTheme, chocolateTheme, darkTheme, lightTheme,
 } from 'themes/Theme';
-import { useLocation } from 'react-router-dom';
 import { NotificationContainer } from 'react-notifications';
+import { useAppSettings } from 'hooks/useAppSettings';
 import './notification.css';
 
 const GlobalTemplate = ({ children }) => {
-  const [isMobile, setIsMobile] = useState(false);
-  const [appTheme, setAppTheme] = useState('chocolate');
-  const [sidebarTheme, setSidebarTheme] = useState('blue');
-  const [isAdminPage, setIsAdminPage] = useState(false);
-  const [navPosition, setNavPosition] = useState('sidebar');
-  const [lang, setLang] = useState('pl');
-
-  const size = useWindowSize();
-  // setting window size
-  useEffect(() => {
-    setIsMobile(size.width <= 760);
-  }, [size]);
-
-  // set app theme
-  const appThemeHandler = (e) => {
-    setAppTheme(e.target.dataset.apptheme);
+  const pageInitSettings = {
+    appTheme: 'chocolate',
+    navPosition: 'menu-top',
+    sidebarTheme: 'dark',
+    lang: 'pl',
   };
 
-  // set app layout
-  const prevNavPosition = useRef();
-  useEffect(() => {
-    prevNavPosition.current = navPosition;
-  });
-
-  const navPositionHandler = (e) => {
-    setNavPosition(e.target.checked ? 'sidebar' : 'menu-top');
-  };
-
-  const sidebarThemeHandler = (e) => {
-    setSidebarTheme(e.target.dataset.sidebartheme);
-  };
-
-  // lanquage switching
-  const langSwitchHandler = (e) => {
-    setLang(e.target.checked ? 'en' : 'pl');
-  };
-
-  const location = useLocation();
-  useEffect(() => {
-    const regex = /^\/admin/g;
-    const found = location.pathname.match(regex);
-    setIsAdminPage(Boolean(found));
-  }, [location]);
+  const {
+    isMobile,
+    appTheme,
+    navPosition,
+    sidebarTheme,
+    remeberSettings,
+    lang,
+    isAdminPage,
+    navPositionHandler,
+    appThemeHandler,
+    sidebarThemeHandler,
+    remeberSettingsHandler,
+    langSwitchHandler,
+  } = useAppSettings(pageInitSettings);
 
   let theme;
   switch (appTheme) {
@@ -84,13 +61,14 @@ const GlobalTemplate = ({ children }) => {
         appTheme,
         sidebarTheme,
         navPosition,
-        prevNavPosition: prevNavPosition.current,
+        remeberSettings,
         lang,
         isAdminPage,
         appThemeHandler,
         sidebarThemeHandler,
         navPositionHandler,
         langSwitchHandler,
+        remeberSettingsHandler,
       }}
     >
       <GlobalStyle />
