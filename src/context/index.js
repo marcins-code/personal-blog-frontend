@@ -5,11 +5,13 @@ export const PageContext = React.createContext({
   lang: 'pl',
   appTheme: 'chocolate',
   sidebarTheme: 'chocolate',
+  remeberSettings: false,
   navPosition: 'menu - top',
   isAdminPage: false,
   appThemeHandler: () => {},
   sidebarThemeHandler: () => {},
   navPositionHandler: () => {},
+  remeberSettingsHandler: () => {},
   langSwitchHandler: () => {},
 });
 
