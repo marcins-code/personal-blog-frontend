@@ -1,21 +1,20 @@
 import React, { useContext } from 'react';
-import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import InlineSwitcher from 'components/molecules/InlineSwitcher/InlineSwitcher';
 import { PageContext } from 'context';
 
 const StyleLangSwitchWrapper = styled.div`
-  position: absolute;
-  top: 20px;
-  right: 60px;
-  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  justify-content: center;
 `;
 
 const LangSwitcher = () => {
   const appContext = useContext(PageContext);
   const { langSwitchHandler, lang } = appContext;
 
-  const langSwitcher = (
+  return (
     <StyleLangSwitchWrapper>
       <InlineSwitcher
         isChecked={lang === 'en'}
@@ -29,7 +28,6 @@ const LangSwitcher = () => {
       />
     </StyleLangSwitchWrapper>
   );
-  return ReactDOM.createPortal(langSwitcher, document.getElementById('tools-hook'));
 };
 
 export default LangSwitcher;

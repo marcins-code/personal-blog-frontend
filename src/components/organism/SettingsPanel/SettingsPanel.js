@@ -7,6 +7,8 @@ import { darkTheme, lightTheme, chocolateTheme } from 'themes/Theme';
 import { settingsPanelItems } from 'languages/language';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { CSSTransition } from 'react-transition-group';
+import LangSwitcher from 'components/organism/LangSwitcher/LangSwitcher';
+
 import './animation.css';
 
 const StyledPanelWrapper = styled.div`
@@ -15,7 +17,7 @@ const StyledPanelWrapper = styled.div`
   position: fixed;
   z-index: 50000;
   width: 270px;
-  top: 90px;
+  top: 50px;
   right: 0;
   margin-right: -5px;
   background-color: #3b3b3b;
@@ -120,14 +122,14 @@ const StyledToggleButton = styled.button`
   z-index:3000;
   cursor: pointer;
   right: -5px;
-  top: 80px;
+  top: 10px;
   padding: 5px 20px;
   border: none;
   border-radius: 30px 0 0 30px;
-  background: linear-gradient(#004e73, #003148);
+  background: linear-gradient(#4d82e5, #003148);
   /* border-color: ${chocolateTheme.backgroundDarken}; */
   color: ${({ theme }) => theme.grey200};
-  box-shadow: 0 5px 15px -3px rgba(0, 0, 0, 0.5), 0 0 40px rgba(0, 0, 0, 0.3) inset;
+  box-shadow: 0 5px 15px -3px rgba(0, 0, 0, 0.5), 0 0 40px 20px rgba(0, 0, 0, 0.3) inset;
   font-size: 1.6rem;
   border: solid #002435 2px;
   &:active,
@@ -150,9 +152,11 @@ const SettingsPanel = () => {
     isAdminPage,
     sidebarTheme,
     navPosition,
+    remeberSettings,
     appThemeHandler,
     sidebarThemeHandler,
     navPositionHandler,
+    remeberSettingsHandler,
     lang,
   } = appContext;
 
@@ -167,7 +171,11 @@ const SettingsPanel = () => {
             style={{ float: 'left' }}
             onClick={panelHideHandler}
           />
-
+          <StyledLabel>{phrazes.chooseLang}</StyledLabel>
+          <StyledSectionWrapper style={{ justifyContent: 'center' }}>
+            <LangSwitcher />
+          </StyledSectionWrapper>
+          <StyledDivider />
           <StyledLabel>{phrazes.chooseTheme}</StyledLabel>
           <StyledSectionWrapper>
             <StyledDarkButton
@@ -233,6 +241,15 @@ const SettingsPanel = () => {
               </StyledSectionWrapper>
             </>
           )}
+          <StyledDivider />
+          <StyledLabel>{phrazes.remeberSettings}</StyledLabel>
+          <StyledSectionWrapper style={{ justifyContent: 'center' }}>
+            <InlineSwitcher
+              isChecked={remeberSettings}
+              switchColor="secondary"
+              change={remeberSettingsHandler}
+            />
+          </StyledSectionWrapper>
         </StyledPanelWrapper>
       </CSSTransition>
       <CSSTransition in={!isPanelVisible} timeout={1000} classNames="toggle-button" unmountOnExit>
