@@ -13,7 +13,7 @@ export const useAppSettings = (pageInitSettings) => {
   const [sidebarTheme, setSidebarTheme] = useState(
     storedValues ? storedValues.sidebarTheme : pageInitSettings.sidebarTheme,
   );
-  const [lang, setLang] = useState(storedValues ? storedValues.lang : pageInitSettings.langŽ);
+  const [lang, setLang] = useState(storedValues ? storedValues.lang : pageInitSettings.lang);
   const [remeberSettings, setRemeberSettings] = useState(!!storedValues);
 
   useEffect(() => {
