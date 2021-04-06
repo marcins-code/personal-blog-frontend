@@ -8,35 +8,41 @@
     transform: translateY(0);
     height: 80px;
     transition: all 800ms;
-    transition-delay: 500ms;
+    transition-delay: 750ms;
   }
   .menutop-exit {
     height: 80px;
     opacity: 1;
-    /* transform: translateY(0px); */
+    transform: translateY(0px);
   }
   .menutop-exit-active {
-    opacity: 0;
+    /* opacity: 0; */
     height: 0;
-    /* transform: translateY(-200px); */
-    transition: height 500ms, transform 500ms ease-in-out;
+    /* margin-top: -px; */
+    transform: translateY(-200px);
+    transition: all 500ms ease-in-out;
     /* transition-delay: 300ms;  */
   }
   
   .sidebar-enter {
-    transform: translateX(-270px);
+    /* min-width: 0; */
+    /* max-width: 0; */
+    width: 0px;
   }
   .sidebar-enter-active {
     /* opacity: 1; */
-    transform: translateY(0);
-    transition: transform 800ms;
-    transition-delay: 300ms;
+    /* min-width: 220px; */
+    width: 21.6rem;
+    /* transform: translateY(); */
+    transition: all 800ms;
+    transition-delay: 500ms;
   }
   .sidebar-exit {
-    transform: translateY(0px);
+    width: 21.6rem;
+
   }
   .sidebar-exit-active {
-    transform: translateX(-270px);
-    transition: transform 600ms;
+    width: 0px;
+    transition: all 1000ms;
     /* transition-delay: 300ms;  */
   }
