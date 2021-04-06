@@ -6,6 +6,8 @@ import smoothWallLigth from 'assets/images/backgrounds/smooth-wall-light.png';
 import nami from 'assets/images/backgrounds/nami.png';
 import debutLight from 'assets/images/backgrounds/debut-light.png';
 import blackLinen from 'assets/images/backgrounds/black-linen.png';
+import felt from 'assets/images/backgrounds/felt.png';
+import ironGrip from 'assets/images/backgrounds/iron-grip.png';
 
 export const backgroundImages = {
   textile,
@@ -16,4 +18,6 @@ export const backgroundImages = {
   nami,
   debutLight,
   blackLinen,
+  felt,
+  ironGrip,
 };
