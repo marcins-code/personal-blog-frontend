@@ -1,7 +1,7 @@
 import { commonColors } from 'themes/commonElements/commonColors';
 import { backgroundImages } from 'themes/commonElements/backgroundImages';
 
-export const sidebars = {
+export const sidebarThemes = {
   dark: {
     sidebarBackgroundColor: '#313131',
     sidebarbackgroundImage: backgroundImages.smoothWallLigth,
