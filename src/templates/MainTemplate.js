@@ -39,8 +39,8 @@ const StyledAppWrapper = styled.div`
 
   &.sidebar > .content-wrapper {
     margin-left: 230px;
-    transition: margin 800ms;
-    transition-delay: 320ms;
+    transition: margin 800ms ease-in-out;
+    transition-delay: 250ms;
   }
 
   &.menu-top > .content-wrapper {
