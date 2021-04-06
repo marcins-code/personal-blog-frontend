@@ -18,10 +18,13 @@ const StyleMobileNavWrapper = styled.div`
       rgba(0, 0, 0, 0.5) 100%
     ),
     url('assets/images/black-orchid.png');
-  background-color: ${({ theme }) => theme.chocolade.backgroundColor};
+  background-color: ${({ theme }) => theme.dark.backgroundColor};
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.5) 100%),
+    url(${({ theme }) => theme.backgroundImages.textile});
   position: fixed;
+  top: 0;
   box-shadow: 10px 0 7px rgba(0, 0, 0, 0.4);
-  margin-left: -270px;
+  margin-left: -290px;
   transition: all 500ms;
   &.isShown {
     margin-left: 0px;
@@ -46,22 +49,25 @@ const StyledList = styled.ul`
       text-transform: uppercase;
       text-shadow: 2px 2px 2px black;
       color: ${({ theme }) => theme.grey200};
+      position: relative;
+
+      &:before {
+        content: '';
+        font-style: italic;
+        font-size: 2rem;
+        text-transform: lowercase;
+        font-family: 'Patrick Hand', cursive;
+        color: #00bfeb;
+        position: absolute;
+        bottom: 7px;
+        vertical-align: text-bottom;
+      }
 
       &.active {
-        margin-left: -2.1rem;
-        :after {
-          content: '';
-        }
         :before {
           content: 'this.';
-          text-transform: lowercase;
-        }
-        &::after,
-        ::before {
-          font-family: 'Patrick Hand', cursive;
-          font-style: italic;
-          font-size: 1.1rem;
-          color: #00a2ff;
+          left: -37px;
+          color: #ff6315;
         }
       }
     }
