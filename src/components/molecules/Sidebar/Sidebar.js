@@ -6,121 +6,74 @@ import { NavLink } from 'react-router-dom';
 import { mainMenuItems, adminMenuItems } from 'languages/language';
 
 const StyledList = styled.ul`
+  top: 10px;
   margin: 10px 20px;
-  padding: 20px 0;
+  padding: 20px 17px;
   display: block !important;
   list-style: none;
   li {
-    margin: 22px 0;
+    margin: 28px 0;
+    padding: 0 20px;
   }
 
   a {
     text-decoration: none;
-    line-height: 2.2rem;
     font-size: 2rem;
     font-weight: bold;
     font-family: 'Baloo 2', sans-serif;
-    /* font-family: "", sans-serif important; */
     text-transform: uppercase;
-    text-shadow: 2px 2px 2px black;
-    color: ${({ theme }) => theme.grey200};
-    margin-left: 45px;
-    margin-bottom: 10px;
+    text-shadow: 1px 1px 2px black;
+    position: relative;
+    line-height: 1rem;
 
-    &::after,
-    ::before {
+    &:before {
       content: '';
-      font-size: 1.7rem;
+      font-style: italic;
+      font-size: 1.5rem;
       text-transform: lowercase;
+      font-family: 'Patrick Hand', cursive;
       color: #00bfeb;
-      line-height: 2rem;
+      position: absolute;
+      bottom: 10px;
+      vertical-align: text-bottom;
     }
 
     &.active {
-      margin-left: 2.1rem;
-      :after {
-        content: '';
-      }
       :before {
         content: 'this.';
-      }
-      &::after,
-      ::before {
-        font-family: 'Patrick Hand', cursive;
-        font-style: italic;
-        font-size: 1.5rem;
+        left: -29px;
         color: #ff6315;
       }
     }
 
     &:hover:not(.active) {
-      margin-left: 2.21rem;
-      :after {
-        content: ')';
-      }
       :before {
-        content: 'use(';
-      }
-
-      &::after,
-      ::before {
-        font-family: 'Patrick Hand', cursive;
-        font-style: italic;
-        font-size: 1.5rem;
+        content: 'use.';
+        left: -25px;
+        vertical-align: text-bottom;
       }
     }
   }
 `;
 
-const StyledSidebarWrapper = styled.nav`
-  min-width: 250px;
-  max-width: 250px;
+const StyledSidebarNav = styled.nav`
   height: 100vh;
   left: 0;
   top: 0;
   margin: 0;
-  position: absolute;
-  background-color: #454545;
+  overflow: hidden;
+  color: #fff;
+  box-shadow: -15px 0 45px -20px rgba(0, 0, 0, 0.9) inset;
+  background-color: ${({ theme }) => theme.sidebarBackgroundColor};
   background-image: linear-gradient(
       to bottom,
       rgba(0, 0, 0, 0.15) 0%,
       rgba(0, 0, 0, 0.3) 50%,
       rgba(0, 0, 0, 0.6) 100%
     ),
-    url('https://www.transparenttextures.com/patterns/random-grey-variations.png');
-  box-shadow: -5px 0 20px 4px rgba(0, 0, 0, 0.9);
-  &.dark {
-    background-color: #454545;
-  }
-
-  &.light {
-    background-color: #c3c3c3;
-    & > ul > li a {
-      color: #282a35;
-      text-shadow: 1px 1px 1px #484b60;
-      &.active {
-        &::before,
-        ::after {
-          color: #c93600;
-        }
-      }
-
-      &:hover:not(.active) {
-        margin-left: 11px;
-        &::before,
-        ::after {
-          color: #0038cc;
-        }
-      }
-    }
-  }
-
-  &.chocolate {
-    background-color: #6d2a19;
-  }
-
-  &.blue {
-    background-color: #004e73;
+    url(${({ theme }) => theme.sidebarbackgroundImage});
+  > ul > li > a {
+    color: ${({ theme }) => theme.sidebarColor};
   }
 `;
 
@@ -135,7 +88,7 @@ const SideBar = () => {
 
   return (
     <StyledNavigationWrapper>
-      <StyledSidebarWrapper id="top-navigation" className={sidebarTheme}>
+      <StyledSidebarNav id="top-navigation" className={sidebarTheme}>
         <StyledList>
           {mainMenuItems.map((menuItem) => (
             <li key={menuItem.name_en}>
@@ -162,11 +115,13 @@ const SideBar = () => {
                   </Link>
                 </li>
               ))}
-              <Link onClick={authContext.logout}>Logout</Link>
+              <li>
+                <Link onClick={authContext.logout}>Logout</Link>
+              </li>
             </StyledList>
           </>
         )}
-      </StyledSidebarWrapper>
+      </StyledSidebarNav>
     </StyledNavigationWrapper>
   );
 };
