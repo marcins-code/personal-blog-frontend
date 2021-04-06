@@ -18,7 +18,7 @@ export const sidebars = {
     sidebarColor: commonColors.grey200,
   },
   blue: {
-    sidebarBackgroundColor: '#3b64b0',
+    sidebarBackgroundColor: '#006ba9',
     sidebarbackgroundImage: backgroundImages.blackLinen,
     sidebarColor: commonColors.grey200,
   },
