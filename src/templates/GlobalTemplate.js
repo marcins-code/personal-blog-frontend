@@ -3,9 +3,7 @@ import { PageContext } from 'context';
 import { ThemeProvider } from 'styled-components';
 import GlobalStyle from 'themes/GlobalStyle';
 import PropTypes from 'prop-types';
-import {
-  commonTheme, chocolateTheme, darkTheme, lightTheme,
-} from 'themes/Theme';
+import { ThemeMixer } from 'themes/ThemeMixer';
 import { NotificationContainer } from 'react-notifications';
 import { useAppSettings } from 'hooks/useAppSettings';
 import './notification.css';
@@ -33,26 +31,7 @@ const GlobalTemplate = ({ children }) => {
     langSwitchHandler,
   } = useAppSettings(pageInitSettings);
 
-  let theme;
-  switch (appTheme) {
-    case 'dark': {
-      theme = { ...commonTheme, ...darkTheme };
-      break;
-    }
-
-    case 'light': {
-      theme = { ...commonTheme, ...lightTheme };
-      break;
-    }
-
-    case 'chocolate': {
-      theme = { ...commonTheme, ...chocolateTheme };
-      break;
-    }
-
-    default:
-      theme = { ...commonTheme, ...darkTheme };
-  }
+  const theme = ThemeMixer(appTheme, sidebarTheme);
 
   return (
     <PageContext.Provider
