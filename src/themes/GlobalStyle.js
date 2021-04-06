@@ -5,7 +5,7 @@ const GlobalStyle = createGlobalStyle`
     box-sizing:border-box;
     margin:0;
     padding:0;
-    /* -webkit-font-smoothing: antialiased; */
+    -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;   
 }
 
@@ -21,7 +21,6 @@ font-weight: normal;
 
 h1,h2,h3, h4, h5, h6 {
     font-family: "Oswald", sans-serif;
-    /* font-style: italic; */
 }
 
 p{font-family: "Roboto", sans-serif; font-size:1.75rem; line-height:2.5rem}
