@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import styled, { css } from 'styled-components';
 import { PageContext } from 'context';
 import InlineSwitcher from 'components/molecules/InlineSwitcher/InlineSwitcher';
-import { darkTheme, lightTheme, chocolateTheme } from 'themes/Theme';
 import { settingsPanelItems } from 'languages/language';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { CSSTransition } from 'react-transition-group';
@@ -27,7 +26,6 @@ const StyledPanelWrapper = styled.div`
       rgba(10, 10, 10, 0.8) 100%
     ),
     url('https://www.transparenttextures.com/patterns/cardboard-flat.png');
-  color: ${({ theme }) => theme.grey200};
   box-shadow: -5px 10px 40px -15px rgba(0, 0, 0, 0.5), 0 0 145px rgba(0, 0, 0, 0.65) inset;
   border-radius: 25px 0 0 25px;
   justify-items: center;
@@ -53,7 +51,8 @@ const StyledSectionWrapper = styled.div`
 const StyledSettingButton = css`
   width: 30px;
   height: 30px;
-  border: solid 1px transparent;
+  cursor: pointer;
+  border: ridge 2px #a2a2a2;
   box-shadow: 0 4px 12px -4px rgba(0, 0, 0, 0.9);
   border-radius: 10px;
   position: relative;
@@ -81,29 +80,38 @@ const StyledLabel = styled.p`
   font-size: 1.6rem;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
   margin-top: 10px;
+  color: ${({ theme }) => theme.grey200};
 `;
 
 const StyledDarkButton = styled.button`
   ${StyledSettingButton};
-  background: linear-gradient(${darkTheme.background}, ${darkTheme.backgroundDarken});
-  border-color: ${darkTheme.backgroundDarken};
+  background: linear-gradient(
+    ${({ theme }) => theme.dark.backgroundColor},
+    ${({ theme }) => theme.dark.backgroundColorDarken}
+  );
 `;
 
 const StyledLightButton = styled.button`
   ${StyledSettingButton};
-  background: linear-gradient(${lightTheme.background}, ${lightTheme.backgroundDarken});
-  border-color: ${lightTheme.backgroundDarken};
+  background: linear-gradient(
+    ${({ theme }) => theme.light.backgroundColor},
+    ${({ theme }) => theme.light.backgroundColorDarken}
+  );
 `;
 
 const StyledChocolateButton = styled.button`
   ${StyledSettingButton};
-  background: linear-gradient(${chocolateTheme.background}, ${chocolateTheme.backgroundDarken});
-  border-color: ${chocolateTheme.backgroundDarken};
+  background: linear-gradient(
+    ${({ theme }) => theme.chocolate.backgroundColor},
+    ${({ theme }) => theme.chocolate.backgroundColorDarken}
+  );
 `;
 const StyledBlueButton = styled.button`
   ${StyledSettingButton};
-  background: linear-gradient(#004e73, #003148);
-  border-color: ${chocolateTheme.backgroundDarken};
+  background: linear-gradient(
+    ${({ theme }) => theme.blue.backgroundColor},
+    ${({ theme }) => theme.blue.backgroundColorDarken}
+  );
 `;
 
 const StyledCloseButton = styled(FontAwesomeIcon)`
@@ -122,23 +130,22 @@ const StyledCloseButton = styled(FontAwesomeIcon)`
 const StyledToggleButton = styled.button`
   position: fixed;
   height: 45px;
-  z-index:3000;
+  z-index: 3000;
   cursor: pointer;
   right: -5px;
   top: 10px;
+  color: ${({ theme }) => theme.grey200};
+  text-shadow: 2px 2px 2px black;
   padding: 5px 20px;
   border: none;
   border-radius: 30px 0 0 30px;
   background: linear-gradient(#4d82e5, #003148);
-  /* border-color: ${chocolateTheme.backgroundDarken}; */
-  color: ${({ theme }) => theme.grey200};
   box-shadow: 0 5px 15px -3px rgba(0, 0, 0, 0.5), 0 0 40px 20px rgba(0, 0, 0, 0.3) inset;
   font-size: 1.6rem;
   border: solid #002435 2px;
   &:active,
   :focus {
     outline: none;
-   
   }
 `;
 
@@ -209,8 +216,8 @@ const SettingsPanel = () => {
                   change={navPositionHandler}
                   labelBefore="Top Menu"
                   labelAfter="Sidebar"
-                  labelBeforeStyle={{ fontSize: '1.2rem' }}
-                  labelAfterStyle={{ fontSize: '1.2rem' }}
+                  labelBeforeStyle={{ fontSize: '1.2rem', color: '#fafafa' }}
+                  labelAfterStyle={{ fontSize: '1.2rem', color: '#fafafa' }}
                 />
               </StyledSectionWrapper>
             </>
