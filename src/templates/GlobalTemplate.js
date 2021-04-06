@@ -31,7 +31,7 @@ const GlobalTemplate = ({ children }) => {
     langSwitchHandler,
   } = useAppSettings(pageInitSettings);
 
-  const theme = ThemeMixer(appTheme, sidebarTheme);
+  const theme = ThemeMixer(appTheme, sidebarTheme, pageInitSettings);
 
   return (
     <PageContext.Provider
