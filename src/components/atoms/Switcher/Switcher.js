@@ -8,8 +8,8 @@ const StyledInput = styled.input.attrs((props) => ({
   ${(props) => props.notCheckedColor
     && css`
       background: linear-gradient(
-        ${({ theme }) => theme[props.notCheckedColor].backgroundColor},
-        ${({ theme }) => theme[props.notCheckedColor].backgroundDarken}
+        ${({ theme }) => theme[props.notCheckedColor]},
+        ${({ theme }) => theme[props.notCheckedColor]}
       );
     `}
   margin: 10px;
@@ -27,8 +27,8 @@ const StyledInput = styled.input.attrs((props) => ({
     ${(props) => props.switchColor
       && css`
         background-image: linear-gradient(
-          ${({ theme }) => theme[props.switchColor].backgroundColor},
-          ${({ theme }) => theme[props.switchColor].backgroundDarken}
+          ${({ theme }) => theme[props.switchColor]},
+          ${({ theme }) => theme[props.switchColor]}
         );
         box-shadow: 0 0 0 4px #353535, 0 0 0 5px #3e3e3e, inset 0 0 10px rgba(0, 0, 0, 1);
       `}
