@@ -14,7 +14,6 @@ import MobileNav from 'components/molecules/MobileNav/MobileNav';
 const StyledGlobalWrapper = styled.div`
   width: 100%;
   position: absolute;
-  overflow-x: visible;
   background-attachment: fixed;
   box-shadow: 0 0 250px black inset;
   background-color: ${({ theme }) => theme.backgroundsBody.backgroundColor};
@@ -28,7 +27,6 @@ const StyledAppWrapper = styled.div`
   color: ${({ theme }) => theme.color};
   min-height: 100vh;
   display: flex;
-  overflow: scroll;
   flex-direction: column;
   position: relative;
   /* z-index: 1; */

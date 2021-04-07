@@ -22,7 +22,6 @@ const StyledList = styled.ul`
     font-weight: bold;
     font-family: 'Baloo 2', sans-serif;
     text-transform: uppercase;
-    text-shadow: 1px 1px 2px black;
     position: relative;
     line-height: 1rem;
 
@@ -68,12 +67,13 @@ const StyledSidebarNav = styled.nav`
   background-image: linear-gradient(
       to bottom,
       rgba(0, 0, 0, 0.15) 0%,
-      rgba(0, 0, 0, 0.3) 50%,
-      rgba(0, 0, 0, 0.6) 100%
+      rgba(0, 0, 0, 0.28) 50%,
+      rgba(0, 0, 0, 0.17) 100%
     ),
     url(${({ theme }) => theme.sidebarbackgroundImage});
   > ul > li > a {
     color: ${({ theme }) => theme.sidebarColor};
+    text-shadow: 1px 2px 2px ${({ theme }) => theme.sidebarTextShadowColor};
   }
 `;
 
