@@ -202,8 +202,8 @@ const SettingsPanel = () => {
               <StyledSectionWrapper>
                 <InlineSwitcher
                   isChecked={navPosition === 'sidebar'}
-                  switchColor="indygo"
-                  notCheckedColor="cyan"
+                  switchColor="success"
+                  notCheckedColor="info"
                   change={navPositionHandler}
                   labelBefore="Top Menu"
                   labelAfter="Sidebar"
@@ -247,7 +247,7 @@ const SettingsPanel = () => {
           <StyledSectionWrapper style={{ justifyContent: 'center' }}>
             <InlineSwitcher
               isChecked={remeberSettings}
-              switchColor="orange"
+              switchColor="success"
               change={remeberSettingsHandler}
             />
           </StyledSectionWrapper>
