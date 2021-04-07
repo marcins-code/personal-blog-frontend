@@ -2,25 +2,45 @@ export const commonColors = {
   grey100: 'hsl(0, 0%, 96%)',
   grey200: 'hsl(0, 0%, 90%)',
   grey300: 'hsl(0, 0%, 70%)',
+  grey400: 'hsl(0, 0%, 60%)',
+  grey500: 'hsl(0, 0%, 50%)',
+  grey600: 'hsl(0, 0%, 40%)',
+  grey700: 'hsl(0, 0%, 30%)',
+  grey800: 'hsl(0, 0%, 20%)',
+  grey900: 'hsl(0, 0%, 10%)',
   black: 'hsl(0,0%,0%)',
   blackHalf: 'rgba(0.0.0,.5)',
   wax: '#2b2b2b',
-  chocolate: {
-    backgroundColor: '#622c1e',
-    backgroundColorDarken: '#33140c',
-  },
-  light: {
-    backgroundColor: '#b3b3b3',
-    backgroundColorDarken: '#808080',
-  },
-  dark: {
-    backgroundColor: '#403f3f',
-    backgroundColorDarken: '#171717',
-  },
-  blue: {
-    backgroundColor: '#006ba9',
-    backgroundColorDarken: '#004a75',
-  },
-};
+  indygo: '#6610f2',
+  purple: '#6f42c1',
+  pink: 'e83e8c',
+  red: '#dc3545',
+  orange: '#fd7e14',
+  yellow: '#ffc107',
+  green: '#28a745',
+  teal: '#20c997',
+  cyan: '#17a2b8',
+  white: '#fff',
+  gray: '#6c757d',
+  chocolate: '#622c1e',
+  chocolateDark: '#421a10',
+  dark: '#403f3f',
+  darkDarken: '#171717',
+  light: '#b3b3b3',
+  lightDark: '#808080',
+  blue: '#006ba9',
+  blueDark: '#004a75',
+  // chocolate: {
+  //   backgroundColor: '#622c1e',
+  //   backgroundColorDarken: '#33140c',
+  // },
+  // light: {
+  //   backgroundColor: '#b3b3b3',
+  //   backgroundColorDarken: '#808080',
+  // },
 
-// 5B5A5A
+  // blue: {
+  //   backgroundColor: '#006ba9',
+  //   backgroundColorDarken: '#004a75',
+  // },
+};
