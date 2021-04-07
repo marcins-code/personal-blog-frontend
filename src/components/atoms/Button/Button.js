@@ -5,14 +5,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const StyledButton = styled.button`
   padding: 8px 10px;
-  border-radius: 15px;
+  border-radius: 10px;
   color: ${({ theme }) => theme.color};
   font-size: 1.6rem;
   font-weight: normal;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
   cursor: pointer;
   transition: all 0.2s linear;
   width: auto;
+  border: solid 1px transparent;
 
   &:focus,
   :active {
@@ -20,7 +21,6 @@ const StyledButton = styled.button`
   }
 
   &:hover {
-    box-shadow: 0 2px 1px rgba(0, 0, 0, 0.4);
   }
 
   > svg{ margin-right:3px }
@@ -38,22 +38,21 @@ const StyledButton = styled.button`
 
   ${(props) => props.btnColor
     && css`
-      background-image: linear-gradient(
-        ${({ theme }) => theme[props.btnColor].backgroundColor},
-        ${({ theme }) => theme[props.btnColor].backgroundDarken}
-      );
-      border: solid 1px ${({ theme }) => theme[props.btnColor].backgroundColor};
+      background-color: ${({ theme }) => theme[props.btnColor].backgroundColor};
+      box-shadow: 0px 1px 1px 2px ${({ theme }) => theme[props.btnColor].backgroundColorDarken},
+        0px 0px 1px ${({ theme }) => theme[props.btnColor].backgroundColorDarken} inset;
+      color: ${({ theme }) => theme[props.btnColor].color};
     `}
 
     ${(props) => props.btnColor
       && props.btnOutline
       && css`
         background: transparent;
+        box-shadow: none;
         border: solid 2px ${({ theme }) => theme[props.btnColor].backgroundColor};
         color: ${({ theme }) => theme[props.btnColor].backgroundColor};
 
         &:hover {
-          box-shadow: 0 4px 10px -4px rgba(0, 0, 0, 0.5);
         }
       `}
     ${(props) => props.btnBig
