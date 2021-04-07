@@ -85,33 +85,24 @@ const StyledLabel = styled.p`
 
 const StyledDarkButton = styled.button`
   ${StyledSettingButton};
-  background: linear-gradient(
-    ${({ theme }) => theme.dark.backgroundColor},
-    ${({ theme }) => theme.dark.backgroundColorDarken}
-  );
+  background: linear-gradient(${({ theme }) => theme.dark}, ${({ theme }) => theme.darkDarken});
 `;
 
 const StyledLightButton = styled.button`
   ${StyledSettingButton};
-  background: linear-gradient(
-    ${({ theme }) => theme.light.backgroundColor},
-    ${({ theme }) => theme.light.backgroundColorDarken}
-  );
+  background: linear-gradient(${({ theme }) => theme.light}, ${({ theme }) => theme.lightDark});
 `;
 
 const StyledChocolateButton = styled.button`
   ${StyledSettingButton};
   background: linear-gradient(
-    ${({ theme }) => theme.chocolate.backgroundColor},
-    ${({ theme }) => theme.chocolate.backgroundColorDarken}
+    ${({ theme }) => theme.chocolate},
+    ${({ theme }) => theme.chocolateDark}
   );
 `;
 const StyledBlueButton = styled.button`
   ${StyledSettingButton};
-  background: linear-gradient(
-    ${({ theme }) => theme.blue.backgroundColor},
-    ${({ theme }) => theme.blue.backgroundColorDarken}
-  );
+  background: linear-gradient(${({ theme }) => theme.blue}, ${({ theme }) => theme.blueDark});
 `;
 
 const StyledCloseButton = styled(FontAwesomeIcon)`
@@ -211,8 +202,8 @@ const SettingsPanel = () => {
               <StyledSectionWrapper>
                 <InlineSwitcher
                   isChecked={navPosition === 'sidebar'}
-                  switchColor="secondary"
-                  notCheckedColor="tertiary"
+                  switchColor="indygo"
+                  notCheckedColor="cyan"
                   change={navPositionHandler}
                   labelBefore="Top Menu"
                   labelAfter="Sidebar"
@@ -256,7 +247,7 @@ const SettingsPanel = () => {
           <StyledSectionWrapper style={{ justifyContent: 'center' }}>
             <InlineSwitcher
               isChecked={remeberSettings}
-              switchColor="secondary"
+              switchColor="orange"
               change={remeberSettingsHandler}
             />
           </StyledSectionWrapper>
