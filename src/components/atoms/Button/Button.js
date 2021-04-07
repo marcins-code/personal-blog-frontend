@@ -11,19 +11,13 @@ const StyledButton = styled.button`
   font-weight: normal;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
   cursor: pointer;
-  transition: all 0.2s linear;
   width: auto;
   border: solid 1px transparent;
-
   &:focus,
   :active {
     outline: none;
   }
-
-  &:hover {
-  }
-
-  > svg{ margin-right:3px }
+  > svg{ margin-right:6px }
 
 
   ${(props) => props.btnIcon
@@ -39,9 +33,15 @@ const StyledButton = styled.button`
   ${(props) => props.btnColor
     && css`
       background-color: ${({ theme }) => theme[props.btnColor].backgroundColor};
-      box-shadow: 0px 1px 1px 2px ${({ theme }) => theme[props.btnColor].backgroundColorDarken},
-        0px 0px 1px ${({ theme }) => theme[props.btnColor].backgroundColorDarken} inset;
+      box-shadow: 0 1px 2px 1px ${({ theme }) => theme.blackHalf};
       color: ${({ theme }) => theme[props.btnColor].color};
+      transition: box-shadow 1s;
+
+      &:hover {
+        box-shadow: 0 0 15px 3px ${({ theme }) => theme.blackHalf};
+        transition: box-shadow 1s;
+        /* transition: box-shadow 1s linear; */
+      }
     `}
 
     ${(props) => props.btnColor
@@ -107,7 +107,7 @@ Button.propTypes = {
 };
 
 Button.defaultProps = {
-  btnColor: 'primary',
+  btnColor: 'dark',
   btnOutline: false,
   btnBig: false,
   btnSmall: false,
