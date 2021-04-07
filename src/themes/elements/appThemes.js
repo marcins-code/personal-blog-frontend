@@ -5,37 +5,35 @@ import { backgroundImages } from 'themes/commonElements/backgroundImages';
 export const darkTheme = {
   backgroundsBody: {
     backgrounImage: backgroundImages.hexellence,
-    backgroundColor: commonColors.dark.backgroundColorDarken,
+    backgroundColor: commonColors.darkDarken,
   },
   backgroundsApp: {
     backgrounImage: backgroundImages.blackOrchid,
-    backgroundColor: commonColors.dark.backgroundColor,
+    backgroundColor: commonColors.dark,
     boxShadowColor: 'rgba(0,0,0,.9)',
   },
   color: commonColors.grey200,
   primary: {
-    backgroundColor: '#F39C12',
-    backgroundDarken: '#e67e22',
+    backgroundColor: '#ff7d00',
+    backgroundColorDarken: '#4f1c06',
+    color: commonColors.wax,
   },
   secondary: {
-    backgroundColor: '#00BBDC',
-    backgroundDarken: '#0093AD',
-  },
-  tertiary: {
-    backgroundColor: '#9C12F3',
-    backgroundDarken: '#840FCD',
+    backgroundColor: '#b267ff',
+    backgroundColorDarken: '#064f41',
+    color: commonColors.wax,
   },
 };
 
 export const lightTheme = {
   backgroundsBody: {
     backgrounImage: backgroundImages.hexellenceMore,
-    backgroundColor: commonColors.light.backgroundColorDarken,
+    backgroundColor: commonColors.grey600,
   },
   backgroundsApp: {
     backgrounImage: backgroundImages.textile,
-    backgroundColor: commonColors.light.backgroundColor,
-    boxShadowColor: 'rgba(40,40,40,.6)',
+    backgroundColor: commonColors.light,
+    textShadowColor: 'rgba(40,40,40,.6)',
   },
   color: commonColors.wax,
 };
@@ -43,11 +41,11 @@ export const lightTheme = {
 export const chocolateTheme = {
   backgroundsBody: {
     backgrounImage: backgroundImages.hexellence,
-    backgroundColor: commonColors.chocolate.backgroundColorDarken,
+    backgroundColor: commonColors.darkDarken,
   },
   backgroundsApp: {
     backgrounImage: backgroundImages.blackOrchid,
-    backgroundColor: commonColors.chocolate.backgroundColor,
+    backgroundColor: commonColors.chocolate,
     boxShadowColor: 'rgba(0,0,0,.9)',
   },
   color: commonColors.grey200,
