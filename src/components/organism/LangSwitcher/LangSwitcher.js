@@ -18,8 +18,8 @@ const LangSwitcher = () => {
     <StyleLangSwitchWrapper>
       <InlineSwitcher
         isChecked={lang === 'en'}
-        switchColor="indygo"
-        notCheckedColor="cyan"
+        switchColor="success"
+        notCheckedColor="info"
         change={langSwitchHandler}
         labelBefore="🇵🇱"
         labelAfter="🇬🇧"

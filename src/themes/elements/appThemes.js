@@ -14,14 +14,14 @@ export const darkTheme = {
   },
   color: commonColors.grey200,
   primary: {
-    backgroundColor: '#ff7d00',
-    backgroundColorDarken: '#4f1c06',
-    color: commonColors.wax,
+    backgroundColor: commonColors.blue,
+    backgroundColorDarken: commonColors.blueDark,
+    color: commonColors.grey200,
   },
   secondary: {
-    backgroundColor: '#b267ff',
+    backgroundColor: commonColors.orangeDark,
     backgroundColorDarken: '#064f41',
-    color: commonColors.wax,
+    color: commonColors.grey00,
   },
 };
 
@@ -36,6 +36,16 @@ export const lightTheme = {
     textShadowColor: 'rgba(40,40,40,.6)',
   },
   color: commonColors.wax,
+  primary: {
+    backgroundColor: commonColors.purple,
+    backgroundColorDarken: '#523076',
+    color: commonColors.grey200,
+  },
+  secondary: {
+    backgroundColor: commonColors.green,
+    backgroundColorDarken: '#064f41',
+    color: commonColors.grey100,
+  },
 };
 
 export const chocolateTheme = {
@@ -49,4 +59,14 @@ export const chocolateTheme = {
     boxShadowColor: 'rgba(0,0,0,.9)',
   },
   color: commonColors.grey200,
+  primary: {
+    backgroundColor: commonColors.cyan,
+    backgroundColorDarken: '#523076',
+    color: commonColors.grey200,
+  },
+  secondary: {
+    backgroundColor: commonColors.orangeDark,
+    backgroundColorDarken: '#064f41',
+    color: commonColors.grey100,
+  },
 };
