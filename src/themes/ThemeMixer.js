@@ -28,5 +28,6 @@ export const ThemeMixer = (appTheme, sidebarTheme, initSettings) => {
   const sidebar = sidebarThemes[sidebarTheme] || sidebarThemes[initSettings.sidebarTheme];
 
   const fullTheme = { ...theme, ...sidebar };
+  console.log(fullTheme);
   return fullTheme;
 };
