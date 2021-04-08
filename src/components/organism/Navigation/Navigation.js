@@ -1,41 +1,48 @@
-import React, { useContext } from 'react';
-import { CSSTransition } from 'react-transition-group';
+import React, { useContext, useState } from 'react';
 import { PageContext } from 'context';
 import TopMenu from 'components/molecules/TopMenu/TopMenu';
 import Sidebar from 'components/molecules/Sidebar/Sidebar';
-import './animations.css';
+import Backdrop from 'components/atoms/Backdrop/Backdrop';
+import MobileNav from 'components/molecules/MobileNav/MobileNav';
+import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+const ShowMenuButton = styled.button`
+  position: fixed;
+  height: 35px;
+  width: 35px;
+  top: 10px;
+  z-index: 305;
+  left: 10px;
+  border-radius: 7px !important;
+  background-color: red;
+  color: ${({ theme }) => theme.grey200};
+  box-shadow: 0 3px 12px -7px rgba(0, 0, 0, 0.9);
+  border: none;
+  &:focus,
+  :active {
+    outline: none;
+  }
+`;
 
 const Navigation = () => {
   const appContext = useContext(PageContext);
-  const {
-    navPosition, prevNavPosition, isAdminPage, isMobile, appTheme,
-  } = appContext;
+  const { isMobile } = appContext;
+  const [showMobileNav, setShowMobileNav] = useState(false);
+  console.log(showMobileNav);
 
-  const navClass = isAdminPage ? 'sidebar' : navPosition;
-  const appClasses = isMobile ? ['sidebar-mobile', 'hidden'] : [navClass, appTheme];
-  return (
+  return !isMobile ? (
     <>
-      <CSSTransition
-        in={
-          navPosition !== 'sidebar' || (prevNavPosition === 'sidebar' && navPosition === 'menu-top')
-        }
-        timeout={2500}
-        classNames="menutop"
-        unmountOnExit
-      >
-        <TopMenu classes={appClasses} />
-      </CSSTransition>
-      <CSSTransition
-        in={
-          navPosition !== 'menu-top'
-          || (prevNavPosition === 'menu-top' && navPosition === 'sidebar')
-        }
-        timeout={2500}
-        classNames="sidebar"
-        unmountOnExit
-      >
-        <Sidebar classes={appClasses} />
-      </CSSTransition>
+      <TopMenu />
+      <Sidebar />
+    </>
+  ) : (
+    <>
+      <ShowMenuButton onClick={() => setShowMobileNav(true)}>
+        <FontAwesomeIcon icon={['fas', 'bars']} />
+      </ShowMenuButton>
+      {showMobileNav && <Backdrop onClick={() => setShowMobileNav(false)} />}
+      <MobileNav isShown={showMobileNav} />
     </>
   );
 };
