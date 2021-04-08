@@ -20,7 +20,7 @@ import './Codemirror.css';
 
 const Codemirror = ({ setStateFunc, codeValue }) => (
   <CodeMirror
-    value={codeValue || ''}
+    value={codeValue || '\n\n\n\n\n'}
     autoCursor={false}
     onChange={(editor, data, value) => {
       setStateFunc(value);
