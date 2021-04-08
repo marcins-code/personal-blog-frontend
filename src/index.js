@@ -1,13 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faBars, faCogs, faSignInAlt } from '@fortawesome/free-solid-svg-icons';
-import { faTimesCircle } from '@fortawesome/free-regular-svg-icons';
-// import { fab } from '@fortawesome/free-brands-svg-icons';
+import { icons } from 'icons/fontawesome';
 import reportWebVitals from './reportWebVitals';
 import App from './App';
 
-library.add(faBars, faCogs, faSignInAlt, faTimesCircle);
+library.add({ ...icons });
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
