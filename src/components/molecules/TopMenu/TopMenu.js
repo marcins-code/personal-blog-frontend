@@ -3,7 +3,7 @@ import { PageContext } from 'context';
 import styled from 'styled-components';
 import Link from 'components/atoms/Link/Link';
 import { NavLink } from 'react-router-dom';
-import { mainMenuItems, adminMenuItems } from 'languages/language';
+import { mainMenuItems, adminMenuItems } from 'languages/menus';
 
 const StyledList = styled.ul`
   list-style: none;
