@@ -10,7 +10,7 @@ import './notification.css';
 
 const GlobalTemplate = ({ children }) => {
   const pageInitSettings = {
-    appTheme: 'chocolate',
+    appTheme: 'dark',
     navPosition: 'menu-top',
     sidebarTheme: 'dark',
     lang: 'pl',
