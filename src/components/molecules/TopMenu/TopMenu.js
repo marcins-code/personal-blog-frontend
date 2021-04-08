@@ -4,6 +4,9 @@ import styled from 'styled-components';
 import Link from 'components/atoms/Link/Link';
 import { NavLink } from 'react-router-dom';
 import { mainMenuItems, adminMenuItems } from 'languages/menus';
+import { CSSTransition } from 'react-transition-group';
+import './animation.css';
+import { darken } from 'polished';
 
 const StyledList = styled.ul`
   list-style: none;
@@ -16,16 +19,14 @@ const StyledList = styled.ul`
   }
 
   a {
-    text-decoration: none;
-    font-family: 'Baloo 2', sans-serif;
     line-height: 2.2rem;
     text-transform: uppercase;
-    /* font-family: 'Open Sans Condensed', sans-serif; */
-    font-size: 2rem;
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 2.1rem;
+    font-weight: bold;
     text-decoration: none;
-    color: #e5e5e5;
+    color: ${({ theme }) => theme.color};
     display: flex;
-    text-transform: uppercase;
     align-items: center;
     font-weight: 600;
 
@@ -34,10 +35,10 @@ const StyledList = styled.ul`
       opacity: 0;
       align-items: center;
       color: #ff6315;
-      margin-top: -7px;
-      font-size: 2.5rem;
+      margin-top: -3px;
+      font-size: 2.8rem;
       transition: transform 0.3s, opacity 0.2s;
-      font-family: 'Lato', sans-serif;
+      font-family: 'Baloo 2', sans-serif;
     }
 
     &:after {
@@ -74,44 +75,53 @@ const StyledList = styled.ul`
 
 const StyledTopMenuNavWrapper = styled.nav`
   height: 80px;
-  /* width: 100vw; */
-  background-image: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0.2) 0%,
-      rgba(0, 0, 0, 0.1) 50%,
-      rgba(0, 0, 0, 0.3) 100%
-    ),
-    url('https://www.transparenttextures.com/patterns/dark-denim.png');
   display: flex;
   align-items: center;
   box-shadow: 0 10px 15px -5px rgba(0, 0, 0, 0.5);
   font-weight: bold;
   font-size: 26px;
-  text-shadow: 0px 0px 0 rgb(135, 135, 135), 1px 1px 0 rgb(24, 24, 24), 2px 2px 0 rgb(-86, -86, -86),
-    3px 3px 2px rgba(0, 0, 0, 0.7), 3px 3px 1px rgba(0, 0, 0, 0.5), 0px 0px 2px rgba(0, 0, 0, 0.2);
+  text-shadow: ${({ theme }) => theme.menuTextShadow};
+
+  background: url(${({ theme }) => theme.menuBackgrounImage}),
+    linear-gradient(
+      ${({ theme }) => darken(0.07, theme.backgroundsApp.backgroundColor)} 40%,
+      ${({ theme }) => darken(0.07, theme.backgroundsApp.backgroundColor)} 80%,
+      ${({ theme }) => darken(0.2, theme.backgroundsApp.backgroundColor)} 100%
+    );
+
+  box-shadow: 0 3px 10px 3px rgba(0, 0, 0, 0.3);
 `;
 
-const StyledNavigationWrapper = styled.div``;
+const StyledNavigationWrapper = styled.div`
+  z-index: 301;
+`;
 
 const TopMenu = () => {
   const appContext = useContext(PageContext);
-  const { lang, isAdminPage } = appContext;
+  const { lang, isAdminPage, navPosition } = appContext;
   const menuItems = isAdminPage ? adminMenuItems : mainMenuItems;
 
   return (
-    <StyledNavigationWrapper>
-      <StyledTopMenuNavWrapper id="top-navigation">
-        <StyledList>
-          {menuItems.map((menuItem) => (
-            <li key={menuItem.name_en}>
-              <Link as={NavLink} to={menuItem.path} exact={menuItem.exact}>
-                {lang === 'pl' ? menuItem.name_pl : menuItem.name_en}
-              </Link>
-            </li>
-          ))}
-        </StyledList>
-      </StyledTopMenuNavWrapper>
-    </StyledNavigationWrapper>
+    <CSSTransition
+      in={navPosition === 'menu-top'}
+      timeout={1000}
+      classNames="menu-top"
+      unmountOnExit
+    >
+      <StyledNavigationWrapper>
+        <StyledTopMenuNavWrapper id="top-navigation">
+          <StyledList>
+            {menuItems.map((menuItem) => (
+              <li key={menuItem.name_en}>
+                <Link as={NavLink} to={menuItem.path} exact={menuItem.exact}>
+                  {lang === 'pl' ? menuItem.name_pl : menuItem.name_en}
+                </Link>
+              </li>
+            ))}
+          </StyledList>
+        </StyledTopMenuNavWrapper>
+      </StyledNavigationWrapper>
+    </CSSTransition>
   );
 };
 
