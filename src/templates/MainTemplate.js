@@ -1,85 +1,90 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { PageContext } from 'context';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import SettingsPanel from 'components/organism/SettingsPanel/SettingsPanel';
 import Navigation from 'components/organism/Navigation/Navigation';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Backdrop from 'components/atoms/Backdrop/Backdrop';
-import Sidebar from 'components/molecules/Sidebar/Sidebar';
 import { CSSTransition } from 'react-transition-group';
 import 'templates/aminations.css';
-import MobileNav from 'components/molecules/MobileNav/MobileNav';
+import { device } from 'themes/commonElements/mediaBreakpoints';
+import './aminations.css';
 
-const StyledGlobalWrapper = styled.div`
+const StyledBodyWrapper = styled.div`
   width: 100%;
   position: absolute;
   background-attachment: fixed;
-  box-shadow: 0 0 250px black inset;
-  background-color: ${({ theme }) => theme.backgroundsBody.backgroundColor};
-  background-image: url(${({ theme }) => theme.backgroundsBody.backgrounImage});
+  background-color: ${({ theme }) => theme.bodyBbackgroundColor};
+  background-image: url(${({ theme }) => theme.bodyBackgrounImage});
+  min-height: 100vh;
 `;
 
 const StyledAppWrapper = styled.div`
-  background-color: ${({ theme }) => theme.backgroundsApp.backgroundColor};
-  background-attachment: fixed;
-  background-image: url(${({ theme }) => theme.backgroundsApp.backgrounImage});
-  color: ${({ theme }) => theme.color};
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   position: relative;
-  /* z-index: 1; */
-  width: 80%;
   margin: 0 auto;
-  box-shadow: 0 0 430px 10px ${({ theme }) => theme.backgroundsApp.boxShadowColor} inset,
-    0px 0 430px 40px rgba(0, 0, 0, 0.5);
 
-  &.sidebar > .content-wrapper {
-    margin-left: 230px;
-    transition: margin 800ms ease-in-out;
-    transition-delay: 250ms;
-  }
-
-  &.menu-top > .content-wrapper {
-  }
-  @media (max-width: 768px) {
+  @media ${device.max.tablet} {
     width: 100%;
-    /* padding: 10px 20px; */
-    box-shadow: none;
   }
 
-  @media (min-width: 769px) and (max-width: 992px) {
-    width: 93%;
-    /* padding: 10px 20px; */
-    box-shadow: none;
+  @media ${device.min.tablet} {
+    width: 95%;
   }
-`;
 
-const ShowMenuButton = styled.button`
-  position: absolute;
-  height: 35px;
-  width: 35px;
-  top: 10px;
-  left: 10px;
-  border-radius: 7px !important;
-  background: linear-gradient(
-    to top,
-    #642b73,
-    #c6426e
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  color: ${({ theme }) => theme.grey200};
-  box-shadow: 0 3px 12px -7px rgba(0, 0, 0, 0.9);
-  border: none;
-  &:focus,
-  :active {
-    outline: none;
+  @media ${device.min.laptop} {
+    width: 85%;
+  }
+
+  @media ${device.min.laptopL} {
+    width: 75%;
   }
 `;
 
 const StyledContentWrapper = styled.div`
+  background-image: url(${({ theme }) => theme.backgroundsApp.backgrounImage});
+  background-color: ${({ theme }) => theme.backgroundsApp.backgroundColor};
+  background-attachment: fixed;
+  box-shadow: 0 0 100px -20px ${({ theme }) => theme.backgroundsApp.boxShadowColor} inset,
+    0 0 10px 2px black;
+  overflow: hidden;
+  position: relative;
+
+  z-index: 300;
+
+  &.menu-top {
+    min-height: calc(100vh - 80px);
+  }
+
+  &.sidebar-mobile {
+    min-height: 100vh;
+    transition: none;
+  }
+
+  &.sidebar {
+    min-height: 100vh;
+    @media ${device.min.tablet} {
+      margin-left: 170px !important;
+    }
+
+    @media ${device.min.laptop} {
+      margin-left: 220px !important;
+    }
+
+    transition: margin 800ms ease-in-out;
+    transition-delay: 350ms;
+  }
+`;
+
+const StyledContent = styled.div`
+  color: ${({ theme }) => theme.color};
+  margin-left: 0px;
   padding: 10px 50px;
-  opacity: 1;
+
+  @media ${device.max.tablet} {
+    padding-top: 50px;
+  }
+
   animation: fadein 800ms;
 
   @keyframes fadein {
@@ -90,80 +95,35 @@ const StyledContentWrapper = styled.div`
       opacity: 1;
     }
   }
-  @media (max-width: 768px) {
-    padding: 20px 40px;
-  }
 `;
 
-const PageTemplate = (props) => {
-  const [showMobileNav, setShowMobileNav] = useState(false);
-
-  const showMobileNavHandler = () => {
-    setShowMobileNav(true);
-  };
-  const hideMobileNavHandler = () => {
-    setShowMobileNav(false);
-  };
-
+const PageTemplate = ({ children }) => {
   const appContext = useContext(PageContext);
 
-  const {
-    navPosition, prevNavPosition, isMobile, appTheme, isAdminPage,
-  } = appContext;
+  const { navPosition, isMobile, appTheme } = appContext;
+  const appClasses = isMobile ? 'sidebar-mobile' : `${navPosition} ${appTheme}`;
 
-  const navClass = isAdminPage ? 'sidebar' : navPosition;
-
-  const appClasses = isMobile ? ['sidebar-mobile'] : [navClass, appTheme];
-
+  console.log(navPosition);
   return (
     <>
       <SettingsPanel />
-      <StyledGlobalWrapper className="global-wrapper">
-        <StyledAppWrapper className={appClasses} id="app-wrapper">
-          {isMobile && (
-            <>
-              <ShowMenuButton onClick={showMobileNavHandler}>
-                <FontAwesomeIcon icon={['fas', 'bars']} />
-              </ShowMenuButton>
-              {showMobileNav && <Backdrop onClick={hideMobileNavHandler} />}
-              <MobileNav isShown={showMobileNav} />
-              <StyledContentWrapper className="content-wrapper">
-                <>{props.children}</>
-              </StyledContentWrapper>
-            </>
-          )}
-
-          {!isAdminPage && !isMobile && (
-            <>
-              <Navigation />
-              <CSSTransition
-                in={
-                  navPosition !== 'menu-top'
-                  || (prevNavPosition === 'menu-top' && navPosition === 'sidebar')
-                }
-                timeout={2000}
-                classNames="content"
-              >
-                <StyledContentWrapper className="content-wrapper">
-                  <>{props.children}</>
-                </StyledContentWrapper>
-              </CSSTransition>
-            </>
-          )}
-          {isAdminPage && !isMobile && (
-            <>
-              <Sidebar classes={appClasses} />
-              <StyledContentWrapper className="content-wrapper">
-                <>{props.children}</>
-              </StyledContentWrapper>
-            </>
-          )}
+      <StyledBodyWrapper className="global-wrapper">
+        <StyledAppWrapper className={[appClasses, 'app-wrapper']}>
+          <Navigation />
+          <CSSTransition
+            in={navPosition === 'sidebar' && !isMobile}
+            timeout={2000}
+            classNames="content"
+          >
+            <StyledContentWrapper className={[appClasses]}>
+              <StyledContent>{children}</StyledContent>
+            </StyledContentWrapper>
+          </CSSTransition>
         </StyledAppWrapper>
-      </StyledGlobalWrapper>
+      </StyledBodyWrapper>
     </>
   );
 };
-
 PageTemplate.propTypes = {
   children: PropTypes.node.isRequired,
 };
