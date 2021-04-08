@@ -1,0 +1,30 @@
+.menu-top-enter {
+  margin-top: -100px;
+}
+.menu-top-enter-active {
+  margin-top: 0px;
+
+  transition: margin 500ms;
+  transition-delay: 600ms;
+}
+
+.menu-top-exit-active {
+  margin-top: 0px;
+  /* z-index:3000000; */
+}
+
+.menu-top-exit {
+  margin-top: -80px;
+  transition: margin 500ms;
+}
+
+
+.menu-top-exit-active {
+  margin-top: 0px;
+  /* z-index:3000000; */
+}
+
+.menu-top-exit {
+  margin-top: -80px;
+  transition: margin 500ms;
+}

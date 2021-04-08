@@ -1,25 +1,16 @@
 .content-enter-active {
-  /* transform: translateY(0px); */
-  margin-left: 230px;
   transition: margin 800ms;
-  transition-delay: 520ms;
 }
 
 .content-exit {
   margin-left: 230px;
-  /* margin-top: 0px; */
 }
 
 .content-exit-active {
-  /* transform: translateY(0px); */
-  margin-left: 0px;
-  /* margin-top: -30px; */
   transition: margin 800ms ease;
   transition-delay: 00ms;
 }
 
 .content-enter-done {
   margin-left: 230px;
-  /* margin-top: 10px; */
-  /* transition: all 300ms; */
 }
