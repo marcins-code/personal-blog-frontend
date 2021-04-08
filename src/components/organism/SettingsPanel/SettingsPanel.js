@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import styled, { css } from 'styled-components';
 import { PageContext } from 'context';
 import InlineSwitcher from 'components/molecules/InlineSwitcher/InlineSwitcher';
-import { settingsPanelItems } from 'languages/language';
+import { settingsPanelItems } from 'languages/menus';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { CSSTransition } from 'react-transition-group';
 import LangSwitcher from 'components/organism/LangSwitcher/LangSwitcher';
