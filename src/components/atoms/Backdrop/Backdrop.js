@@ -5,7 +5,7 @@ const Backdrop = styled.div`
   height: 100%;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 100;
+  z-index: 301;
   top: 0;
   left: 0;
   opacity: 1;
