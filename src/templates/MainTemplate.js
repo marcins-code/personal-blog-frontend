@@ -13,8 +13,8 @@ const StyledBodyWrapper = styled.div`
   width: 100%;
   position: absolute;
   background-attachment: fixed;
-  background-color: ${({ theme }) => theme.bodyBbackgroundColor};
-  background-image: url(${({ theme }) => theme.bodyBackgrounImage});
+  background-color: ${({ theme }) => theme.globalBackgroundColor};
+  background-image: url(${({ theme }) => theme.globalBackgrounImage});
   min-height: 100vh;
 `;
 
@@ -42,11 +42,10 @@ const StyledAppWrapper = styled.div`
 `;
 
 const StyledContentWrapper = styled.div`
-  background-image: url(${({ theme }) => theme.backgroundsApp.backgrounImage});
-  background-color: ${({ theme }) => theme.backgroundsApp.backgroundColor};
+  background-image: url(${({ theme }) => theme.appBackgrounImage});
+  background-color: ${({ theme }) => theme.appBackgroundColor};
   background-attachment: fixed;
-  box-shadow: 0 0 100px -20px ${({ theme }) => theme.backgroundsApp.boxShadowColor} inset,
-    0 0 10px 2px black;
+  box-shadow: 0 0 100px -20px ${({ theme }) => theme.appBoxShadowColor} inset, 0 0 10px 2px black;
   overflow: hidden;
   position: relative;
 
@@ -68,7 +67,7 @@ const StyledContentWrapper = styled.div`
     }
 
     @media ${device.min.laptop} {
-      margin-left: 220px !important;
+      margin-left: 190px !important;
     }
 
     transition: margin 800ms ease-in-out;
@@ -103,7 +102,6 @@ const PageTemplate = ({ children }) => {
   const { navPosition, isMobile, appTheme } = appContext;
   const appClasses = isMobile ? 'sidebar-mobile' : `${navPosition} ${appTheme}`;
 
-  console.log(navPosition);
   return (
     <>
       <SettingsPanel />
