@@ -10,9 +10,6 @@ export const useAppSettings = (pageInitSettings) => {
   const [navPosition, setNavPosition] = useState(
     storedValues ? storedValues.navPosition : pageInitSettings.navPosition,
   );
-  const [sidebarTheme, setSidebarTheme] = useState(
-    storedValues ? storedValues.sidebarTheme : pageInitSettings.sidebarTheme,
-  );
   const [lang, setLang] = useState(storedValues ? storedValues.lang : pageInitSettings.lang);
   const [remeberSettings, setRemeberSettings] = useState(!!storedValues);
 
@@ -23,7 +20,6 @@ export const useAppSettings = (pageInitSettings) => {
         JSON.stringify({
           appTheme,
           navPosition,
-          sidebarTheme,
           lang,
         }),
       );
@@ -40,12 +36,11 @@ export const useAppSettings = (pageInitSettings) => {
         JSON.stringify({
           appTheme,
           navPosition,
-          sidebarTheme,
           lang,
         }),
       );
     }
-  }, [appTheme, navPosition, sidebarTheme, lang]);
+  }, [appTheme, navPosition, lang]);
 
   const [isMobile, setIsMobile] = useState(false);
   const [isAdminPage, setIsAdminPage] = useState(false);
@@ -74,13 +69,6 @@ export const useAppSettings = (pageInitSettings) => {
     [setNavPosition],
   );
 
-  const sidebarThemeHandler = useCallback(
-    (e) => {
-      setSidebarTheme(e.target.dataset.sidebartheme);
-    },
-    [setSidebarTheme],
-  );
-
   const langSwitchHandler = useCallback(
     (e) => {
       setLang(e.target.checked ? 'en' : 'pl');
@@ -99,13 +87,11 @@ export const useAppSettings = (pageInitSettings) => {
     isMobile,
     appTheme,
     navPosition,
-    sidebarTheme,
     remeberSettings,
     lang,
     isAdminPage,
     navPositionHandler,
     appThemeHandler,
-    sidebarThemeHandler,
     remeberSettingsHandler,
     langSwitchHandler,
   };
