@@ -81,12 +81,13 @@ const StyledTopMenuNavWrapper = styled.nav`
   font-weight: bold;
   font-size: 26px;
   text-shadow: ${({ theme }) => theme.menuTextShadow};
+  border-radius: 0 0 3px 3px;
 
   background: url(${({ theme }) => theme.menuBackgrounImage}),
     linear-gradient(
-      ${({ theme }) => darken(0.07, theme.backgroundsApp.backgroundColor)} 40%,
-      ${({ theme }) => darken(0.07, theme.backgroundsApp.backgroundColor)} 80%,
-      ${({ theme }) => darken(0.2, theme.backgroundsApp.backgroundColor)} 100%
+      ${({ theme }) => darken(0.07, theme.appBackgroundColor)} 40%,
+      ${({ theme }) => darken(0.07, theme.appBackgroundColor)} 80%,
+      ${({ theme }) => darken(0.2, theme.appBackgroundColor)} 100%
     );
 
   box-shadow: 0 3px 10px 3px rgba(0, 0, 0, 0.3);

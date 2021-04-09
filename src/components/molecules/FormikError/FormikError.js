@@ -4,20 +4,22 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import './style.css';
+import { darken, transparentize } from 'polished';
 
 const StyledErrorWrapper = styled.div`
   display: block;
 `;
 const StyledErrorContainer = styled.div`
   display: block;
-  background-color: #bc2600;
-  border: ridge 2px #eb5934;
+  border-color: ${({ theme }) => darken(0.1, theme.red)};
+  background-color: ${({ theme }) => transparentize(0.5, theme.red)};
   position: absolute;
   font-size: 1.4rem;
-  padding: 5px 10px;
+  padding: 8px 10px 5px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px -3px rgba(0, 0, 0, 1) inset;
+  box-shadow: 0 2px 6px -3px rgba(0, 0, 0, 1);
   z-index: 10;
+  color: #fff;
 `;
 const FormikError = ({ errors, touched }) => {
   const animRef = useRef(null);
@@ -31,7 +33,7 @@ const FormikError = ({ errors, touched }) => {
     >
       <StyledErrorWrapper>
         <StyledErrorContainer ref={animRef}>
-          <FontAwesomeIcon icon="exclamation-triangle" />
+          <FontAwesomeIcon icon={['fas', 'exclamation-circle']} />
           &nbsp;
           {errors}
         </StyledErrorContainer>

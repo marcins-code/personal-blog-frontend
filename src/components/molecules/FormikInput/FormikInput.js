@@ -1,33 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { commonTheme, darkTheme } from 'themes/Theme';
 import InputWrapper from 'components/atoms/Wrappers/InputWrapper';
 import FormikError from 'components/molecules/FormikError/FormikError';
 import FormikLabel from 'components/molecules/FormikLabel/FormikLabel';
-
-const theme = { ...commonTheme, ...darkTheme };
+import { darken, transparentize } from 'polished';
 
 const StyledInput = styled.input`
   height: 40px;
   font-size: 1.6rem;
   padding: 0 10px;
-  color: ${theme.color};
-  background-color: ${theme.dark.backgroundDarken};
-  border-radius: 10px;
-  border: solid 2px ${theme.light.backgroundDarken};
-  &:focus,
-  :active {
-    border-color: ${theme.secondary.backgroundColor};
-    outline: none;
-  }
-
+  outline: none;
+  border-radius:10px;
+  /* background-color: ${({ theme }) => theme.whiteHalf}; */
   &.success {
     border-color: #639a72;
   }
   &.error {
-    border-color: #c95858;
-    background-color: #731700;
+    border-color: ${({ theme }) => darken(0.1, theme.red)};
+    background-color: ${({ theme }) => transparentize(0.5, theme.red)};
+    color: ${({ theme }) => theme.grey100};
   }
 `;
 

@@ -2,11 +2,12 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { getContrast, rgba } from 'polished';
 
 const StyledButton = styled.button`
   padding: 8px 10px;
   border-radius: 10px;
-  color: ${({ theme }) => theme.color};
+  /* color: ${({ theme }) => theme.color}; */
   font-size: 1.6rem;
   font-weight: normal;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
@@ -32,17 +33,19 @@ const StyledButton = styled.button`
 
   ${(props) => props.btnColor
     && css`
-      background-color: ${({ theme }) => theme[props.btnColor].backgroundColor};
-      box-shadow: 0 1px 2px 1px ${({ theme }) => theme.blackHalf};
-      color: ${({ theme }) => theme[props.btnColor].color};
+      background-color: ${({ theme }) => theme[props.btnColor]};
+      box-shadow: 0 1px 2px 1px
+        ${({ theme }) => (theme.themeName !== 'light' ? rgba(theme.black, 0.95) : rgba(theme.black, 0.5))};
       transition: box-shadow 1s;
-
+      color: ${({ theme }) => (getContrast(theme[props.btnColor], theme.grey100) > 4.1 ? theme.grey100 : theme.wax)};
       &:hover {
-        box-shadow: 0 0 15px 3px ${({ theme }) => theme.blackHalf};
+        box-shadow: 0 0 15px 3px ${({ theme }) => rgba(theme.black, 0.5)};
         transition: box-shadow 1s;
         /* transition: box-shadow 1s linear; */
       }
     `}
+
+
 
     ${(props) => props.btnColor
       && props.btnOutline
@@ -50,7 +53,7 @@ const StyledButton = styled.button`
         background: transparent;
         box-shadow: none;
         border: solid 2px ${({ theme }) => theme[props.btnColor].backgroundColor};
-        color: ${({ theme }) => theme[props.btnColor].backgroundColor};
+        /* color: ${({ theme }) => theme[props.btnColor].backgroundColor}; */
 
         &:hover {
         }
