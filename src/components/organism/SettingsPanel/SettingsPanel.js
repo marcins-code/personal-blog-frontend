@@ -7,7 +7,7 @@ import { settingsPanelItems } from 'languages/menus';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { CSSTransition } from 'react-transition-group';
 import LangSwitcher from 'components/organism/LangSwitcher/LangSwitcher';
-
+import { darken } from 'polished';
 import './animation.css';
 
 const StyledPanelWrapper = styled.div`
@@ -85,26 +85,27 @@ const StyledLabel = styled.p`
 
 const StyledDarkButton = styled.button`
   ${StyledSettingButton};
-  background: linear-gradient(${({ theme }) => theme.dark}, ${({ theme }) => theme.darkDarken});
+  background: linear-gradient(
+    ${({ theme }) => theme.dark},
+    ${({ theme }) => darken(0.1, theme.dark)}
+  );
 `;
 
 const StyledLightButton = styled.button`
   ${StyledSettingButton};
-  background: linear-gradient(${({ theme }) => theme.light}, ${({ theme }) => theme.lightDark});
+  background: linear-gradient(
+    ${({ theme }) => theme.light},
+    ${({ theme }) => darken(0.2, theme.light)}
+  );
 `;
 
 const StyledChocolateButton = styled.button`
   ${StyledSettingButton};
   background: linear-gradient(
     ${({ theme }) => theme.chocolate},
-    ${({ theme }) => theme.chocolateDark}
+    ${({ theme }) => darken(0.1, theme.chocolate)}
   );
 `;
-const StyledBlueButton = styled.button`
-  ${StyledSettingButton};
-  background: linear-gradient(${({ theme }) => theme.blue}, ${({ theme }) => theme.blueDark});
-`;
-
 const StyledCloseButton = styled(FontAwesomeIcon)`
   font-size: 2rem;
   color: #377289;
@@ -151,11 +152,9 @@ const SettingsPanel = () => {
     isMobile,
     appTheme,
     isAdminPage,
-    sidebarTheme,
     navPosition,
     remeberSettings,
     appThemeHandler,
-    sidebarThemeHandler,
     navPositionHandler,
     remeberSettingsHandler,
     lang,
@@ -202,8 +201,8 @@ const SettingsPanel = () => {
               <StyledSectionWrapper>
                 <InlineSwitcher
                   isChecked={navPosition === 'sidebar'}
-                  switchColor="success"
-                  notCheckedColor="info"
+                  switchColor="blue"
+                  notCheckedColor="cyan"
                   change={navPositionHandler}
                   labelBefore="Top Menu"
                   labelAfter="Sidebar"
@@ -213,41 +212,12 @@ const SettingsPanel = () => {
               </StyledSectionWrapper>
             </>
           )}
-
-          {(navPosition === 'sidebar' || isAdminPage) && !isMobile && (
-            <>
-              <StyledDivider />
-              <StyledLabel>{phrazes.chooseSidebarTheme}</StyledLabel>
-              <StyledSectionWrapper className={navPosition}>
-                <StyledDarkButton
-                  data-sidebartheme="dark"
-                  onClick={sidebarThemeHandler}
-                  className={sidebarTheme === 'dark' && 'active'}
-                />
-                <StyledLightButton
-                  data-sidebartheme="light"
-                  onClick={sidebarThemeHandler}
-                  className={sidebarTheme === 'light' && 'active'}
-                />
-                <StyledChocolateButton
-                  data-sidebartheme="chocolate"
-                  onClick={sidebarThemeHandler}
-                  className={sidebarTheme === 'chocolate' && 'active'}
-                />
-                <StyledBlueButton
-                  data-sidebartheme="blue"
-                  onClick={sidebarThemeHandler}
-                  className={sidebarTheme === 'blue' && 'active'}
-                />
-              </StyledSectionWrapper>
-            </>
-          )}
           <StyledDivider />
           <StyledLabel>{phrazes.remeberSettings}</StyledLabel>
           <StyledSectionWrapper style={{ justifyContent: 'center' }}>
             <InlineSwitcher
               isChecked={remeberSettings}
-              switchColor="success"
+              switchColor="blue"
               change={remeberSettingsHandler}
             />
           </StyledSectionWrapper>
