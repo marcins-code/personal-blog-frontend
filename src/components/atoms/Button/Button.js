@@ -98,7 +98,7 @@ const Button = ({
 );
 
 Button.propTypes = {
-  btnColor: PropTypes.oneOf(['primary', 'secondary', 'tertiary', 'light', 'dark']),
+  btnColor: PropTypes.string,
   btnOutline: PropTypes.bool,
   btnBig: PropTypes.bool,
   btnSmall: PropTypes.bool,
