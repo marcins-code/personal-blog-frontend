@@ -1,72 +1,54 @@
-// import bodyBackgroundImage from 'assets/images/backgrounds/black-orchid.png';
 import { commonColors } from 'themes/commonElements/commonColors';
 import { backgroundImages } from 'themes/commonElements/backgroundImages';
+import { complement, darken } from 'polished';
 
 export const darkTheme = {
-  backgroundsBody: {
-    backgrounImage: backgroundImages.hexellence,
-    backgroundColor: commonColors.darkDarken,
-  },
-  backgroundsApp: {
-    backgrounImage: backgroundImages.blackOrchid,
-    backgroundColor: commonColors.dark,
-    boxShadowColor: 'rgba(0,0,0,.9)',
-  },
+  themeName: 'dark',
+  appBackgrounImage: backgroundImages.blackOrchid,
+  appBackgroundColor: commonColors.dark,
+  appBoxShadowColor: 'rgba(0,0,0,.9)',
+  menuBackgrounImage: backgroundImages.debutLight,
+  menuTextShadow:
+    '0px 0px 0 rgb(135, 135, 135), 1px 1px 0 rgb(24, 24, 24), 1px 1px 0 rgb(-86, -86, -86)',
   color: commonColors.grey200,
-  primary: {
-    backgroundColor: commonColors.blue,
-    backgroundColorDarken: commonColors.blueDark,
-    color: commonColors.grey200,
-  },
-  secondary: {
-    backgroundColor: commonColors.orangeDark,
-    backgroundColorDarken: '#064f41',
-    color: commonColors.grey00,
-  },
+  primary: commonColors.blue,
+  secondary: complement(commonColors.blue),
+  success: commonColors.green,
+  info: commonColors.cyan,
+  danger: commonColors.red,
+  warning: commonColors.yellow,
 };
 
 export const lightTheme = {
-  backgroundsBody: {
-    backgrounImage: backgroundImages.hexellenceMore,
-    backgroundColor: commonColors.grey600,
-  },
-  backgroundsApp: {
-    backgrounImage: backgroundImages.textile,
-    backgroundColor: commonColors.light,
-    textShadowColor: 'rgba(40,40,40,.6)',
-  },
-  color: commonColors.wax,
-  primary: {
-    backgroundColor: commonColors.purple,
-    backgroundColorDarken: '#523076',
-    color: commonColors.grey200,
-  },
-  secondary: {
-    backgroundColor: commonColors.green,
-    backgroundColorDarken: '#064f41',
-    color: commonColors.grey100,
-  },
+  themeName: 'light',
+  appBackgrounImage: backgroundImages.textile,
+  appBackgroundColor: commonColors.light,
+  appBoxShadowColor: 'rgba(20,20,20,.9)',
+  menuBackgrounImage: backgroundImages.blackPaper,
+  menuTextShadow:
+    '0px 0px 0 rgb(235, 235, 235), 1px 1px 0 rgb(124,124, 124), 1px 1px 0 rgb(-86, -86, -86)',
+  color: commonColors.grey900,
+  primary: commonColors.cyan,
+  secondary: complement(commonColors.cyan),
+  success: commonColors.green,
+  info: commonColors.cyan,
+  danger: commonColors.red,
+  warning: commonColors.yellow,
 };
 
 export const chocolateTheme = {
-  backgroundsBody: {
-    backgrounImage: backgroundImages.hexellence,
-    backgroundColor: commonColors.darkDarken,
-  },
-  backgroundsApp: {
-    backgrounImage: backgroundImages.blackOrchid,
-    backgroundColor: commonColors.chocolate,
-    boxShadowColor: 'rgba(0,0,0,.9)',
-  },
+  themeName: 'chocolate',
+  appBackgrounImage: backgroundImages.blackOrchid,
+  appBackgroundColor: commonColors.chocolate,
+  appBoxShadowColor: 'rgba(0,0,0,.9)',
+  menuBackgrounImage: backgroundImages.debutLight,
+  menuTextShadow:
+    '0px 0px 0 rgb(135, 135, 135), 1px 1px 0 rgb(24, 24, 24), 1px 1px 0 rgb(-86, -86, -86)',
   color: commonColors.grey200,
-  primary: {
-    backgroundColor: commonColors.cyan,
-    backgroundColorDarken: '#523076',
-    color: commonColors.grey200,
-  },
-  secondary: {
-    backgroundColor: commonColors.orangeDark,
-    backgroundColorDarken: '#064f41',
-    color: commonColors.grey100,
-  },
+  primary: commonColors.teal,
+  secondary: darken(0.3, complement(commonColors.teal)),
+  success: commonColors.green,
+  info: commonColors.cyan,
+  danger: commonColors.red,
+  warning: commonColors.yellow,
 };
