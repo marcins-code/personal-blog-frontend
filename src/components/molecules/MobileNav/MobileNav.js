@@ -4,23 +4,16 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Link from 'components/atoms/Link/Link';
 import { NavLink } from 'react-router-dom';
-import { mainMenuItems, adminMenuItems } from 'languages/language';
+import { mainMenuItems, adminMenuItems } from 'languages/menus';
+import { darken } from 'polished';
 
 const StyleMobileNavWrapper = styled.div`
-  z-index: 200;
+  z-index: 310;
   width: 250px;
   height: 100vh;
   padding: 20px;
-  background-image: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0.15) 0%,
-      rgba(0, 0, 0, 0.3) 50%,
-      rgba(0, 0, 0, 0.5) 100%
-    ),
-    url('assets/images/black-orchid.png');
-  background-color: ${({ theme }) => theme.dark.backgroundColor};
-  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.5) 100%),
-    url(${({ theme }) => theme.backgroundImages.textile});
+  background-image: url(${({ theme }) => theme.menuBackgrounImage});
+  background-color: ${({ theme }) => darken(0.1, theme.appBackgroundColor)};
   position: fixed;
   top: 0;
   box-shadow: 10px 0 7px rgba(0, 0, 0, 0.4);
@@ -45,10 +38,9 @@ const StyledList = styled.ul`
       font-size: 2rem;
       font-weight: bold;
       font-family: 'Baloo 2', sans-serif;
-      /* font-family: "", sans-serif important; */
       text-transform: uppercase;
-      text-shadow: 2px 2px 2px black;
-      color: ${({ theme }) => theme.grey200};
+      text-shadow: ${({ theme }) => theme.menuTextShadow};
+      color: ${({ theme }) => theme.color};
       position: relative;
 
       &:before {
