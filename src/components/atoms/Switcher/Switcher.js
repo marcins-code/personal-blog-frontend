@@ -8,8 +8,8 @@ const StyledInput = styled.input.attrs((props) => ({
   ${(props) => props.notCheckedColor
     && css`
       background: linear-gradient(
-        ${({ theme }) => theme[props.notCheckedColor].backgroundColor},
-        ${({ theme }) => theme[props.notCheckedColor].backgroundColor}
+        ${({ theme }) => theme[props.notCheckedColor]},
+        ${({ theme }) => theme[props.notCheckedColor]}
       );
     `}
   margin: 10px;
@@ -87,7 +87,7 @@ const Switcher = ({
 );
 
 Switcher.propTypes = {
-  name: propTypes.string,
+  name: propTypes.string.isRequired,
   change: propTypes.func,
   clicked: propTypes.func,
   isChecked: propTypes.bool,
@@ -98,7 +98,6 @@ Switcher.propTypes = {
 };
 
 Switcher.defaultProps = {
-  name: 'name',
   isChecked: false,
   change: null,
   clicked: null,
