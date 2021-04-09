@@ -26,7 +26,6 @@ const StyleMobileNavWrapper = styled.div`
 
 const StyledList = styled.ul`
   margin: 10px 20px;
-  padding: 20px 0;
   display: block !important;
   list-style: none;
 

@@ -14,9 +14,10 @@ const ShowMenuButton = styled.button`
   top: 10px;
   z-index: 305;
   left: 10px;
+  padding: 3px;
   border-radius: 7px !important;
-  background-color: red;
-  color: ${({ theme }) => theme.grey200};
+  background-color: ${({ theme }) => (theme.themeName !== 'light' ? theme.grey300 : theme.grey700)};
+  color: ${({ theme }) => (theme.themeName !== 'light' ? theme.grey800 : theme.grey200)};
   box-shadow: 0 3px 12px -7px rgba(0, 0, 0, 0.9);
   border: none;
   &:focus,
@@ -37,7 +38,7 @@ const Navigation = () => {
   ) : (
     <>
       <ShowMenuButton onClick={() => setShowMobileNav(true)}>
-        <FontAwesomeIcon icon={['fas', 'bars']} />
+        <FontAwesomeIcon icon={['fas', 'bars']} size="2x" />
       </ShowMenuButton>
       {showMobileNav && <Backdrop onClick={() => setShowMobileNav(false)} />}
       <MobileNav isShown={showMobileNav} />
