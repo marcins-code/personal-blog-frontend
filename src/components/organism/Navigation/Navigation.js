@@ -29,8 +29,6 @@ const Navigation = () => {
   const appContext = useContext(PageContext);
   const { isMobile } = appContext;
   const [showMobileNav, setShowMobileNav] = useState(false);
-  console.log(showMobileNav);
-
   return !isMobile ? (
     <>
       <TopMenu />
