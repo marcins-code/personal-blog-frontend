@@ -1,16 +1,15 @@
 .content-enter-active {
+  margin-left: 190px;
   transition: margin 800ms;
 }
 
 .content-exit {
-  margin-left: 230px;
+  margin-left: 190px;
 }
 
 .content-exit-active {
+  margin-left: 0px;
+
   transition: margin 800ms ease;
   transition-delay: 00ms;
-}
-
-.content-enter-done {
-  margin-left: 230px;
 }
