@@ -1,33 +1,27 @@
 import { chocolateTheme, darkTheme, lightTheme } from 'themes/elements/appThemes';
-
-import { sidebarThemes } from 'themes/elements/sidebarThemes';
-import { commonColorSchemes } from 'themes/commonElements/commonColorSchemes';
+import { commonColorsAndSchemes } from 'themes/commonElements/commonColorSchemes';
 
 export const ThemeMixer = (appTheme, sidebarTheme, initSettings) => {
   let theme;
   switch (appTheme) {
     case 'dark': {
-      theme = { ...commonColorSchemes, ...darkTheme };
+      theme = { ...commonColorsAndSchemes, ...darkTheme };
       break;
     }
 
     case 'light': {
-      theme = { ...commonColorSchemes, ...lightTheme };
+      theme = { ...commonColorsAndSchemes, ...lightTheme };
       break;
     }
 
     case 'chocolate': {
-      theme = { ...commonColorSchemes, ...chocolateTheme };
+      theme = { ...commonColorsAndSchemes, ...chocolateTheme };
       break;
     }
 
     default:
-      theme = { ...commonColorSchemes, ...initSettings.appTheme };
+      theme = { ...commonColorsAndSchemes, ...initSettings.appTheme };
   }
 
-  const sidebar = sidebarThemes[sidebarTheme] || sidebarThemes[initSettings.sidebarTheme];
-
-  const fullTheme = { ...theme, ...sidebar };
-  console.log(fullTheme);
-  return fullTheme;
+  return theme;
 };
