@@ -1,33 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { commonTheme, darkTheme } from 'themes/Theme';
 import InputWrapper from 'components/atoms/Wrappers/InputWrapper';
 import FormikError from 'components/molecules/FormikError/FormikError';
 import FormikLabel from 'components/molecules/FormikLabel/FormikLabel';
 
-const theme = { ...commonTheme, ...darkTheme };
 const StyledSelect = styled.select`
   height: 40px;
-  width: 100;
+  width: 100%;
+  min-width: 150px;
   font-size: 1.6rem;
   padding: 0 10px;
-  color: ${theme.color};
-  background-color: ${theme.dark.backgroundDarken};
-  border-radius: 10px;
-  border: solid 2px ${theme.light.backgroundDarken};
+  -webkit-appearance: menulist-button;
+  --moz-appearance: menulist-button;
   &:focus,
   :active {
-    border-color: ${theme.secondary.backgroundColor};
     outline: none;
   }
 
   &.success {
-    border-color: #639a72;
+    /* background: #639a72; */
   }
   &.error {
     border-color: #c95858;
     background-color: #731700;
+    color: #fff;
   }
 `;
 const FormikSelect = ({
@@ -67,6 +64,7 @@ const FormikSelect = ({
           <option value={item.value} label={item.label} key={item.value} />
         ))}
       </StyledSelect>
+
       <FormikError errors={errors} touched={touched} />
     </InputWrapper>
   );
