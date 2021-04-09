@@ -11,7 +11,7 @@ import './notification.css';
 const GlobalTemplate = ({ children }) => {
   const pageInitSettings = {
     appTheme: 'dark',
-    navPosition: 'menu-top',
+    navPosition: 'sidebar',
     sidebarTheme: 'dark',
     lang: 'pl',
   };
@@ -20,7 +20,6 @@ const GlobalTemplate = ({ children }) => {
     isMobile,
     appTheme,
     navPosition,
-    sidebarTheme,
     remeberSettings,
     lang,
     isAdminPage,
@@ -31,14 +30,13 @@ const GlobalTemplate = ({ children }) => {
     langSwitchHandler,
   } = useAppSettings(pageInitSettings);
 
-  const theme = ThemeMixer(appTheme, sidebarTheme, pageInitSettings);
+  const theme = ThemeMixer(appTheme, pageInitSettings);
 
   return (
     <PageContext.Provider
       value={{
         isMobile,
         appTheme,
-        sidebarTheme,
         navPosition,
         remeberSettings,
         lang,

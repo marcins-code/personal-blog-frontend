@@ -4,7 +4,6 @@ export const PageContext = React.createContext({
   isMobile: false,
   lang: 'pl',
   appTheme: 'chocolate',
-  sidebarTheme: 'chocolate',
   remeberSettings: false,
   navPosition: 'menu - top',
   isAdminPage: false,
