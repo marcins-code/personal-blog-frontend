@@ -61,5 +61,3 @@ GlobalTemplate.propTypes = {
   children: PropTypes.node.isRequired,
 };
 export default GlobalTemplate;
-
-// TODO create hook for page context

@@ -5,9 +5,8 @@ import styled from 'styled-components';
 import SettingsPanel from 'components/organism/SettingsPanel/SettingsPanel';
 import Navigation from 'components/organism/Navigation/Navigation';
 import { CSSTransition } from 'react-transition-group';
-import 'templates/aminations.css';
 import { device } from 'themes/commonElements/mediaBreakpoints';
-import './aminations.css';
+import './animations.css';
 
 const StyledBodyWrapper = styled.div`
   width: 100%;
@@ -28,12 +27,8 @@ const StyledAppWrapper = styled.div`
     width: 100%;
   }
 
-  @media ${device.min.tablet} {
-    width: 95%;
-  }
-
   @media ${device.min.laptop} {
-    width: 85%;
+    width: 95%;
   }
 
   @media ${device.min.laptopL} {
@@ -67,7 +62,7 @@ const StyledContentWrapper = styled.div`
     }
 
     @media ${device.min.laptop} {
-      margin-left: 190px !important;
+      margin-left: 200px !important;
     }
 
     transition: margin 800ms ease-in-out;
@@ -126,3 +121,5 @@ PageTemplate.propTypes = {
   children: PropTypes.node.isRequired,
 };
 export default PageTemplate;
+
+// TODO correct animations and media breakpoints
