@@ -1,6 +1,7 @@
 export const articleTypesPagePhrazes = {
   en: {
-    title: 'Categories and series',
+    title: 'Article types',
+    formTitle: 'Create and edit of article types',
     newType: 'Add new type',
     titlePL: 'Title pl',
     titleEN: 'Title en',
@@ -8,9 +9,16 @@ export const articleTypesPagePhrazes = {
     createdAt: 'Created at',
     modifiedAt: 'Modified at',
     author: 'Author',
+    icon: 'Icon',
+    enterTitlePL: 'Enter polish title',
+    enterTitleEN: 'Enter english title',
+    addIcon: 'Enter icon',
+    descriptionPL: 'Description in polish',
+    descriptionEN: 'Description in english',
   },
   pl: {
-    title: 'Kategorie i serie',
+    title: 'Typy artykułów',
+    formTitle: 'Tworzenie i edycja typów artykułów',
     newType: 'Dodaj nowy typ',
     titlePL: 'Tytuł pl',
     titleEN: 'Tytuł en',
@@ -18,5 +26,11 @@ export const articleTypesPagePhrazes = {
     createdAt: 'Utworzony',
     modifiedAt: 'Zmodyfikowany',
     author: 'Autor',
+    icon: 'Ikona',
+    enterTitlePL: 'Wpisz polski tytuł',
+    enterTitleEN: 'Wpisz angielski tytuł',
+    addIcon: 'Podaj ikonę',
+    descriptionPL: 'Opis po polsku',
+    descriptionEN: 'Opis po angielsku',
   },
 };
