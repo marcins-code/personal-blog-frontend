@@ -13,7 +13,7 @@ const StyledButton = styled.button`
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
   cursor: pointer;
   width: auto;
-  border: solid 1px transparent;
+  border: solid 2px transparent;
   &:focus,
   :active {
     outline: none;
@@ -32,15 +32,16 @@ const StyledButton = styled.button`
     `}
 
   ${(props) => props.btnColor
+    && !props.btnOutline
     && css`
       background-color: ${({ theme }) => theme[props.btnColor]};
-      box-shadow: 0 1px 2px 1px
-        ${({ theme }) => (theme.themeName !== 'light' ? rgba(theme.black, 0.95) : rgba(theme.black, 0.5))};
-      transition: box-shadow 1s;
+      /* box-shadow: 0 1px 2px 1px
+        ${({ theme }) => (theme.themeName !== 'light' ? rgba(theme.black, 0.95) : rgba(theme.black, 0.5))}; */
+      /* transition: box-shadow 1s; */
       color: ${({ theme }) => (getContrast(theme[props.btnColor], theme.grey100) > 4.1 ? theme.grey100 : theme.wax)};
       &:hover {
-        box-shadow: 0 0 15px 3px ${({ theme }) => rgba(theme.black, 0.5)};
-        transition: box-shadow 1s;
+        /* box-shadow: 0 0 15px 3px ${({ theme }) => rgba(theme.black, 0.5)}; */
+        /* transition: box-shadow 1s; */
         /* transition: box-shadow 1s linear; */
       }
     `}
@@ -51,11 +52,17 @@ const StyledButton = styled.button`
       && props.btnOutline
       && css`
         background: transparent;
-        box-shadow: none;
-        border: solid 2px ${({ theme }) => theme[props.btnColor].backgroundColor};
-        /* color: ${({ theme }) => theme[props.btnColor].backgroundColor}; */
+        box-shadow: none !important;
+        border: solid 2px ${({ theme }) => theme[props.btnColor]};
+        color: ${({ theme }) => theme[props.btnColor]};
+        transition: background 500ms;
 
         &:hover {
+          border: solid 2px transparent;
+          background: ${({ theme }) => theme[props.btnColor]};
+          color: ${({ theme }) => (getContrast(theme[props.btnColor], theme.grey100) > 4.1 ? theme.grey100 : theme.wax)};
+          transition: background 500ms;
+          box-shadow: !important;
         }
       `}
     ${(props) => props.btnBig
@@ -81,8 +88,10 @@ const Button = ({
   labelIcon,
   type,
   btnIcon,
+  style,
 }) => (
   <StyledButton
+    style={style}
     btnColor={btnColor}
     btnOutline={btnOutline}
     btnBig={btnBig}
@@ -107,6 +116,7 @@ Button.propTypes = {
   labelIcon: PropTypes.instanceOf(Array),
   type: PropTypes.string.isRequired,
   btnIcon: PropTypes.bool,
+  style: PropTypes.instanceOf(Object),
 };
 
 Button.defaultProps = {
@@ -118,6 +128,9 @@ Button.defaultProps = {
   btnClick: null,
   labelIcon: null,
   btnIcon: false,
+  style: undefined,
 };
 
 export default Button;
+
+// TODO change box shadows and colors
