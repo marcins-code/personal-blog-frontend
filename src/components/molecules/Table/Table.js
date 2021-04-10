@@ -1,15 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
+import { darken } from 'polished';
+import Spinner from '../Spinner/Spinner';
 
 const StyledTableWrapper = styled.div`
   position: relative;
-  width: 90%;
+  width: 95%;
   background-color: rgba(0, 0, 0, 0.05);
   border-radius: 20px;
   border: solid 3px rgba(0, 0, 0, 0.25);
   box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.15);
-  overflow: hidden;
+  overflow: scroll;
   ${(props) => props.tblCenter
     && css`
       margin: auto;
@@ -19,7 +21,8 @@ const StyledTableWrapper = styled.div`
 const StyledTable = styled.table`
   border-collapse: collapse;
   width: 100%;
-  overflow: hidden;
+  display: table;
+  /* overflow: scroll; */
   ${(props) => props.tblHover
     && css`
       > tbody > tr {
@@ -33,13 +36,15 @@ const StyledTable = styled.table`
 
 const StyledTableHeader = styled.thead`
   background: linear-gradient(
-    to top,
-    ${({ theme }) => theme.info.backgroundColor},
-    ${({ theme }) => theme.info.backgroundColorDarken}
+    to right,
+    ${({ theme }) => theme.blue} 0%,
+    ${({ theme }) => darken(0.1, theme.blue)} 50%,
+    ${({ theme }) => theme.blue} 100%
   );
+  background-attachment: fixed;
+  > tr {
+    height: 55px;
 
-  > th {
-    padding: 20px 10px;
     /* border-bottom: solid 3px black; */
   }
 `;
@@ -54,21 +59,23 @@ const StyledTableBody = styled.tbody`
   > tr > td {
     padding: 10px 20px;
     text-align: center;
-    border-spacing: 0;
+    /* border-spacing: 0; */
   }
 `;
 
 const Table = ({
-  headerItems, children, tblCenter, tblHover,
+  headerItems, children, tblCenter, tblHover, loading,
 }) => (
   <StyledTableWrapper tblCenter>
     <StyledTable tblHover>
       <StyledTableHeader>
-        {headerItems.map((item) => (
-          <th>{item}</th>
-        ))}
+        <tr>
+          {headerItems.map((item) => (
+            <th key={item.id}>{item.title}</th>
+          ))}
+        </tr>
       </StyledTableHeader>
-      <StyledTableBody>{children}</StyledTableBody>
+      {!loading ? <StyledTableBody>{children}</StyledTableBody> : <Spinner />}
     </StyledTable>
   </StyledTableWrapper>
 );
@@ -78,6 +85,7 @@ Table.propTypes = {
   children: PropTypes.node,
   tblCenter: PropTypes.bool,
   tblHover: PropTypes.bool,
+  loading: PropTypes.bool,
 };
 
 Table.defaultProps = {
@@ -85,6 +93,9 @@ Table.defaultProps = {
   children: null,
   tblCenter: false,
   tblHover: false,
+  loading: false,
 };
 
 export default Table;
+
+// TODO manage colors
