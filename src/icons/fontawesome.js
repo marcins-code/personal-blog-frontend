@@ -4,6 +4,8 @@ import {
   faSignInAlt,
   faExclamationCircle,
   faStream,
+  faCaretSquareDown,
+  faDoorOpen,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faTimesCircle,
@@ -11,6 +13,7 @@ import {
   faEdit,
   faEye,
   faTrashAlt,
+  faSave,
 } from '@fortawesome/free-regular-svg-icons';
 // import { fab } from '@fortawesome/free-brands-svg-icons';
 
@@ -25,4 +28,7 @@ export const icons = {
   faEye,
   faTrashAlt,
   faStream,
+  faCaretSquareDown,
+  faSave,
+  faDoorOpen,
 };
