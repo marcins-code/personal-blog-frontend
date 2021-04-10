@@ -217,7 +217,7 @@ const SettingsPanel = () => {
           <StyledSectionWrapper style={{ justifyContent: 'center' }}>
             <InlineSwitcher
               isChecked={remeberSettings}
-              switchColor="blue"
+              switchColor="orange"
               change={remeberSettingsHandler}
             />
           </StyledSectionWrapper>
@@ -235,3 +235,5 @@ const SettingsPanel = () => {
 };
 
 export default SettingsPanel;
+
+// TODO colors correct
