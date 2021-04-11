@@ -200,6 +200,7 @@ const SettingsPanel = () => {
               <StyledLabel>{phrazes.chooseLayout}</StyledLabel>
               <StyledSectionWrapper>
                 <InlineSwitcher
+                  switchName="layoutChange"
                   isChecked={navPosition === 'sidebar'}
                   switchColor="blue"
                   notCheckedColor="cyan"
@@ -216,6 +217,7 @@ const SettingsPanel = () => {
           <StyledLabel>{phrazes.remeberSettings}</StyledLabel>
           <StyledSectionWrapper style={{ justifyContent: 'center' }}>
             <InlineSwitcher
+              switchName="remeberSettings"
               isChecked={remeberSettings}
               switchColor="orange"
               change={remeberSettingsHandler}
