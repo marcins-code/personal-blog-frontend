@@ -26,11 +26,9 @@ const StyledAppWrapper = styled.div`
   @media ${device.max.tablet} {
     width: 100%;
   }
-
   @media ${device.min.laptop} {
     width: 95%;
   }
-
   @media ${device.min.laptopL} {
     width: 75%;
   }
@@ -43,28 +41,22 @@ const StyledContentWrapper = styled.div`
   box-shadow: 0 0 100px -20px ${({ theme }) => theme.appBoxShadowColor} inset, 0 0 10px 2px black;
   overflow: hidden;
   position: relative;
-
   z-index: 300;
-
   &.menu-top {
     min-height: calc(100vh - 80px);
   }
-
   &.sidebar-mobile {
     min-height: 100vh;
     transition: none;
   }
-
   &.sidebar {
     min-height: 100vh;
     @media ${device.min.tablet} {
       margin-left: 170px !important;
     }
-
     @media ${device.min.laptop} {
       margin-left: 200px !important;
     }
-
     transition: margin 800ms ease-in-out;
     transition-delay: 350ms;
   }
@@ -74,13 +66,10 @@ const StyledContent = styled.div`
   color: ${({ theme }) => theme.color};
   margin-left: 0px;
   padding: 10px 50px;
-
   @media ${device.max.tablet} {
     padding-top: 50px;
   }
-
   animation: fadein 800ms;
-
   @keyframes fadein {
     from {
       opacity: 0;
