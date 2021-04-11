@@ -50,8 +50,8 @@ const App = () => {
             <Route path="/admin" exact component={AdminArticles} />
             <Route path="/admin/article-types" component={AdminCategories} />
             <Route path="/authorization" component={Authorization} />
-            <Route path="/admin/manage-article-type" component={ManageArticleTypes} />
-            <Route path="/admin/manage-article-type/:atid" component={ManageArticleTypes} />
+            <Route path="/admin/manage-article-type" exact component={ManageArticleTypes} />
+            <Route path="/admin/manage-article-type/:atid" exact component={ManageArticleTypes} />
           </GlobalTemplate>
         </Switch>
       </BrowserRouter>
