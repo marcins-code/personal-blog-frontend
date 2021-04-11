@@ -10,10 +10,17 @@ export const commonFormPhrazes = {
     max: 'max',
     characters: 'characters',
     published: 'Published?',
-    founded: 'Founded',
+    founded: 'Found',
     records: 'entries',
     category: 'category',
     serie: 'serie',
+    loading: 'Loading...',
+    saving: 'Saving...',
+    savedData: 'Data saved',
+    createdItem: 'Created and saved',
+    errors: {
+      e404: 'No such item was found',
+    },
   },
   pl: {
     fieldRequired: 'Pole wymagane',
@@ -30,5 +37,12 @@ export const commonFormPhrazes = {
     records: 'wpisy',
     category: 'kategoria',
     serie: 'seria',
+    loading: 'Pobieranie danych...',
+    saving: 'Zapisywanie...',
+    savedData: 'Zapisano zmiany',
+    createdItem: 'Utworzono i zapisano',
+    errors: {
+      e404: 'Nie znaleziono takiej pozycji',
+    },
   },
 };
