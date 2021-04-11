@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { darken } from 'polished';
-import Spinner from '../Spinner/Spinner';
 
 const StyledTableWrapper = styled.div`
   position: relative;
@@ -75,7 +74,7 @@ const Table = ({
           ))}
         </tr>
       </StyledTableHeader>
-      {!loading ? <StyledTableBody>{children}</StyledTableBody> : <Spinner />}
+      <StyledTableBody>{children}</StyledTableBody>
     </StyledTable>
   </StyledTableWrapper>
 );
