@@ -17,6 +17,7 @@ const LangSwitcher = () => {
   return (
     <StyleLangSwitchWrapper>
       <InlineSwitcher
+        switchName="langSwitch"
         isChecked={lang === 'en'}
         switchColor="blue"
         notCheckedColor="orange"
