@@ -6,6 +6,7 @@ import {
   faStream,
   faCaretSquareDown,
   faDoorOpen,
+  faDatabase,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faTimesCircle,
@@ -14,8 +15,9 @@ import {
   faEye,
   faTrashAlt,
   faSave,
+  faCheckCircle,
 } from '@fortawesome/free-regular-svg-icons';
-// import { fab } from '@fortawesome/free-brands-svg-icons';
+import { faDocker, faSymfony } from '@fortawesome/free-brands-svg-icons';
 
 export const icons = {
   faBars,
@@ -31,4 +33,8 @@ export const icons = {
   faCaretSquareDown,
   faSave,
   faDoorOpen,
+  faCheckCircle,
+  faDocker,
+  faSymfony,
+  faDatabase,
 };
