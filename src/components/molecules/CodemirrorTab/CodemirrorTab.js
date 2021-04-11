@@ -51,14 +51,14 @@ const CodemirrorTab = ({
       {enableFirst ? (
         <CSSTransition in={enableFirst} timeout={2000}>
           <StyledCodemirrorArea>
-            <h4 style={{ marginBottom: '20px' }}>{titleFirst}</h4>
+            <h5 style={{ margin: '20px 0' }}>{titleFirst}</h5>
             <Codemirror setStateFunc={setStateFuncFirst} codeValue={codeValueFirst} />
           </StyledCodemirrorArea>
         </CSSTransition>
       ) : (
         <CSSTransition in={enableFirst} timeout={2000}>
           <StyledCodemirrorArea>
-            <h4 style={{ marginBottom: '20px' }}>{titleSecond}</h4>
+            <h5 style={{ margin: '20px 0' }}>{titleSecond}</h5>
             <Codemirror setStateFunc={setStateFuncSecond} codeValue={codeValueSecond} />
           </StyledCodemirrorArea>
         </CSSTransition>
