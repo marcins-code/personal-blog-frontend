@@ -128,5 +128,3 @@ const SideBar = () => {
 };
 
 export default SideBar;
-
-// TODO Refactor tranlations

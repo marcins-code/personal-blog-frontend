@@ -14,4 +14,3 @@ Spinner.propTypes = {
   text: PropTypes.string.isRequired,
 };
 export default Spinner;
-// TODO to finish styles
