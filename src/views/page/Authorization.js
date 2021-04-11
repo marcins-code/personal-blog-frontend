@@ -12,5 +12,3 @@ const Authorization = (props) => (
 Authorization.propTypes = {};
 
 export default Authorization;
-
-// TODO Add signUP module
