@@ -94,11 +94,12 @@ const SideBar = () => {
                 </li>
               ))}
               {!authContext.isLoggedIn && (
-                <Link as={NavLink} to="/authorization">
+                <NavLink as={NavLink} to="/authorization">
                   Auth
-                </Link>
+                </NavLink>
               )}
             </StyledList>
+
             {authContext.isLoggedIn && (
               <>
                 <br />
@@ -127,3 +128,5 @@ const SideBar = () => {
 };
 
 export default SideBar;
+
+// TODO Refactor tranlations
