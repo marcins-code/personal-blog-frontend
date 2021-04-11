@@ -57,7 +57,7 @@ InlineSwitcher.propTypes = {
 
 InlineSwitcher.defaultProps = {
   switchName: undefined,
-  isChecked: false,
+  isChecked: undefined,
   notCheckedColor: 'dark',
   labelBefore: null,
   labelAfter: null,
