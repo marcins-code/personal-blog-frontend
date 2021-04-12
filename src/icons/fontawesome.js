@@ -8,6 +8,7 @@ import {
   faDoorOpen,
   faDatabase,
   faCheck,
+  faExclamation,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faTimesCircle,
@@ -38,5 +39,6 @@ export const icons = {
   faCheckCircle,
   faDocker,
   faSymfony,
+  faExclamation,
   faDatabase,
 };
