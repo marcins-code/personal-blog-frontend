@@ -75,6 +75,7 @@ const Switcher = ({
   value,
 }) => (
   <StyledInput
+    id={name}
     switchColor={switchColor}
     name={name}
     onChange={change}
