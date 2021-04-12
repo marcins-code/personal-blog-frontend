@@ -11,6 +11,8 @@ const GlobalStyle = createGlobalStyle`
 
 html {
     font-size:62.5%;
+    scrollbar-color: #46495d #282A35;
+    scrollbar-width: thin;
 }
 body{
 
@@ -38,7 +40,7 @@ body::-webkit-scrollbar {
 }
 
 body::-webkit-scrollbar-track {
-  background: #252525;        /* color of the tracking area */
+  background: #46495d;        /* color of the tracking area */
 }
 
 body::-webkit-scrollbar-thumb {
