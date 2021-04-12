@@ -7,6 +7,7 @@ import {
   faCaretSquareDown,
   faDoorOpen,
   faDatabase,
+  faCheck,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faTimesCircle,
@@ -22,6 +23,7 @@ import { faDocker, faSymfony } from '@fortawesome/free-brands-svg-icons';
 export const icons = {
   faBars,
   faCogs,
+  faCheck,
   faSignInAlt,
   faTimesCircle,
   faExclamationCircle,
