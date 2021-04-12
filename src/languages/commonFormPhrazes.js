@@ -21,6 +21,11 @@ export const commonFormPhrazes = {
     errors: {
       e404: 'No such item was found',
     },
+
+    close: 'Close',
+    cancel: 'Cancel',
+    confirm: 'Confirm',
+    delete: 'Delete',
   },
   pl: {
     fieldRequired: 'Pole wymagane',
@@ -44,5 +49,9 @@ export const commonFormPhrazes = {
     errors: {
       e404: 'Nie znaleziono takiej pozycji',
     },
+    close: 'Zamknij',
+    cancel: 'Anuluj',
+    confirm: 'Potwierdź',
+    delete: 'Usuń',
   },
 };
