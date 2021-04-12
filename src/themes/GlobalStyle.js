@@ -48,6 +48,18 @@ body::-webkit-scrollbar-thumb {
   border-radius: 100px;       /* roundness of the scroll thumb */
   border: 3px solid #3A3D4D;  /* creates padding around scroll thumb */
 }
+
+.fadeIn{
+  animation: fadein 700ms;
+  @keyframes fadein {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
 `;
 
 export default GlobalStyle;
