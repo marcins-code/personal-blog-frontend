@@ -7,9 +7,9 @@ import { lighten } from 'polished';
 import './animations.css';
 import { PageContext } from 'context';
 import Backdrop from 'components/atoms/Backdrop/Backdrop';
-import Divider from 'components/atoms/Divider/Divider';
-import { commonFormPhrazes } from 'languages/commonFormPhrazes';
+import { commonPhrazes } from 'languages/commonPhrazes';
 import Button from 'components/atoms/Button/Button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const StyledModalBody = styled.div`
   position: fixed;
@@ -41,8 +41,9 @@ const StyledModalBody = styled.div`
 
 const StyledModalHeader = styled.div`
   padding: 10px 20px;
-  height: 40px;
-  margin-bottom: 10px;
+  height: 70px;
+  /* margin-bottom: 10px; */
+  border-bottom: groove 3px ${({ theme }) => lighten(0.05, theme.appBackgroundColor)};
 `;
 
 const StyledModalContent = styled.div`
@@ -50,8 +51,8 @@ const StyledModalContent = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
   height: 63%;
-  margin: 30px 0 5px 0;
-  padding: 10px 30px;
+  margin-top: 10px;
+  padding: 0 25px 10px 25px;
   ${(props) => props.modalBig
     && css`
       height: 76%;
@@ -80,21 +81,23 @@ const StyledModalContent = styled.div`
   }
 `;
 
-// const StyledModalContent = styled.div``;
-
 const StyledModalButtons = styled.div`
   position: absolute;
   bottom: 0;
-  padding: 15px 10px;
+  padding: 0 10px 10px 10px;
+  border-top: groove 3px ${({ theme }) => lighten(0.05, theme.appBackgroundColor)};
   width: 100%;
+  background-image: url(${({ theme }) => theme.appBackgrounImage});
+  background-color: ${({ theme }) => theme.appBackgroundColor};
   > button {
-    margin-right: 20px;
+    margin: 10px 10px 0 0;
   }
 `;
 
 const Modal = ({
   modalHeader,
-  modalContent,
+  modalHeaderIcon,
+  children,
   modalShow,
   resetFunc,
   modalSmall,
@@ -120,36 +123,42 @@ const Modal = ({
           {modalHeader && (
             <>
               <StyledModalHeader>
-                <h4>{modalHeader}</h4>
-                <Divider />
+                <h4>
+                  {modalHeaderIcon && (
+                    <FontAwesomeIcon icon={modalHeaderIcon} style={{ marginRight: '10px' }} />
+                  )}
+                  {modalHeader}
+                </h4>
               </StyledModalHeader>
             </>
           )}
           <StyledModalContent modalBig={modalBig} modalSmall={modalSmall}>
-            {modalContent}
+            {children}
           </StyledModalContent>
           <StyledModalButtons>
-            <Divider style={{ marginBottom: '10px' }} />
             {buttonClose && (
               <Button
+                type="button"
                 btnColor="primary"
                 labelIcon={['far', 'times-circle']}
-                label={commonFormPhrazes[lang].close}
+                label={commonPhrazes[lang].close}
                 btnClick={() => resetFunc(null)}
               />
             )}
             {buttonConfirmDanger && (
               <>
                 <Button
+                  type="button"
                   btnColor="danger"
                   labelIcon={buttonConfirmDangerLabelIcon}
-                  label={buttonConfirmDangerLabel || commonFormPhrazes[lang].confirm}
+                  label={buttonConfirmDangerLabel || commonPhrazes[lang].confirm}
                   btnClick={confirmDangerFunc}
                 />
                 <Button
+                  type="button"
                   btnColor="dark"
                   labelIcon={['far', 'times-circle']}
-                  label={commonFormPhrazes[lang].cancel}
+                  label={commonPhrazes[lang].cancel}
                   btnClick={() => resetFunc(null)}
                 />
               </>
@@ -157,15 +166,17 @@ const Modal = ({
             {buttonConfirmSucess && (
               <>
                 <Button
+                  type="button"
                   btnColor="success"
                   labelIcon={buttonConfirmSuccessLabelIcon || ['fas', 'check']}
-                  label={buttonConfirmSuccessLabel || commonFormPhrazes[lang].confirm}
+                  label={buttonConfirmSuccessLabel || commonPhrazes[lang].confirm}
                   btnClick={confirmSuccessFunc}
                 />
                 <Button
+                  type="button"
                   btnColor="dark"
                   labelIcon={['far', 'times-circle']}
-                  label={commonFormPhrazes[lang].cancel}
+                  label={commonPhrazes[lang].cancel}
                   btnClick={() => resetFunc(null)}
                 />
               </>
@@ -180,7 +191,8 @@ const Modal = ({
 
 Modal.propTypes = {
   modalHeader: PropTypes.string,
-  modalContent: PropTypes.instanceOf(Object).isRequired,
+  modalHeaderIcon: PropTypes.instanceOf(Array),
+  children: PropTypes.node.isRequired,
   modalShow: PropTypes.bool,
   resetFunc: PropTypes.func.isRequired,
   modalSmall: PropTypes.bool,
@@ -194,6 +206,7 @@ Modal.propTypes = {
 
 Modal.defaultProps = {
   modalHeader: null,
+  modalHeaderIcon: [],
   modalShow: false,
   modalSmall: false,
   modalBig: false,
