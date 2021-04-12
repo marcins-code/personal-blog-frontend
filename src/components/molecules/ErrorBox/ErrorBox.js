@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { darken, lighten } from 'polished';
-import { commonFormPhrazes } from 'languages/commonFormPhrazes';
+import { commonPhrazes } from 'languages/commonPhrazes';
 import { PageContext } from 'context';
 
 const StyledErrorCode = styled.h1`
@@ -20,7 +20,7 @@ const ErrorBox = ({ errorCode }) => {
   return (
     <>
       <StyledErrorCode>{errorCode}</StyledErrorCode>
-      <StyledText>{commonFormPhrazes[lang].errors[`e${errorCode}`]}</StyledText>
+      <StyledText>{commonPhrazes[lang].errors[`e${errorCode}`]}</StyledText>
     </>
   );
 };
