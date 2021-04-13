@@ -20,7 +20,7 @@ const FunctionalModal = ({
   const baseUrl = process.env.REACT_APP_BASE_API_URL;
   const [isLoading, setIsLoading] = useState(false);
   const [modalHeader, setModalHeader] = useState('');
-  const [modalHeaderIcon, setModalHeaderIcon] = useState('');
+  const [modalHeaderIcon, setModalHeaderIcon] = useState(['fas', 'bars']);
   const [modalContent, setModalContent] = useState('');
   const [error, setError] = useState(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -86,13 +86,13 @@ const FunctionalModal = ({
       setConfirmDelete(false);
     }
 
-    return setModalHeader(), setModalHeaderIcon(), setModalContent();
+    // return (setModalHeader(); setModalHeaderIcon(); setModalContent());
   }, [elemetId, modalType, lang, confirmDelete]);
 
   return modalType === 'preview' ? (
     <Modal
       modalShow={modalShow}
-      modalHeader={!isLoading && modalHeader}
+      modalHeader={modalHeader}
       buttonClose
       resetFunc={resetData}
       modalHeaderIcon={modalHeaderIcon}
@@ -103,7 +103,7 @@ const FunctionalModal = ({
   ) : (
     <Modal
       modalHeader={commonPhrazes[lang].confirm}
-      modalHeaderIcon={['fas', 'exclamation']}
+      modalHeaderIcon={['fas', 'exclamation'] || []}
       modalShow={modalShow}
       modalSmall
       noBackdropClose
