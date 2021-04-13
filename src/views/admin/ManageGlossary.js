@@ -6,6 +6,7 @@ import MainTemplate from 'templates/MainTemplate';
 import AdminPageWrapper from 'components/atoms/Wrappers/AdminPageWrapper';
 import PageHeader from 'components/molecules/PageHeader/PageHeader';
 import { glossaryPagePhrazes } from 'languages/glossaryPagePhrazes';
+import GlossaryForm from 'components/organism/Forms/GlossaryForm';
 
 const ManageGlossary = (props) => {
   const { lang } = useContext(PageContext);
@@ -13,6 +14,7 @@ const ManageGlossary = (props) => {
     <MainTemplate>
       <AdminPageWrapper>
         <PageHeader title={glossaryPagePhrazes[lang].formTitle} icon={['far', 'edit']} />
+        <GlossaryForm />
       </AdminPageWrapper>
     </MainTemplate>
   );
