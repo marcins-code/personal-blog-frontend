@@ -14,6 +14,9 @@ import ManageArticleTypes from 'views/admin/ManageArticleTypes';
 import AdminGlossary from 'views/admin/AdminGlossary';
 import ManageGlossary from 'views/admin/ManageGlossary';
 import Glossary from 'views/page/Glossary';
+import axios from 'axios';
+
+axios.defaults.baseURL = process.env.REACT_APP_BASE_API_URL;
 
 const App = () => {
   const authHandler = useAuth();
@@ -58,7 +61,7 @@ const App = () => {
             <Route path="/admin/manage-article-type" exact component={ManageArticleTypes} />
             <Route path="/admin/manage-article-type/:atid" exact component={ManageArticleTypes} />
             <Route path="/admin/manage-glossary" exact component={ManageGlossary} />
-            <Route path="/admin/manage-article-type/:gid" exact component={ManageGlossary} />
+            <Route path="/admin/manage-glossary/:gid" exact component={ManageGlossary} />
           </GlobalTemplate>
         </Switch>
       </BrowserRouter>
