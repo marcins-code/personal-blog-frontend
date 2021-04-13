@@ -22,6 +22,5 @@ export const ThemeMixer = (appTheme, sidebarTheme, initSettings) => {
     default:
       theme = { ...commonColorsAndSchemes, ...initSettings.appTheme };
   }
-
   return theme;
 };
