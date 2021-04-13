@@ -9,6 +9,8 @@ import {
   faDatabase,
   faCheck,
   faExclamation,
+  faBook,
+  faSortAlphaDown,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faTimesCircle,
@@ -18,6 +20,7 @@ import {
   faTrashAlt,
   faSave,
   faCheckCircle,
+  faBookmark,
 } from '@fortawesome/free-regular-svg-icons';
 import { faDocker, faSymfony } from '@fortawesome/free-brands-svg-icons';
 
@@ -41,4 +44,7 @@ export const icons = {
   faSymfony,
   faExclamation,
   faDatabase,
+  faBookmark,
+  faBook,
+  faSortAlphaDown,
 };
