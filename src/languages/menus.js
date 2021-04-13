@@ -7,6 +7,7 @@ export const mainMenuItems = [
   },
   { name_en: 'categories', name_pl: 'kategorie', path: '/categories' },
   { name_en: 'series', name_pl: 'serie', path: '/series' },
+  { name_en: 'glossary', name_pl: 'słowniczek', path: '/glossary' },
   { name_en: 'contact', name_pl: 'kontakt', path: '/contact' },
 ];
 
@@ -18,6 +19,7 @@ export const adminMenuItems = [
     exact: true,
   },
   { name_en: 'Types', name_pl: 'Typy', path: '/admin/article-types' },
+  { name_en: 'Glossary', name_pl: 'Słowniczek', path: '/admin/glossary' },
 ];
 
 export const settingsPanelItems = {
