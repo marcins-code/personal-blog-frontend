@@ -11,6 +11,9 @@ import AdminArticles from 'views/admin/AdminArticles';
 import AdminCategories from 'views/admin/AdminArticleTypes';
 import { useAuth } from 'hooks/useAuth';
 import ManageArticleTypes from 'views/admin/ManageArticleTypes';
+import AdminGlossary from 'views/admin/AdminGlossary';
+import ManageGlossary from 'views/admin/ManageGlossary';
+import Glossary from 'views/page/Glossary';
 
 const App = () => {
   const authHandler = useAuth();
@@ -46,12 +49,16 @@ const App = () => {
             <Route path="/" exact component={Homepage} />
             <Route path="/categories" exact component={Categories} />
             <Route path="/series" component={Series} />
+            <Route path="/glossary" component={Glossary} />
             <Route path="/contact" component={Contact} />
             <Route path="/admin" exact component={AdminArticles} />
             <Route path="/admin/article-types" component={AdminCategories} />
+            <Route path="/admin/glossary" component={AdminGlossary} />
             <Route path="/authorization" component={Authorization} />
             <Route path="/admin/manage-article-type" exact component={ManageArticleTypes} />
             <Route path="/admin/manage-article-type/:atid" exact component={ManageArticleTypes} />
+            <Route path="/admin/manage-glossary" exact component={ManageGlossary} />
+            <Route path="/admin/manage-article-type/:gid" exact component={ManageGlossary} />
           </GlobalTemplate>
         </Switch>
       </BrowserRouter>
