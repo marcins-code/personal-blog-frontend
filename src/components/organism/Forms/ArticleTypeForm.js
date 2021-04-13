@@ -61,7 +61,6 @@ const ArticleTypeForm = () => {
 
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isError, setIsError] = useState(false);
-  // const [isEn, setIsEn] = useState();
   const [articleTypeId, setaAticleTypeId] = useState();
   const [isLoading, setIsLoadnig] = useState(false);
   const [descriptionPL, setDescriptionPL] = useState('dupa');
@@ -82,7 +81,6 @@ const ArticleTypeForm = () => {
             formik.setFieldValue('type', responseData.type, false);
             formik.setFieldValue('icon', responseData.icon, false);
             formik.setFieldValue('isEnabled', responseData.isEnabled);
-            // switchOn.current = responseData.isEnabled;
             setDescriptionPL(responseData.description.pl);
             setDescriptionEN(responseData.description.en);
             setIsLoadnig(false);
@@ -97,8 +95,6 @@ const ArticleTypeForm = () => {
       fetchData();
     }
   }, []);
-
-  // switchOn.current = true;
 
   const formik = useFormik({
     initialValues: {
@@ -238,10 +234,10 @@ const ArticleTypeForm = () => {
               </StyledButtonsWrapper>
               <StyledCodemirrorWrapper>
                 <CodemirrorTab
-                  labelFirst={articleTypesPagePhrazes[lang].descriptionPL}
-                  labelSecond={articleTypesPagePhrazes[lang].descriptionEN}
-                  titleFirst={articleTypesPagePhrazes[lang].descriptionPL}
-                  titleSecond={articleTypesPagePhrazes[lang].descriptionEN}
+                  labelFirst={commonPhrazes[lang].descriptionPL}
+                  labelSecond={commonPhrazes[lang].descriptionEN}
+                  titleFirst={commonPhrazes[lang].descriptionPL}
+                  titleSecond={commonPhrazes[lang].descriptionEN}
                   codeValueFirst={descriptionPL}
                   codeValueSecond={descriptionEN}
                   setStateFuncFirst={setDescriptionPL}
