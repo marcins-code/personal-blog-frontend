@@ -22,6 +22,7 @@ export const commonPhrazes = {
     errors: {
       e404: 'No such item was found',
     },
+    icon: 'Icon',
 
     close: 'Close',
     cancel: 'Cancel',
@@ -29,6 +30,8 @@ export const commonPhrazes = {
     delete: 'Delete',
     confirmDeletion: 'Please confirm deletion of record:',
     cannotUndo: 'Operation cannot be canceled',
+    descriptionPL: 'Description in polish',
+    descriptionEN: 'Description in english',
   },
   pl: {
     name: 'Nazwa',
@@ -53,11 +56,14 @@ export const commonPhrazes = {
     errors: {
       e404: 'Nie znaleziono takiej pozycji',
     },
+    icon: 'Ikona',
     close: 'Zamknij',
     cancel: 'Anuluj',
     confirm: 'Potwierdź',
     delete: 'Usuń',
     confirmDeletion: 'Prosze potwierdzić usuniecie rekordu:',
     cannotUndo: 'Operacji nie mona cofnąć',
+    descriptionPL: 'Opis po polsku',
+    descriptionEN: 'Opis po angielsku',
   },
 };

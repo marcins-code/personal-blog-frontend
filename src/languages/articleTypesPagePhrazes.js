@@ -11,8 +11,6 @@ export const articleTypesPagePhrazes = {
     icon: 'Icon',
     enterName: 'Enter name',
     addIcon: 'Enter icon',
-    descriptionPL: 'Description in polish',
-    descriptionEN: 'Description in english',
     minThree: 'Minimum 3 characters',
   },
   pl: {
@@ -27,8 +25,6 @@ export const articleTypesPagePhrazes = {
     icon: 'Ikona',
     enterName: 'Podaj nazwę',
     addIcon: 'Podaj ikonę',
-    descriptionPL: 'Opis po polsku',
-    descriptionEN: 'Opis po angielsku',
     minThree: 'Minimum 3 znaki',
   },
 };
