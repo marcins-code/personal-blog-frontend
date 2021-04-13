@@ -82,6 +82,8 @@ const StyledModalContent = styled.div`
 `;
 
 const StyledModalButtons = styled.div`
+  overflow: hidden;
+  border-radius: 0 0 13px 13px;
   position: absolute;
   bottom: 0;
   padding: 0 10px 10px 10px;
