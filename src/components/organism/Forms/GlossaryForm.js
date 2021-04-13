@@ -1,7 +1,9 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable quote-props */
-/* eslint-disable no-unused-vars */
-import React, { useContext, useState, useEffect } from 'react';
+import React, {
+  useContext, useState, useEffect, useCallback, useReducer,
+} from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useFormik } from 'formik';
@@ -16,6 +18,8 @@ import Button from 'components/atoms/Button/Button';
 import Divider from 'components/atoms/Divider/Divider';
 import Link from 'components/atoms/Link/Link';
 import CodemirrorTab from 'components/molecules/CodemirrorTab/CodemirrorTab';
+import Spinner from 'components/atoms/Spinner/Spinner';
+import ErrorBox from 'components/molecules/ErrorBox/ErrorBox';
 import axios from 'axios';
 
 const StyledInputsWrapper = styled.div`
@@ -58,6 +62,8 @@ const StyledButtonsWrapper = styled.div`
 `;
 
 const GlossaryForm = (props) => {
+  const { gid } = useParams();
+  console.log(gid);
   const { lang } = useContext(PageContext);
   const auth = useContext(AuthContext);
   const { addErrorNotification, addSuccessNotification } = useNotification();
@@ -65,9 +71,41 @@ const GlossaryForm = (props) => {
   const [entryId, setEntryId] = useState();
   const [descriptionPL, setDescriptionPL] = useState('dupa');
   const [descriptionEN, setDescriptionEN] = useState('dupa');
+  const [isLoading, setIsLoadnig] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const axiosOptions = { headers: { Authorization: `Bearer ${auth.token}` } };
 
+  useEffect(() => {
+    if (gid) {
+      setIsLoadnig(true);
+      axios
+        .get(`/glossary/${gid}`)
+        .then((response) => {
+          setEntryId(response.data._id);
+          formik.setFieldValue('abbreviation', response.data.abbreviation, false);
+          formik.setFieldValue('explication', response.data.explication, false);
+          formik.setFieldValue('icon', response.data.icon, false);
+          formik.setFieldValue('isEnabled', response.data.isEnabled);
+          setDescriptionPL(response.data.description.pl);
+          setDescriptionEN(response.data.description.en);
+          setIsLoadnig(false);
+        })
+        .catch((error) => {
+          console.log(error.response);
+          setIsError(error.response.status);
+          setIsLoadnig(false);
+        });
+    }
+  }, []);
+
+  const clickHandler = useCallback((e) => {
+    console.log(e.target.checked);
+  });
+
+  const [_, forceUpdate] = useReducer((x) => x + 1, 0);
+
+  console.log(entryId);
   const formik = useFormik({
     initialValues: {
       abbreviation: '',
@@ -108,8 +146,8 @@ const GlossaryForm = (props) => {
         .then((response) => {
           setIsSubmitted(false);
           setEntryId(response.data._id);
-
-          console.log(response.data);
+          response.status === 201 && addSuccessNotification(commonPhrazes[lang].createdItem);
+          console.log(response);
         })
         .catch((error) => {
           if (error.response) {
@@ -126,102 +164,111 @@ const GlossaryForm = (props) => {
         .put(`/glossary/${entryId}`, body, axiosOptions)
         .then((response) => {
           setIsSubmitted(false);
-          console.log(response.data);
+          console.log(response);
+          response.status === 200 && addSuccessNotification(commonPhrazes[lang].savedData);
+          // response.statusText !== 'OK' && addErrorNotification(response.data.message);
         })
-        .catch((error) => {
+        .catch((error, response) => {
           if (error.response) {
             setIsSubmitted(false);
-            // Request made and server responded
-            console.log(error.response.data);
-            console.log(error.response.status);
-            console.log(error.response.headers);
+            console.log(error.response);
           }
         });
     }
   }, [isSubmitted]);
 
   return (
-    <div className="fadeIn">
-      <form onSubmit={formik.handleSubmit} style={{ position: 'relative', display: 'flex-block' }}>
-        <StyledInputsWrapper className="inputs-wrapper">
-          <FormikInput
-            type="text"
-            name="abbreviation"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            label={glossaryPagePhrazes[lang].abbr}
-            value={formik.values.abbreviation.trimStart()}
-            touched={formik.touched.abbreviation}
-            errors={formik.errors.abbreviation}
-            placeholder={glossaryPagePhrazes[lang].enterAbbr}
-          />
-          <FormikInput
-            type="text"
-            name="explication"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            label={glossaryPagePhrazes[lang].explication}
-            value={formik.values.explication.trimStart()}
-            touched={formik.touched.explication}
-            errors={formik.errors.explication}
-            placeholder={glossaryPagePhrazes[lang].enterExpl}
-          />
-          <FormikInput
-            type="text"
-            name="icon"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            label={commonPhrazes[lang].icon}
-            value={formik.values.icon.trimStart()}
-            touched={formik.touched.icon}
-            errors={formik.errors.icon}
-            placeholder={glossaryPagePhrazes[lang].addIcon}
-          />
-          <InlineSwitcher
-            isChecked={formik.values.isEnabled}
-            change={formik.handleChange}
-            switchColor="green"
-            notCheckedColor="red"
-            label={commonPhrazes[lang].published}
-            labelBefore={commonPhrazes[lang].no}
-            labelAfter={commonPhrazes[lang].yes}
-            switchName="isEnabled"
-          />
-        </StyledInputsWrapper>
-        <Divider />
-        <StyledEditorWrapper>
-          <StyledButtonsWrapper>
-            <Button
-              type="submit"
-              label={commonPhrazes[lang].save}
-              btnColor="green"
-              labelIcon={['far', 'save']}
-            />
-
-            <Link as={NavLink} to="/admin/glossary">
-              <Button
-                type="button"
-                label={commonPhrazes[lang].exit}
-                btnColor="secondary"
-                labelIcon={['fas', 'door-open']}
+    <>
+      {isLoading && !isSubmitted && <Spinner text={commonPhrazes[lang].loading} />}
+      {isError && <ErrorBox errorCode={isError} />}
+      {!isLoading && !isError && (
+        <div className="fadeIn">
+          <form
+            onSubmit={formik.handleSubmit}
+            style={{ position: 'relative', display: 'flex-block' }}
+          >
+            <StyledInputsWrapper className="inputs-wrapper">
+              <FormikInput
+                type="text"
+                name="abbreviation"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                label={glossaryPagePhrazes[lang].abbr}
+                value={formik.values.abbreviation.trimStart()}
+                touched={formik.touched.abbreviation}
+                errors={formik.errors.abbreviation}
+                placeholder={glossaryPagePhrazes[lang].enterAbbr}
               />
-            </Link>
-          </StyledButtonsWrapper>
-          <StyledCodemirrorWrapper>
-            <CodemirrorTab
-              labelFirst={commonPhrazes[lang].descriptionPL}
-              labelSecond={commonPhrazes[lang].descriptionEN}
-              titleFirst={commonPhrazes[lang].descriptionPL}
-              titleSecond={commonPhrazes[lang].descriptionEN}
-              codeValueFirst={descriptionPL}
-              codeValueSecond={descriptionEN}
-              setStateFuncFirst={setDescriptionPL}
-              setStateFuncSecond={setDescriptionEN}
-            />
-          </StyledCodemirrorWrapper>
-        </StyledEditorWrapper>
-      </form>
-    </div>
+              <FormikInput
+                type="text"
+                name="explication"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                label={glossaryPagePhrazes[lang].explication}
+                value={formik.values.explication.trimStart()}
+                touched={formik.touched.explication}
+                errors={formik.errors.explication}
+                placeholder={glossaryPagePhrazes[lang].enterExpl}
+              />
+              <FormikInput
+                type="text"
+                name="icon"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                label={commonPhrazes[lang].icon}
+                value={formik.values.icon.trimStart()}
+                touched={formik.touched.icon}
+                errors={formik.errors.icon}
+                placeholder={glossaryPagePhrazes[lang].addIcon}
+              />
+              <InlineSwitcher
+                isChecked={formik.values.isEnabled}
+                change={formik.handleChange}
+                onClick={forceUpdate}
+                switchColor="green"
+                notCheckedColor="red"
+                label={commonPhrazes[lang].published}
+                labelBefore={commonPhrazes[lang].no}
+                labelAfter={commonPhrazes[lang].yes}
+                switchName="isEnabled"
+              />
+            </StyledInputsWrapper>
+            <Divider />
+            <StyledEditorWrapper>
+              <StyledButtonsWrapper>
+                <Button
+                  type="submit"
+                  label={commonPhrazes[lang].save}
+                  btnColor="green"
+                  labelIcon={['far', 'save']}
+                />
+
+                <Link as={NavLink} to="/admin/glossary">
+                  <Button
+                    type="button"
+                    label={commonPhrazes[lang].exit}
+                    btnColor="secondary"
+                    labelIcon={['fas', 'door-open']}
+                  />
+                </Link>
+              </StyledButtonsWrapper>
+              <StyledCodemirrorWrapper>
+                <CodemirrorTab
+                  labelFirst={commonPhrazes[lang].descriptionPL}
+                  labelSecond={commonPhrazes[lang].descriptionEN}
+                  titleFirst={commonPhrazes[lang].descriptionPL}
+                  titleSecond={commonPhrazes[lang].descriptionEN}
+                  codeValueFirst={descriptionPL}
+                  codeValueSecond={descriptionEN}
+                  setStateFuncFirst={setDescriptionPL}
+                  setStateFuncSecond={setDescriptionEN}
+                />
+              </StyledCodemirrorWrapper>
+            </StyledEditorWrapper>
+          </form>
+        </div>
+      )}
+    </>
   );
 };
 
