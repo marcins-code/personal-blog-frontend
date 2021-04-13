@@ -130,12 +130,18 @@ const AdminArticleTypes = () => {
                     label={articleTypesPagePhrazes[lang].newType}
                     labelIcon={['far', 'plus-square']}
                     btnColor="green"
-                    btnOutline
                     btnSmall
                   />
                 </NavLink>
               </StyledSubheader>
-              <Table headerItems={header} loading={isLoading} className="fadeIn">
+              <Table
+                headerItems={header}
+                className="fadeIn"
+                tblHover
+                tblHoverColor="blue"
+                tblStripped
+                tblHeaderColor="purple"
+              >
                 {fetchedData
                   && fetchedData.map((item) => (
                     <tr key={item._id} id={item._id} data-name={item.name}>
