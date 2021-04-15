@@ -34,6 +34,8 @@ h4 { font-size: 3rem }
 h5 { font-size: 2.5rem }
 h6 { font-size: 2rem }
 
+h1,h2 {margin-bottom:15px;}
+h3,h4 {margin-bottom:10px;}
 
 body::-webkit-scrollbar {
   width: 12px;               /* width of the entire scrollbar */
