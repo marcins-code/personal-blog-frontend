@@ -11,6 +11,7 @@ import {
   faExclamation,
   faBook,
   faSortAlphaDown,
+  faPlusCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faTimesCircle,
@@ -47,4 +48,5 @@ export const icons = {
   faBookmark,
   faBook,
   faSortAlphaDown,
+  faPlusCircle,
 };
