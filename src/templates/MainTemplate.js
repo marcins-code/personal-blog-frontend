@@ -80,7 +80,7 @@ const StyledContent = styled.div`
   }
 `;
 
-const PageTemplate = ({ children }) => {
+const MainTemplate = ({ children }) => {
   const appContext = useContext(PageContext);
 
   const { navPosition, isMobile, appTheme } = appContext;
@@ -106,9 +106,9 @@ const PageTemplate = ({ children }) => {
     </>
   );
 };
-PageTemplate.propTypes = {
+MainTemplate.propTypes = {
   children: PropTypes.node.isRequired,
 };
-export default PageTemplate;
+export default MainTemplate;
 
 // TODO correct animations and media breakpoints

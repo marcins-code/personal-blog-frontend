@@ -21,6 +21,7 @@ export const commonPhrazes = {
     createdItem: 'Created and saved',
     errors: {
       e404: 'No such item was found',
+      e500: 'Internal Server Error',
     },
     icon: 'Icon',
 
@@ -55,6 +56,7 @@ export const commonPhrazes = {
     createdItem: 'Utworzono i zapisano',
     errors: {
       e404: 'Nie znaleziono takiej pozycji',
+      e500: 'Internal Server Error',
     },
     icon: 'Ikona',
     close: 'Zamknij',
