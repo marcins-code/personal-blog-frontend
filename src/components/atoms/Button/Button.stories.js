@@ -8,8 +8,8 @@ export default {
   title: 'Atoms/MyButton',
   component: Button,
   argTypes: {
-    label: {
-      name: 'label',
+    children: {
+      name: 'children',
       type: { name: 'string', required: false },
       defaultValue: 'Hello',
       description: 'demo description',
@@ -22,31 +22,18 @@ export default {
       },
     },
     btnColor: {
-      defaultValue: 'primary',
+      defaultValue: 'dark',
       control: {
-        type: 'inline-radio',
-        options: ['primary', 'secondary', 'tertiary', 'light', 'dark'],
+        type: 'select',
+        options: ['purple', 'indygo', 'cyan', 'teal', 'blue', 'orange', 'light', 'dark'],
       },
     },
-    btnOutline: {
-      defaultValue: false,
-      control: {
-        type: 'boolean',
-        options: [true, false],
-      },
-    },
+
     btnBig: {
       defaultValue: false,
       control: {
         type: 'boolean',
         options: [true, false],
-      },
-    },
-    icon: {
-      defaultValue: 'fab safari',
-      control: {
-        type: 'select',
-        options: ['fab safari', 'fas edit', 'fas tasks'],
       },
     },
   },
