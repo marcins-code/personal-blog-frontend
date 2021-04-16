@@ -1,10 +1,14 @@
 // import Button from 'components/atoms/Button/Button';
 import React from 'react';
 import MainTemplate from 'templates/MainTemplate';
+import PageHeader from 'components/molecules/PageHeader/PageHeader';
 
-const Homepage = (props) => (
-  <MainTemplate>
-    <div>Series</div>
-  </MainTemplate>
-);
-export default Homepage;
+const Series = (props) => {
+  console.log('poo');
+  return (
+    <MainTemplate>
+      <PageHeader title="Series" icon={['fas', 'signal']} />
+    </MainTemplate>
+  );
+};
+export default Series;
