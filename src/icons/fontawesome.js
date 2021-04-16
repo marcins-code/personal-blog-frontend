@@ -12,6 +12,8 @@ import {
   faBook,
   faSortAlphaDown,
   faPlusCircle,
+  faSignal,
+  faPenNib,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faTimesCircle,
@@ -49,4 +51,6 @@ export const icons = {
   faBook,
   faSortAlphaDown,
   faPlusCircle,
+  faSignal,
+  faPenNib,
 };
