@@ -7,11 +7,6 @@ const StyledButton = styled.button`
   ${StyledButtonCSS}
 `;
 
-// const StyledLink = styled.a`
-// text-decoration: none;
-// ${StyledButtonCSS}
-// `;
-
 const Button = ({
   btnColor, btnBig, btnSmall, btnClick, type, style, href, children, to,
 }) => (
