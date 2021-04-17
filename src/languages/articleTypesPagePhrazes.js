@@ -5,8 +5,6 @@ export const articleTypesPagePhrazes = {
     newType: 'Add new type',
     name: 'Name',
     type: 'Type',
-    createdAt: 'Created at',
-    modifiedAt: 'Modified at',
     author: 'Author',
     icon: 'Icon',
     enterName: 'Enter name',
