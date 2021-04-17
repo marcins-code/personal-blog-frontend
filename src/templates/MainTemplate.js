@@ -26,6 +26,14 @@ const StyledAppWrapper = styled.div`
   @media ${device.max.tablet} {
     width: 100%;
   }
+  @media ${device.min.tablet} {
+    padding-left: 20px;
+    width: 100%;
+  }
+
+  @media ${device.max.tablet} {
+    width: 100%;
+  }
   @media ${device.min.laptop} {
     width: 95%;
   }
@@ -57,8 +65,8 @@ const StyledContentWrapper = styled.div`
     @media ${device.min.laptop} {
       margin-left: 200px !important;
     }
-    transition: margin 800ms ease-in-out;
-    transition-delay: 350ms;
+    /* transition: margin 800ms ease-in-out;
+    transition-delay: 350ms; */
   }
 `;
 
