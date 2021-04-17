@@ -20,18 +20,18 @@ const StyledModalBody = styled.div`
   background-image: url(${({ theme }) => theme.appBackgrounImage});
   background-color: ${({ theme }) => theme.appBackgroundColor};
   border: groove 3px ${({ theme }) => lighten(0.05, theme.appBackgroundColor)};
-  box-shadow: 0 0 90px -10px ${({ theme }) => lighten(0.1, theme.appBoxShadowColor)} inset,
-    0 0 60px -10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 40px -10px ${({ theme }) => lighten(0.1, theme.appBoxShadowColor)} inset,
+    0 0 130px -10px rgba(0, 0, 0, 0.5);
   color: ${({ theme }) => theme.color};
   border-radius: 15px;
   z-index: 3100;
-  ${(props) => props.modalSmall
+  ${(props) => props.mdlSmall
     && css`
       width: 25%;
       height: 25%;
       left: 37.5%;
     `}
-  ${(props) => props.modalBig
+  ${(props) => props.mdlBig
     && css`
       width: 65% !important;
       height: 65%;
@@ -53,12 +53,12 @@ const StyledModalContent = styled.div`
   height: 63%;
   margin-top: 10px;
   padding: 0 25px 10px 25px;
-  ${(props) => props.modalBig
+  ${(props) => props.mdlBig
     && css`
       height: 76%;
     `}
 
-  ${(props) => props.modalSmall
+  ${(props) => props.mdlSmall
     && css`
       height: 40%;
     `}
@@ -81,7 +81,7 @@ const StyledModalContent = styled.div`
   }
 `;
 
-const StyledModalButtons = styled.div`
+const StyledModalButtonsWrapper = styled.div`
   overflow: hidden;
   border-radius: 0 0 13px 13px;
   position: absolute;
@@ -91,19 +91,23 @@ const StyledModalButtons = styled.div`
   width: 100%;
   background-image: url(${({ theme }) => theme.appBackgrounImage});
   background-color: ${({ theme }) => theme.appBackgroundColor};
+
   > button {
     margin: 10px 10px 0 0;
+    & > svg {
+      color: '#fff';
+    }
   }
 `;
 
 const Modal = ({
-  modalHeader,
-  modalHeaderIcon,
+  mdlHeader,
+  mdlHeaderIcon,
   children,
-  modalShow,
+  mdlShow,
   resetFunc,
-  modalSmall,
-  modalBig,
+  mdlSmall,
+  mdlBig,
   buttonClose,
   buttonConfirmDanger,
   buttonConfirmDangerLabel,
@@ -119,71 +123,70 @@ const Modal = ({
 
   const content = (
     <>
-      {modalShow && <Backdrop onClick={() => !noBackdropClose && resetFunc(null)} />}
-      <CSSTransition in={modalShow} mountOnEnter unmountOnExit timeout={1000} classNames="modal">
-        <StyledModalBody modalSmall={modalSmall} modalBig={modalBig}>
-          {modalHeader && (
+      <Backdrop onClick={() => !noBackdropClose && resetFunc(null)} bckdShow={mdlShow} />
+      <CSSTransition in={mdlShow} mountOnEnter unmountOnExit timeout={1000} classNames="modal">
+        <StyledModalBody mdlSmall={mdlSmall} mdlBig={mdlBig}>
+          {mdlHeader && (
             <>
               <StyledModalHeader>
                 <h4>
-                  {modalHeaderIcon && (
-                    <FontAwesomeIcon icon={modalHeaderIcon} style={{ marginRight: '10px' }} />
+                  {mdlHeaderIcon && (
+                    <FontAwesomeIcon icon={mdlHeaderIcon} style={{ marginRight: '10px' }} />
                   )}
-                  {modalHeader}
+                  {mdlHeader}
                 </h4>
               </StyledModalHeader>
             </>
           )}
-          <StyledModalContent modalBig={modalBig} modalSmall={modalSmall}>
+          <StyledModalContent mdlBig={mdlBig} mdlSmall={mdlSmall}>
             {children}
           </StyledModalContent>
-          <StyledModalButtons>
+          <StyledModalButtonsWrapper>
             {buttonClose && (
-              <Button
-                type="button"
-                btnColor="primary"
-                labelIcon={['far', 'times-circle']}
-                label={commonPhrazes[lang].close}
-                btnClick={() => resetFunc(null)}
-              />
+              <Button type="button" btnColor="blue" btnClick={() => resetFunc(null)}>
+                <FontAwesomeIcon icon={['far', 'times-circle']} fixedWidth />
+                {' '}
+                {commonPhrazes[lang].close}
+              </Button>
             )}
             {buttonConfirmDanger && (
               <>
-                <Button
-                  type="button"
-                  btnColor="danger"
-                  labelIcon={buttonConfirmDangerLabelIcon}
-                  label={buttonConfirmDangerLabel || commonPhrazes[lang].confirm}
-                  btnClick={confirmDangerFunc}
-                />
-                <Button
-                  type="button"
-                  btnColor="dark"
-                  labelIcon={['far', 'times-circle']}
-                  label={commonPhrazes[lang].cancel}
-                  btnClick={() => resetFunc(null)}
-                />
+                <Button type="button" btnColor="red" btnClick={confirmDangerFunc}>
+                  <FontAwesomeIcon icon={buttonConfirmDangerLabelIcon} />
+                  {' '}
+                  {buttonConfirmDangerLabel || commonPhrazes[lang].confirm}
+                </Button>
+                <Button type="button" btnColor="dark" btnClick={() => resetFunc(null)}>
+                  <FontAwesomeIcon icon={['far', 'times-circle']} fixedWidth />
+                  {' '}
+                  {commonPhrazes[lang].cancel}
+                </Button>
               </>
             )}
             {buttonConfirmSucess && (
               <>
                 <Button
                   type="button"
-                  btnColor="success"
+                  btnColor="green"
                   labelIcon={buttonConfirmSuccessLabelIcon || ['fas', 'check']}
                   label={buttonConfirmSuccessLabel || commonPhrazes[lang].confirm}
                   btnClick={confirmSuccessFunc}
-                />
-                <Button
-                  type="button"
-                  btnColor="dark"
-                  labelIcon={['far', 'times-circle']}
-                  label={commonPhrazes[lang].cancel}
-                  btnClick={() => resetFunc(null)}
-                />
+                >
+                  <FontAwesomeIcon
+                    icon={buttonConfirmSuccessLabelIcon || ['fas', 'check']}
+                    fixedWidth
+                  />
+                  {' '}
+                  {buttonConfirmSuccessLabel || commonPhrazes[lang].confirm}
+                </Button>
+                <Button type="button" btnColor="dark" btnClick={() => resetFunc(null)}>
+                  <FontAwesomeIcon icon={['far', 'times-circle']} fixedWidth />
+                  {' '}
+                  {commonPhrazes[lang].cancel}
+                </Button>
               </>
             )}
-          </StyledModalButtons>
+          </StyledModalButtonsWrapper>
         </StyledModalBody>
       </CSSTransition>
     </>
@@ -192,13 +195,13 @@ const Modal = ({
 };
 
 Modal.propTypes = {
-  modalHeader: PropTypes.string,
-  modalHeaderIcon: PropTypes.instanceOf(Array),
+  mdlHeader: PropTypes.PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  mdlHeaderIcon: PropTypes.instanceOf(Array),
   children: PropTypes.node.isRequired,
-  modalShow: PropTypes.bool,
+  mdlShow: PropTypes.bool,
   resetFunc: PropTypes.func.isRequired,
-  modalSmall: PropTypes.bool,
-  modalBig: PropTypes.bool,
+  mdlSmall: PropTypes.bool,
+  mdlBig: PropTypes.bool,
   buttonClose: PropTypes.bool,
   buttonConfirmDanger: PropTypes.bool,
   confirmDangerFunc: PropTypes.func,
@@ -207,11 +210,11 @@ Modal.propTypes = {
 };
 
 Modal.defaultProps = {
-  modalHeader: null,
-  modalHeaderIcon: [],
-  modalShow: false,
-  modalSmall: false,
-  modalBig: false,
+  mdlHeader: null,
+  mdlHeaderIcon: [],
+  mdlShow: false,
+  mdlSmall: false,
+  mdlBig: false,
   buttonClose: false,
   buttonConfirmDanger: false,
   confirmDangerFunc: undefined,
@@ -221,4 +224,4 @@ Modal.defaultProps = {
 
 export default Modal;
 
-// TODO scroll styles
+// TODO scroll styles and RWD size
