@@ -1,10 +1,11 @@
 import React from 'react';
-import PageTemplate from 'templates/MainTemplate';
+import MainTemplate from 'templates/MainTemplate';
+import PageHeader from 'components/molecules/PageHeader/PageHeader';
 
 const Categories = (props) => (
-  <PageTemplate>
-    <h2>Categories</h2>
-  </PageTemplate>
+  <MainTemplate>
+    <PageHeader title="Categories" icon={['fas', 'stream']} />
+  </MainTemplate>
 );
 
 export default Categories;
