@@ -39,6 +39,9 @@ export const StyledButtonCSS = css`
           0 1px 4px 1px rgba(0, 0, 0, 0.9);
         transition: all 500ms;
       }
+      & svg {
+        color: ${({ theme }) => (getContrast(theme[props.btnColor], theme.grey100) > 4.1 ? theme.grey100 : theme.wax)};
+      }
     `}
     ${(props) => props.btnBig
       && css`
