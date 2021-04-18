@@ -6,9 +6,16 @@ import PropTypes from 'prop-types';
 import { ThemeMixer } from 'themes/ThemeMixer';
 import { useAppSettings } from 'hooks/useAppSettings';
 import 'react-toastify/dist/ReactToastify.css';
-import { StyledContainer } from 'components/atoms/Toast/Toast';
+import { StyledToastsContainer } from 'components/atoms/Toast/Toast';
+import { cssTransition } from 'react-toastify';
+import 'assets/css/animations.css';
 
 const GlobalTemplate = ({ children }) => {
+  const toastsAnimations = cssTransition({
+    enter: 'tilt-in-fwd-tr',
+    exit: 'flip-out-ver-left',
+  });
+
   const pageInitSettings = {
     appTheme: 'dark',
     navPosition: 'menu-top',
@@ -49,7 +56,7 @@ const GlobalTemplate = ({ children }) => {
       }}
     >
       <GlobalStyle />
-      <StyledContainer />
+      <StyledToastsContainer transition={toastsAnimations} />
       <ThemeProvider theme={theme}>
         <>{children}</>
       </ThemeProvider>

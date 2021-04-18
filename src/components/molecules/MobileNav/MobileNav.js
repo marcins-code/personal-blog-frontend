@@ -17,11 +17,11 @@ const StyleMobileNavWrapper = styled.div`
   position: fixed;
   top: 0;
   box-shadow: 10px 0 7px rgba(0, 0, 0, 0.4);
-  margin-left: -290px;
-  transition: all 500ms;
+  /* margin-left: -290px; */
+  /* transition: all 500ms;
   &.isShown {
     margin-left: 0px;
-  }
+  } */
 `;
 
 const StyledList = styled.ul`
@@ -50,14 +50,14 @@ const StyledList = styled.ul`
         font-family: 'Patrick Hand', cursive;
         color: #00bfeb;
         position: absolute;
-        bottom: 7px;
+        bottom: 15px;
         vertical-align: text-bottom;
       }
 
       &.active {
         :before {
           content: 'this.';
-          left: -37px;
+          left: -27px;
           color: #ff6315;
         }
       }

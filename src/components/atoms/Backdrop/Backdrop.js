@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
 import { transparentize } from 'polished';
-import './animations.css';
+import 'assets/css/animations.css';
 
 const StyledBackdrop = styled.div`
   position: fixed;
@@ -13,7 +13,6 @@ const StyledBackdrop = styled.div`
   z-index: 301;
   top: 0;
   left: 0;
-  /* opacity: 1; */
 `;
 
 const Backdrop = ({ onClick, bckdShow }) => (

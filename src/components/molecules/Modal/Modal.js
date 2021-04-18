@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
 import { lighten } from 'polished';
-import './animations.css';
 import { PageContext } from 'context';
 import Backdrop from 'components/atoms/Backdrop/Backdrop';
 import { commonPhrazes } from 'languages/commonPhrazes';
 import Button from 'components/atoms/Button/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import 'assets/css/animations.css';
 
 const StyledModalBody = styled.div`
   position: fixed;
@@ -124,7 +124,13 @@ const Modal = ({
   const content = (
     <>
       <Backdrop onClick={() => !noBackdropClose && resetFunc(null)} bckdShow={mdlShow} />
-      <CSSTransition in={mdlShow} mountOnEnter unmountOnExit timeout={1000} classNames="modal">
+      <CSSTransition
+        in={mdlShow}
+        mountOnEnter
+        unmountOnExit
+        timeout={1000}
+        classNames={{ enter: 'slide-in-blurred-top', exit: 'slide-out-blurred-top' }}
+      >
         <StyledModalBody mdlSmall={mdlSmall} mdlBig={mdlBig}>
           {mdlHeader && (
             <>

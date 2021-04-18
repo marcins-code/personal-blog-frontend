@@ -16,12 +16,7 @@ const baseRadialGradient = ({ color }) => `
       );
 `;
 
-export const StyledContainer = styled(ToastContainer).attrs({
-  //   className: 'toast-container',
-  //   toastClassName: 'toast',
-  //   bodyClassName: 'body',
-  //   progressClassName: 'progress',
-})`
+export const StyledToastsContainer = styled(ToastContainer).attrs({})`
   .Toastify__toast-container {
     box-shadow: 0 0 140px 3px black !important;
   }

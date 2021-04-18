@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { CSSTransition } from 'react-transition-group';
 import { PageContext } from 'context';
 import TopMenu from 'components/molecules/TopMenu/TopMenu';
 import Sidebar from 'components/molecules/Sidebar/Sidebar';
@@ -6,6 +7,7 @@ import Backdrop from 'components/atoms/Backdrop/Backdrop';
 import MobileNav from 'components/molecules/MobileNav/MobileNav';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import 'assets/css/animations.css';
 
 const ShowMenuButton = styled.button`
   position: fixed;
@@ -40,10 +42,16 @@ const Navigation = () => {
       <ShowMenuButton onClick={() => setShowMobileNav(true)}>
         <FontAwesomeIcon icon={['fas', 'bars']} size="2x" />
       </ShowMenuButton>
-      {showMobileNav && (
-        <Backdrop onClick={() => setShowMobileNav(false)} bckdShow={showMobileNav} />
-      )}
-      <MobileNav isShown={showMobileNav} />
+      <Backdrop onClick={() => setShowMobileNav(false)} bckdShow={showMobileNav} />
+      <CSSTransition
+        in={showMobileNav}
+        mountOnEnter
+        unmountOnExit
+        timeout={300}
+        classNames={{ enter: 'slide-in-left', exit: 'slide-out-left' }}
+      >
+        <MobileNav />
+      </CSSTransition>
     </>
   );
 };

@@ -5,8 +5,8 @@ import Link from 'components/atoms/Link/Link';
 import { NavLink } from 'react-router-dom';
 import { mainMenuItems, adminMenuItems } from 'languages/menus';
 import { CSSTransition } from 'react-transition-group';
-import './animation.css';
 import Card from '../Card/Card';
+import 'assets/css/animations.css';
 
 const StyledNavigationWrapper = styled.div`
   position: absolute;
@@ -48,14 +48,14 @@ const StyledList = styled.ul`
       font-family: 'Patrick Hand', cursive;
       color: #00bfeb;
       position: absolute;
-      bottom: 13px;
+      bottom: 20px;
       vertical-align: text-bottom;
     }
 
     &.active {
       :before {
         content: 'this.';
-        left: -30px;
+        left: -20px;
         color: #ff6315;
       }
     }
@@ -63,7 +63,7 @@ const StyledList = styled.ul`
     &:hover:not(.active) {
       :before {
         content: 'use.';
-        left: -27px;
+        left: -17px;
         vertical-align: text-bottom;
       }
     }
@@ -79,8 +79,8 @@ const SideBar = () => {
     <StyledNavigationWrapper>
       <CSSTransition
         in={navPosition === 'sidebar'}
-        timeout={1000}
-        classNames="sidebar"
+        timeout={900}
+        classNames={{ enter: 'rotate-in-2-bl-cw', exit: 'rotate-out-2-tr-ccw' }}
         unmountOnExit
       >
         <StyledSidebarNav id="top-navigation" className={sidebarTheme}>

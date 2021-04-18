@@ -6,7 +6,7 @@ import SettingsPanel from 'components/organism/SettingsPanel/SettingsPanel';
 import Navigation from 'components/organism/Navigation/Navigation';
 import { CSSTransition } from 'react-transition-group';
 import { device } from 'themes/commonElements/mediaBreakpoints';
-import './animations.css';
+import 'assets/css/animations.css';
 
 const StyledBodyWrapper = styled.div`
   width: 100%;
@@ -102,7 +102,7 @@ const MainTemplate = ({ children }) => {
           <Navigation />
           <CSSTransition
             in={navPosition === 'sidebar' && !isMobile}
-            timeout={2000}
+            timeout={1000}
             classNames="content"
           >
             <StyledContentWrapper className={[appClasses]}>

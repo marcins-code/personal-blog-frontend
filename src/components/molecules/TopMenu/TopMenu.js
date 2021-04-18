@@ -5,7 +5,6 @@ import Link from 'components/atoms/Link/Link';
 import { NavLink } from 'react-router-dom';
 import { mainMenuItems, adminMenuItems } from 'languages/menus';
 import { CSSTransition } from 'react-transition-group';
-import './animation.css';
 import { darken } from 'polished';
 
 const StyledList = styled.ul`
@@ -105,7 +104,7 @@ const TopMenu = () => {
   return (
     <CSSTransition
       in={navPosition === 'menu-top'}
-      timeout={1000}
+      timeout={900}
       classNames="menu-top"
       unmountOnExit
     >
