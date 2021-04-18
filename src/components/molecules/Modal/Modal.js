@@ -62,8 +62,8 @@ const StyledModalContent = styled.div`
     && css`
       height: 40%;
     `}
-      scrollbar-color: black green;
-  scrollbar-width: thin;
+      scrollbar-color: ${({ theme }) => theme.appBackgroundColor};
+      scrollbar-width: thin;
 
   &::-webkit-scrollbar {
     width: 9px;
@@ -197,7 +197,7 @@ const Modal = ({
 Modal.propTypes = {
   mdlHeader: PropTypes.PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   mdlHeaderIcon: PropTypes.instanceOf(Array),
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   mdlShow: PropTypes.bool,
   resetFunc: PropTypes.func.isRequired,
   mdlSmall: PropTypes.bool,
@@ -220,6 +220,7 @@ Modal.defaultProps = {
   confirmDangerFunc: undefined,
   buttonConfirmDangerLabel: null,
   buttonConfirmDangerLabelIcon: [],
+  children: undefined,
 };
 
 export default Modal;
