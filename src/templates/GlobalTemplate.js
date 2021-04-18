@@ -4,9 +4,9 @@ import { ThemeProvider } from 'styled-components';
 import GlobalStyle from 'themes/GlobalStyle';
 import PropTypes from 'prop-types';
 import { ThemeMixer } from 'themes/ThemeMixer';
-import { NotificationContainer } from 'react-notifications';
 import { useAppSettings } from 'hooks/useAppSettings';
-import './notification.css';
+import 'react-toastify/dist/ReactToastify.css';
+import { StyledContainer } from 'components/atoms/Toast/Toast';
 
 const GlobalTemplate = ({ children }) => {
   const pageInitSettings = {
@@ -49,7 +49,7 @@ const GlobalTemplate = ({ children }) => {
       }}
     >
       <GlobalStyle />
-      <NotificationContainer leaveTimeout={100} />
+      <StyledContainer />
       <ThemeProvider theme={theme}>
         <>{children}</>
       </ThemeProvider>
