@@ -1,98 +1,115 @@
-/* eslint-disable no-underscore-dangle */
 import React, { useContext, useState, useEffect } from 'react';
 import * as Yup from 'yup';
-import { NavLink, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
 import { AuthContext, PageContext } from 'context';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { articleTypesPagePhrazes } from 'languages/articleTypesPagePhrazes';
 import { commonPhrazes } from 'languages/commonPhrazes';
-import { useNotification } from 'hooks/useNotification';
 import FormikInput from 'components/molecules/FormikInput/FormikInput';
 import FormikSelect from 'components/molecules/FormikSelect/FormikSelect';
 import InlineSwitcher from 'components/molecules/InlineSwitcher/InlineSwitcher';
-import Link from 'components/atoms/Link/Link';
 import Spinner from 'components/atoms/Spinner/Spinner';
 import CodemirrorTab from 'components/molecules/CodemirrorTab/CodemirrorTab';
 import Button from 'components/atoms/Button/Button';
 import Divider from 'components/atoms/Divider/Divider';
 import ErrorBox from 'components/molecules/ErrorBox/ErrorBox';
 
-const StyledFormWrapper = styled.div``;
+const StyledFormWrapper = styled.div`
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  & > div:nth-of-type(1) {
+    flex-grow: 0.3;
+    justify-items: center;
+    align-items: center;
+    margin-right: 20px;
+  }
+  & > div:nth-of-type(2) {
+    flex-grow: 3;
+  }
+`;
 
 const StyledInputsWrapper = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 0 70px 0 30px;
+  flex-direction: column;
+  justify-content: start;
 `;
 
 const StyledEditorWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
+  margin-top: 20px;
 `;
 
 const StyledCodemirrorWrapper = styled.div`
-  flex-grow: 5;
+  max-width: 830px;
 `;
 
 const StyledButtonsWrapper = styled.div`
-  max-width: 81px;
+  max-width: 250px;
   display: flex;
-  flex-shrink: 1;
-  flex-direction: column;
-  align-content: space-around;
-  margin-right: 50px;
+  align-items: start;
+  margin: 20px 20px 0 0;
   > button {
-    margin-bottom: 20px;
+    margin-right: 20px;
+  }
+`;
+
+const StyledControlsWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+
+  & > div:nth-of-type(2) {
+    margin-top: 15px;
   }
 `;
 
 const ArticleTypeForm = () => {
+  const { push } = useHistory();
   const { lang } = useContext(PageContext);
   const auth = useContext(AuthContext);
-  const { addErrorNotification, addSuccessNotification } = useNotification();
-  const baseUrl = process.env.REACT_APP_BASE_API_URL;
   const iteoptionItems = [
     { value: 'category', label: commonPhrazes[lang].category },
     { value: 'serie', label: commonPhrazes[lang].serie },
   ];
 
+  const [isLoading, setIsLoadig] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isError, setIsError] = useState(false);
   const [articleTypeId, setaAticleTypeId] = useState();
-  const [isLoading, setIsLoadnig] = useState(false);
-  const [descriptionPL, setDescriptionPL] = useState('dupa');
-  const [descriptionEN, setDescriptionEN] = useState('dupa');
+  const [descriptionPL, setDescriptionPL] = useState('\n\n\n\n\n');
+  const [descriptionEN, setDescriptionEN] = useState('\n\n\n\n\n');
 
   const { atid } = useParams();
 
+  // get data is atid is in params
   useEffect(() => {
     if (atid) {
-      const fetchData = async () => {
-        try {
-          setIsLoadnig(true);
-          const response = await fetch(`${baseUrl}/article-type/${atid}`);
-          const responseData = await response.json();
-          if (response.ok) {
-            setaAticleTypeId(atid);
-            formik.setFieldValue('name', responseData.name, false);
-            formik.setFieldValue('type', responseData.type, false);
-            formik.setFieldValue('icon', responseData.icon, false);
-            formik.setFieldValue('isEnabled', responseData.isEnabled);
-            setDescriptionPL(responseData.description.pl);
-            setDescriptionEN(responseData.description.en);
-            setIsLoadnig(false);
-          } else {
-            setIsError({ status: response.status, message: responseData.message });
-            setIsLoadnig(false);
+      setIsLoadig(true);
+      axios
+        .get(`/article-type/${atid}`)
+        .then((response) => {
+          setaAticleTypeId(response.data._id);
+          formik.setFieldValue('name', response.data.name, false);
+          formik.setFieldValue('type', response.data.type, false);
+          formik.setFieldValue('icon', response.data.icon, false);
+          formik.setFieldValue('isEnabled', response.data.isEnabled);
+          setDescriptionPL(response.data.description.pl);
+          setDescriptionEN(response.data.description.en);
+          setIsLoadig(false);
+        })
+        .catch((error) => {
+          if (error.response) {
+            setIsSubmitted(false);
+            setIsError(error.response.status);
+            console.log(error.response);
           }
-        } catch (error) {
-          console.log(error);
-        }
-      };
-      fetchData();
+        });
     }
   }, []);
 
@@ -120,11 +137,10 @@ const ArticleTypeForm = () => {
       setIsSubmitted(formik.isValid && formik.isSubmitting);
     },
   });
+  // saving data pr create new entry
   const method = articleTypeId ? 'PUT' : 'POST';
-  const url = articleTypeId
-    ? `${baseUrl}/article-type/${articleTypeId}`
-    : `${baseUrl}/article-type`;
-  const body = JSON.stringify({
+  const url = articleTypeId ? `/article-type/${articleTypeId}` : '/article-type';
+  const data = JSON.stringify({
     ...formik.values,
     creator: auth.userId,
     description: {
@@ -132,42 +148,47 @@ const ArticleTypeForm = () => {
       en: descriptionEN,
     },
   });
-  const authHeaders = new Headers();
-  authHeaders.append('Content-Type', 'application/json');
-  authHeaders.append('Authorization', `Bearer ${auth.token}`);
   useEffect(() => {
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${auth.token}`,
+    };
     if (isSubmitted) {
-      const fetchData = async () => {
-        try {
-          const response = await fetch(url, { method, headers: authHeaders, body });
-          const responseData = await response.json();
-          setaAticleTypeId(responseData._id);
+      axios({
+        method,
+        url,
+        data,
+        headers,
+      })
+        .then((response) => {
+          console.log(response);
+          response.status === 200
+            && toast.success(commonPhrazes[lang].savedData, { autoClose: 2500 });
+          if (response.status === 201) {
+            setaAticleTypeId(response.data._id);
+            toast.success(commonPhrazes[lang].createdItem, { autoClose: 2500 });
+          }
           setIsSubmitted(false);
-
-          if (response.ok) {
-            response.status === 200 && addSuccessNotification(commonPhrazes[lang].savedData);
-            response.status === 201 && addSuccessNotification(commonPhrazes[lang].createdItem);
+        })
+        .catch((error) => {
+          if (error.response) {
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+            toast.error(error.response.data.message, { autoClose: 2500 });
+            setIsSubmitted(false);
           }
-
-          if (!response.ok) {
-            addErrorNotification(responseData.message);
-          }
-        } catch (error) {
-          addErrorNotification(error.message);
-        }
-      };
-
-      fetchData();
+        });
     }
   }, [isSubmitted]);
 
   return (
     <>
-      {isLoading && !isSubmitted && <Spinner text={commonPhrazes[lang].loading} />}
-      {isError && <ErrorBox errorCode={isError.status} />}
+      {isLoading && !isSubmitted && !isError && <Spinner text={commonPhrazes[lang].loading} />}
+      {isError && <ErrorBox errorCode={isError} />}
       {!isLoading && !isError && (
-        <StyledFormWrapper className="fadeIn">
-          <form onSubmit={formik.handleSubmit} style={{ position: 'relative' }}>
+        <form onSubmit={formik.handleSubmit} style={{ position: 'relative' }}>
+          <StyledFormWrapper className="fadeIn">
             <StyledInputsWrapper>
               <FormikInput
                 type="text"
@@ -191,47 +212,46 @@ const ArticleTypeForm = () => {
                 errors={formik.errors.icon}
                 placeholder={articleTypesPagePhrazes[lang].addIcon}
               />
-              <FormikSelect
-                name="type"
-                label={articleTypesPagePhrazes[lang].type}
-                optionItems={iteoptionItems}
-                placeholder={commonPhrazes[lang].choose}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.type}
-                touched={formik.touched.type}
-                errors={formik.errors.type}
-              />
-              <InlineSwitcher
-                isChecked={formik.values.isEnabled}
-                change={formik.handleChange}
-                switchColor="green"
-                notCheckedColor="red"
-                label={commonPhrazes[lang].published}
-                labelBefore={commonPhrazes[lang].no}
-                labelAfter={commonPhrazes[lang].yes}
-                switchName="isEnabled"
-              />
-            </StyledInputsWrapper>
-            <Divider />
-            <StyledEditorWrapper>
-              <StyledButtonsWrapper>
-                <Button
-                  type="submit"
-                  label={commonPhrazes[lang].save}
-                  btnColor="green"
-                  labelIcon={['far', 'save']}
+              <StyledControlsWrapper>
+                <FormikSelect
+                  name="type"
+                  label={articleTypesPagePhrazes[lang].type}
+                  optionItems={iteoptionItems}
+                  placeholder={commonPhrazes[lang].choose}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.type}
+                  touched={formik.touched.type}
+                  errors={formik.errors.type}
                 />
-
-                <Link as={NavLink} to="/admin/article-types">
-                  <Button
-                    type="button"
-                    label={commonPhrazes[lang].exit}
-                    btnColor="secondary"
-                    labelIcon={['fas', 'door-open']}
-                  />
-                </Link>
+                <InlineSwitcher
+                  isChecked={formik.values.isEnabled}
+                  change={formik.handleChange}
+                  switchColor="green"
+                  notCheckedColor="red"
+                  label={commonPhrazes[lang].published}
+                  labelBefore={commonPhrazes[lang].no}
+                  labelAfter={commonPhrazes[lang].yes}
+                  switchName="isEnabled"
+                />
+              </StyledControlsWrapper>
+              <Divider />
+              <StyledButtonsWrapper>
+                <Button type="submit" btnColor="green" labelIcon={['far', 'save']}>
+                  <FontAwesomeIcon icon={['far', 'save']} fixedWidth />
+                  {commonPhrazes[lang].save}
+                </Button>
+                <Button
+                  type="button"
+                  btnColor="indygo"
+                  btnClick={() => push('/admin/article-types')}
+                >
+                  <FontAwesomeIcon icon={['fas', 'sign-out-alt']} fixedWidth />
+                  {commonPhrazes[lang].close}
+                </Button>
               </StyledButtonsWrapper>
+            </StyledInputsWrapper>
+            <StyledEditorWrapper>
               <StyledCodemirrorWrapper>
                 <CodemirrorTab
                   labelFirst={commonPhrazes[lang].descriptionPL}
@@ -245,8 +265,8 @@ const ArticleTypeForm = () => {
                 />
               </StyledCodemirrorWrapper>
             </StyledEditorWrapper>
-          </form>
-        </StyledFormWrapper>
+          </StyledFormWrapper>
+        </form>
       )}
     </>
   );

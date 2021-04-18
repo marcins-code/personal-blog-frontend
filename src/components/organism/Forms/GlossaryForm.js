@@ -1,80 +1,71 @@
 /* eslint-disable no-unused-vars */
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable quote-props */
-import React, {
-  useContext, useState, useEffect, useCallback, useReducer,
-} from 'react';
-import { NavLink, useParams } from 'react-router-dom';
+import React, { useContext, useState, useEffect } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { AuthContext, PageContext } from 'context';
 import { commonPhrazes } from 'languages/commonPhrazes';
 import { glossaryPagePhrazes } from 'languages/glossaryPagePhrazes';
-import { useNotification } from 'hooks/useNotification';
 import FormikInput from 'components/molecules/FormikInput/FormikInput';
 import InlineSwitcher from 'components/molecules/InlineSwitcher/InlineSwitcher';
 import Button from 'components/atoms/Button/Button';
 import Divider from 'components/atoms/Divider/Divider';
-import Link from 'components/atoms/Link/Link';
 import CodemirrorTab from 'components/molecules/CodemirrorTab/CodemirrorTab';
 import Spinner from 'components/atoms/Spinner/Spinner';
 import ErrorBox from 'components/molecules/ErrorBox/ErrorBox';
-import axios from 'axios';
 
 const StyledInputsWrapper = styled.div`
   display: flex;
-  flex-basis: 100px;
+  flex-direction: row;
   flex-flow: row wrap;
-  justify-content: space-evenly;
-  padding: 0 70px 0 30px;
+  justify-content: start;
   & > div:nth-of-type(1) {
-    flex-shrink: 0.5;
-  }
-  & > div:nth-of-type(2) {
     flex-grow: 2;
   }
-  & > div:nth-of-type(3) {
-    flex-shrink: 0.5;
+  & > div:nth-of-type(2) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 `;
 
 const StyledEditorWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
+  margin-top: 30px;
 `;
 
 const StyledCodemirrorWrapper = styled.div`
-  flex-grow: 5;
+  flex-grow: 2;
+  margin-left: 30px;
 `;
 
 const StyledButtonsWrapper = styled.div`
-  max-width: 81px;
+  min-width: 150px;
   display: flex;
-  flex-shrink: 1;
   flex-direction: column;
-  align-content: space-around;
-  margin-right: 50px;
+  flex-shrink: 0.5;
   > button {
     margin-bottom: 20px;
   }
 `;
 
 const GlossaryForm = (props) => {
+  const { push } = useHistory();
   const { gid } = useParams();
-  console.log(gid);
   const { lang } = useContext(PageContext);
   const auth = useContext(AuthContext);
-  const { addErrorNotification, addSuccessNotification } = useNotification();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [entryId, setEntryId] = useState();
-  const [descriptionPL, setDescriptionPL] = useState('dupa');
-  const [descriptionEN, setDescriptionEN] = useState('dupa');
+  const [descriptionPL, setDescriptionPL] = useState('');
+  const [descriptionEN, setDescriptionEN] = useState('');
   const [isLoading, setIsLoadnig] = useState(false);
   const [isError, setIsError] = useState(false);
-
-  const axiosOptions = { headers: { Authorization: `Bearer ${auth.token}` } };
 
   useEffect(() => {
     if (gid) {
@@ -87,25 +78,20 @@ const GlossaryForm = (props) => {
           formik.setFieldValue('explication', response.data.explication, false);
           formik.setFieldValue('icon', response.data.icon, false);
           formik.setFieldValue('isEnabled', response.data.isEnabled);
-          setDescriptionPL(response.data.description.pl);
-          setDescriptionEN(response.data.description.en);
+          setDescriptionPL(response.data.description.pl || '');
+          setDescriptionEN(response.data.description.en || '');
           setIsLoadnig(false);
         })
         .catch((error) => {
-          console.log(error.response);
-          setIsError(error.response.status);
-          setIsLoadnig(false);
+          if (error.response) {
+            setIsSubmitted(false);
+            setIsError(error.response.status);
+            console.log(error.response);
+          }
         });
     }
   }, []);
 
-  const clickHandler = useCallback((e) => {
-    console.log(e.target.checked);
-  });
-
-  const [_, forceUpdate] = useReducer((x) => x + 1, 0);
-
-  console.log(entryId);
   const formik = useFormik({
     initialValues: {
       abbreviation: '',
@@ -129,57 +115,61 @@ const GlossaryForm = (props) => {
       setIsSubmitted(formik.isValid && formik.isSubmitting);
     },
   });
-  const body = {
+  // const body = {
+  //   ...formik.values,
+  //   creator: auth.userId,
+  //   description: {
+  //     pl: descriptionPL,
+  //     en: descriptionEN,
+  //   },
+  // };
+
+  const method = entryId ? 'PUT' : 'POST';
+  const url = entryId ? `/glossary/${entryId}` : '/glossary';
+  const data = JSON.stringify({
     ...formik.values,
     creator: auth.userId,
     description: {
       pl: descriptionPL,
       en: descriptionEN,
     },
-  };
-  console.log(entryId);
-
+  });
   useEffect(() => {
-    if (isSubmitted && !entryId) {
-      axios
-        .post('/glossary', body, axiosOptions)
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${auth.token}`,
+    };
+    if (isSubmitted) {
+      axios({
+        method,
+        url,
+        data,
+        headers,
+      })
         .then((response) => {
-          setIsSubmitted(false);
-          setEntryId(response.data._id);
-          response.status === 201 && addSuccessNotification(commonPhrazes[lang].createdItem);
           console.log(response);
+          response.status === 200
+            && toast.success(commonPhrazes[lang].savedData, { autoClose: 2500 });
+          if (response.status === 201) {
+            entryId(response.data._id);
+            toast.success(commonPhrazes[lang].createdItem, { autoClose: 2500 });
+          }
+          setIsSubmitted(false);
         })
         .catch((error) => {
           if (error.response) {
-            setIsSubmitted(false);
-            // Request made and server responded
             console.log(error.response.data);
             console.log(error.response.status);
             console.log(error.response.headers);
-          }
-        });
-    }
-    if (isSubmitted && entryId) {
-      axios
-        .put(`/glossary/${entryId}`, body, axiosOptions)
-        .then((response) => {
-          setIsSubmitted(false);
-          console.log(response);
-          response.status === 200 && addSuccessNotification(commonPhrazes[lang].savedData);
-          // response.statusText !== 'OK' && addErrorNotification(response.data.message);
-        })
-        .catch((error, response) => {
-          if (error.response) {
+            toast.error(error.response.data.message, { autoClose: 2500 });
             setIsSubmitted(false);
-            console.log(error.response);
           }
         });
     }
   }, [isSubmitted]);
-
   return (
     <>
-      {isLoading && !isSubmitted && <Spinner text={commonPhrazes[lang].loading} />}
+      {isLoading && !isSubmitted && !isError && <Spinner text={commonPhrazes[lang].loading} />}
       {isError && <ErrorBox errorCode={isError} />}
       {!isLoading && !isError && (
         <div className="fadeIn">
@@ -188,69 +178,65 @@ const GlossaryForm = (props) => {
             style={{ position: 'relative', display: 'flex-block' }}
           >
             <StyledInputsWrapper className="inputs-wrapper">
-              <FormikInput
-                type="text"
-                name="abbreviation"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                label={glossaryPagePhrazes[lang].abbr}
-                value={formik.values.abbreviation.trimStart()}
-                touched={formik.touched.abbreviation}
-                errors={formik.errors.abbreviation}
-                placeholder={glossaryPagePhrazes[lang].enterAbbr}
-              />
-              <FormikInput
-                type="text"
-                name="explication"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                label={glossaryPagePhrazes[lang].explication}
-                value={formik.values.explication.trimStart()}
-                touched={formik.touched.explication}
-                errors={formik.errors.explication}
-                placeholder={glossaryPagePhrazes[lang].enterExpl}
-              />
-              <FormikInput
-                type="text"
-                name="icon"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                label={commonPhrazes[lang].icon}
-                value={formik.values.icon.trimStart()}
-                touched={formik.touched.icon}
-                errors={formik.errors.icon}
-                placeholder={glossaryPagePhrazes[lang].addIcon}
-              />
-              <InlineSwitcher
-                isChecked={formik.values.isEnabled}
-                change={formik.handleChange}
-                onClick={forceUpdate}
-                switchColor="green"
-                notCheckedColor="red"
-                label={commonPhrazes[lang].published}
-                labelBefore={commonPhrazes[lang].no}
-                labelAfter={commonPhrazes[lang].yes}
-                switchName="isEnabled"
-              />
+              <div>
+                <FormikInput
+                  type="text"
+                  name="abbreviation"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  label={glossaryPagePhrazes[lang].abbr}
+                  value={formik.values.abbreviation.trimStart()}
+                  touched={formik.touched.abbreviation}
+                  errors={formik.errors.abbreviation}
+                  placeholder={glossaryPagePhrazes[lang].enterAbbr}
+                />
+                <FormikInput
+                  type="text"
+                  name="explication"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  label={glossaryPagePhrazes[lang].explication}
+                  value={formik.values.explication.trimStart()}
+                  touched={formik.touched.explication}
+                  errors={formik.errors.explication}
+                  placeholder={glossaryPagePhrazes[lang].enterExpl}
+                />
+              </div>
+              <div>
+                <FormikInput
+                  type="text"
+                  name="icon"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  label={commonPhrazes[lang].icon}
+                  value={formik.values.icon.trimStart()}
+                  touched={formik.touched.icon}
+                  errors={formik.errors.icon}
+                  placeholder={glossaryPagePhrazes[lang].addIcon}
+                />
+                <InlineSwitcher
+                  isChecked={formik.values.isEnabled}
+                  change={formik.handleChange}
+                  switchColor="green"
+                  notCheckedColor="red"
+                  label={commonPhrazes[lang].published}
+                  labelBefore={commonPhrazes[lang].no}
+                  labelAfter={commonPhrazes[lang].yes}
+                  switchName="isEnabled"
+                />
+              </div>
             </StyledInputsWrapper>
             <Divider />
             <StyledEditorWrapper>
               <StyledButtonsWrapper>
-                <Button
-                  type="submit"
-                  label={commonPhrazes[lang].save}
-                  btnColor="green"
-                  labelIcon={['far', 'save']}
-                />
-
-                <Link as={NavLink} to="/admin/glossary">
-                  <Button
-                    type="button"
-                    label={commonPhrazes[lang].exit}
-                    btnColor="secondary"
-                    labelIcon={['fas', 'door-open']}
-                  />
-                </Link>
+                <Button type="submit" btnColor="green" labelIcon={['far', 'save']}>
+                  <FontAwesomeIcon icon={['far', 'save']} fixedWidth />
+                  {commonPhrazes[lang].save}
+                </Button>
+                <Button type="button" btnColor="indygo" btnClick={() => push('/admin/glossary')}>
+                  <FontAwesomeIcon icon={['fas', 'sign-out-alt']} fixedWidth />
+                  {commonPhrazes[lang].close}
+                </Button>
               </StyledButtonsWrapper>
               <StyledCodemirrorWrapper>
                 <CodemirrorTab
