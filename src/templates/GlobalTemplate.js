@@ -11,7 +11,7 @@ import { StyledContainer } from 'components/atoms/Toast/Toast';
 const GlobalTemplate = ({ children }) => {
   const pageInitSettings = {
     appTheme: 'dark',
-    navPosition: 'sidebar',
+    navPosition: 'menu-top',
     sidebarTheme: 'dark',
     lang: 'pl',
   };
