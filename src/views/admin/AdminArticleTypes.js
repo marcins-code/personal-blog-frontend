@@ -166,7 +166,6 @@ const AdminArticleTypes = () => {
       };
       axios.delete(`/article-type/${clickedRecordID}`, { headers }).then((response) => {
         if (response.status === 200) {
-          console.log(response);
           setFetchedData(
             fetchedData && fetchedData.filter((item) => item._id !== response.data.id),
           );
