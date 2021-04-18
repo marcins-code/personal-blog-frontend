@@ -26,5 +26,3 @@ export const commonColors = {
   light: '#b3b3b3',
   blue: '#006ba9',
 };
-
-// TODO color adjustment
