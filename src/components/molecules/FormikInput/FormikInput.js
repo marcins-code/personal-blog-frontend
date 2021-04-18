@@ -12,6 +12,7 @@ const StyledInput = styled.input`
   padding: 0 10px;
   outline: none;
   border-radius:10px;
+  width: 100%;
   /* background-color: ${({ theme }) => theme.whiteHalf}; */
   &.success {
     border-color: #639a72;
