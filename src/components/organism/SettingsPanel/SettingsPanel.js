@@ -6,7 +6,7 @@ import InlineSwitcher from 'components/molecules/InlineSwitcher/InlineSwitcher';
 import { settingsPanelItems } from 'languages/menus';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { CSSTransition } from 'react-transition-group';
-import LangSwitcher from 'components/organism/LangSwitcher/LangSwitcher';
+import LangSwitcher from 'components/molecules/LangSwitcher/LangSwitcher';
 import { darken } from 'polished';
 import './animation.css';
 
@@ -202,8 +202,8 @@ const SettingsPanel = () => {
                 <InlineSwitcher
                   switchName="layoutChange"
                   isChecked={navPosition === 'sidebar'}
-                  switchColor="blue"
-                  notCheckedColor="cyan"
+                  switchColor="indygo"
+                  notCheckedColor="blue"
                   change={navPositionHandler}
                   labelBefore="Top Menu"
                   labelAfter="Sidebar"
@@ -219,7 +219,7 @@ const SettingsPanel = () => {
             <InlineSwitcher
               switchName="remeberSettings"
               isChecked={remeberSettings}
-              switchColor="orange"
+              switchColor="blue"
               change={remeberSettingsHandler}
             />
           </StyledSectionWrapper>
