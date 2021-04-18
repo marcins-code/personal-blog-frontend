@@ -6,10 +6,13 @@ import FormikInput from 'components/molecules/FormikInput/FormikInput';
 import Button from 'components/atoms/Button/Button';
 import styled from 'styled-components';
 import { AuthContext } from 'context';
-import Spinner from 'components/molecules/Spinner/Spinner';
+import Spinner from 'components/atoms/Spinner/Spinner';
+import Card from 'components/molecules/Card/Card';
+import Link from 'components/atoms/Link/Link';
 
 const StyleWraperr = styled.div`
   position: relative;
+  padding-top: 50px;
 `;
 
 const LoginForm = (props) => {
@@ -63,8 +66,8 @@ const LoginForm = (props) => {
   });
 
   return (
-    <>
-      <StyleWraperr>
+    <StyleWraperr>
+      <Card cardColor="green" cardMedium cardCenter title="Logowanie">
         {isLoading && <Spinner />}
         {!auth.isLoggedIn ? (
           <form onSubmit={formik.handleSubmit}>
@@ -88,16 +91,30 @@ const LoginForm = (props) => {
               touched={formik.touched.password}
               errors={formik.errors.password}
             />
-            <Button labelIcon={['far', 'eye']} type="submit" btnColor="secondary" label="Zaloguj" />
+            <Button
+              labelIcon={['fas', 'sign-in-alt']}
+              type="submit"
+              btnColor="primary"
+              label="Zaloguj"
+            />
+            <Button
+              labelIcon={['fas', 'sign-in-alt']}
+              type="submit"
+              btnColor="secondary"
+              label="Zaloguj"
+            />
           </form>
         ) : (
           <>
             <h3>{`Jesteś zalogowany jako ${auth.userFirstName} ${auth.userLastName}`}</h3>
-            <Button type="button" btnClick={auth.logout} label="logout" />
+            <Button type="button" btnClick={auth.logout} label="logout" btnColor="indygo" />
           </>
         )}
-      </StyleWraperr>
-    </>
+      </Card>
+      <Link btn btnColor="blue">
+        qwfqwqwfqwf
+      </Link>
+    </StyleWraperr>
   );
 };
 
