@@ -273,5 +273,3 @@ const ArticleTypeForm = () => {
 };
 
 export default ArticleTypeForm;
-
-// TODO refactor useApi, create fading wrapper as separate component
