@@ -1,211 +1,274 @@
-/* eslint-disable no-underscore-dangle */
 import React, {
   useContext, useState, useCallback, useEffect,
 } from 'react';
-import { NavLink } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import { PageContext } from 'context';
-import MainTemplate from 'templates/MainTemplate';
-import AdminPageWrapper from 'components/atoms/Wrappers/AdminPageWrapper';
+import axios from 'axios';
+import parse from 'html-react-parser';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { toast } from 'react-toastify';
+import { PageContext, AuthContext } from 'context';
 import { articleTypesPagePhrazes } from 'languages/articleTypesPagePhrazes';
 import { commonPhrazes } from 'languages/commonPhrazes';
-import { useApi } from 'hooks/useAPI';
-import Table from 'components/molecules/Table/Table';
-import Button from 'components/atoms/Button/Button';
+import MainTemplate from 'templates/MainTemplate';
+import AdminPageWrapper from 'components/atoms/Wrappers/AdminPageWrapper';
 import PageHeader from 'components/molecules/PageHeader/PageHeader';
-import Link from 'components/atoms/Link/Link';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Button from 'components/atoms/Button/Button';
 import Spinner from 'components/atoms/Spinner/Spinner';
-import FunctionalModal from 'components/organism/FunctionalModal/FunctionalModal';
-
-const StyledAdminPageWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-`;
+import Modal from 'components/molecules/Modal/Modal';
+import Table from 'components/molecules/Table/Table';
 
 const StyledSubheader = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-between;
   align-content: center;
-  margin-bottom: 20px;
+  margin: 20px 0;
+`;
+const StyledButtonsCell = styled.td`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  > button,
+  a {
+    margin-right: 15px;
+  }
 `;
 
 const AdminArticleTypes = () => {
+  const { push } = useHistory();
   const { lang } = useContext(PageContext);
-  const header = [
+  const auth = useContext(AuthContext);
+  const tableHeader = [
     { id: 1, title: articleTypesPagePhrazes[lang].name },
     { id: 3, title: articleTypesPagePhrazes[lang].type },
     { id: 5, title: articleTypesPagePhrazes[lang].icon },
     { id: 2, title: commonPhrazes[lang].published },
     { id: 4, title: articleTypesPagePhrazes[lang].author },
-    { id: 6, title: articleTypesPagePhrazes[lang].createdAt },
+    { id: 6, title: commonPhrazes[lang].createdAt },
     { id: 8, title: '' },
   ];
 
+  // // initial request to db
   const [fetchedData, setFetchedData] = useState();
-  const [loadFfetchedData, setFLoadFetchedData] = useState(false);
-
-  const { isLoading, resultData } = useApi('/article-type', 'GET', null, true, () => {});
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
-    setFetchedData(resultData);
-    setFLoadFetchedData(isLoading);
-  }, [resultData, isLoading]);
+    setIsLoading(true);
+    axios
+      .get('/article-type')
+      .then((respose) => {
+        setFetchedData(respose.data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        console.log(error);
+      });
+  }, []);
 
-  const [recordID, setRecordID] = useState('');
-  const [recordName, setRecordName] = useState();
-  const [viewItem, setViewItem] = useState(false);
-  const [deletedID, setDeletedID] = useState(false);
-  const [deletedItem, setDeletedItem] = useState(false);
+  // preparation record for modals
+  // get record id
+  const [clickedRecordID, setClickedRecordID] = useState('');
   const getRecordID = useCallback(
     (e) => {
-      setRecordID(e.target.closest('tr').id);
+      setClickedRecordID(e.target.closest('tr').id);
     },
-    [recordID],
+    [clickedRecordID],
   );
-
+  // get record name
+  const [clickedRecordName, setClickedRecordName] = useState();
   const getRecordName = useCallback(
     (e) => {
-      setRecordName(e.target.closest('tr').dataset.name);
+      setClickedRecordName(e.target.closest('tr').dataset.name);
     },
-    [recordName],
+    [clickedRecordName],
   );
 
-  const setRecordToview = useCallback(
+  // ------------Preview Modal---------------------------
+  // manage modal prewiev visibilty and data
+  const [showPreviewModal, setShowPreviewModal] = useState(false);
+  const showPreviewModalHandler = useCallback(
     (e) => {
       getRecordID(e);
-      setViewItem(true);
-    },
-    [viewItem],
-  );
-
-  const setRecordDelete = useCallback(
-    (e) => {
       getRecordName(e);
-      getRecordID(e);
-      setDeletedItem(true);
+      setShowPreviewModal(true);
     },
-    [viewItem],
+    [setShowPreviewModal],
+  );
+
+  // reset modal prewiev visibilty and data
+  const resetPreviewModalHandler = useCallback(() => {
+    setClickedRecordID();
+    setTimeout(() => {
+      setClickedRecordName();
+      setModalContent();
+    }, 500);
+    setShowPreviewModal(false);
+  });
+
+  // get data and set modal content
+  const [modalContent, setModalContent] = useState(false);
+  useEffect(() => {
+    if (showPreviewModal) {
+      axios
+        .get(`/article-type/${clickedRecordID}`)
+        .then((response) => {
+          setModalContent(parse(response.data.description[lang]));
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [showPreviewModal, setModalContent, lang]);
+
+  // ------------Delete Modal---------------------------
+  // manage modal prewiev visibilty and data
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const showDeleteModalHandler = useCallback(
+    (e) => {
+      getRecordID(e);
+      getRecordName(e);
+      setShowDeleteModal(true);
+    },
+    [setShowDeleteModal],
+  );
+
+  // reset modal delete visibilty and data
+  const resetDeleteModalHandler = useCallback(() => {
+    setClickedRecordID();
+    setClickedRecordName();
+    setModalContent();
+    setShowDeleteModal(false);
+  });
+
+  // add delete modal content
+  useEffect(() => {
+    setModalContent(
+      parse(`<br />${commonPhrazes[lang].confirmDeletion} <strong>${clickedRecordName}</strong>`),
+    );
+  }, [showDeleteModal, lang]);
+
+  // confirmation deletion
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const deleteConfiramtionHandler = useCallback(
+    (e) => {
+      setConfirmDelete(true);
+      setShowDeleteModal(false);
+    },
+    [confirmDelete],
   );
 
   useEffect(() => {
-    setFetchedData(fetchedData && fetchedData.filter((item) => item._id !== deletedID));
-    return () => {
-      setDeletedID(null);
-    };
-  }, [deletedID, resultData]);
+    if (confirmDelete) {
+      const headers = {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${auth.token}`,
+      };
+      axios.delete(`/article-type/${clickedRecordID}`, { headers }).then((response) => {
+        if (response.status === 200) {
+          console.log(response);
+          setFetchedData(
+            fetchedData && fetchedData.filter((item) => item._id !== response.data.id),
+          );
+          toast.success(commonPhrazes[lang].deletionSuccess, { autoClose: 3500 });
+          setConfirmDelete(false);
+          setClickedRecordID();
+          setClickedRecordName();
+          setModalContent();
+        }
+      });
+    }
+  }, [confirmDelete]);
 
   return (
     <MainTemplate>
-      <FunctionalModal
-        modalShow={!!viewItem}
-        modalType="preview"
-        resetFunc={setViewItem}
-        elemetId={recordID}
-      />
-      <FunctionalModal
-        modalShow={!!deletedItem}
-        modalType="delete"
-        resetFunc={setDeletedItem}
-        elemetId={recordID}
-        returnDeletedId={setDeletedID}
-        recordTitile={recordName}
-      />
+      <Modal
+        mdlShow={showPreviewModal}
+        buttonClose
+        resetFunc={resetPreviewModalHandler}
+        mdlHeader={clickedRecordName}
+        mdlHeaderIcon={['far', 'eye']}
+      >
+        {!modalContent ? <Spinner text={commonPhrazes[lang].loading} /> : modalContent}
+      </Modal>
+      <Modal
+        mdlShow={showDeleteModal}
+        buttonConfirmDanger
+        mdlSmall
+        noBackdropClose
+        resetFunc={resetDeleteModalHandler}
+        mdlHeader={commonPhrazes[lang].confirm}
+        mdlHeaderIcon={['fas', 'exclamation']}
+        buttonConfirmDangerLabelIcon={['far', 'trash-alt']}
+        confirmDangerFunc={deleteConfiramtionHandler}
+      >
+        {modalContent}
+      </Modal>
       <AdminPageWrapper>
-        <StyledAdminPageWrapper>
-          <PageHeader title={articleTypesPagePhrazes[lang].title} icon={['fas', 'stream']} />
-          {loadFfetchedData ? (
-            <Spinner text={commonPhrazes[lang].loading} />
-          ) : (
-            <>
-              <StyledSubheader>
-                <p>
-                  {`${commonPhrazes[lang].founded} `}
-                  {resultData && resultData.length}
-                  {` ${commonPhrazes[lang].records}`}
-                </p>
-                <NavLink to="/admin/manage-article-type" style={{ float: 'rigth' }}>
+        <PageHeader title={articleTypesPagePhrazes[lang].title} icon={['fas', 'stream']} />
+        <StyledSubheader>
+          <p>
+            {`${commonPhrazes[lang].founded} `}
+            {fetchedData && fetchedData.length}
+            {` ${commonPhrazes[lang].records}`}
+          </p>
+          <Button
+            type="button"
+            btnColor="green"
+            btnClick={() => push('/admin/manage-article-type')}
+          >
+            <FontAwesomeIcon icon={['fas', 'plus-circle']} fixedWidth transform="left-2" />
+            {' '}
+            {articleTypesPagePhrazes[lang].newType}
+          </Button>
+        </StyledSubheader>
+        {isLoading && <Spinner text={commonPhrazes[lang].loading} />}
+        {fetchedData && fetchedData.length === 0 && <p>No entries yet</p>}
+        {fetchedData && fetchedData.length > 0 && (
+          <Table headerItems={tableHeader} className="fadeIn" tblHover tblStripped tblColor="blue">
+            {fetchedData.map((item) => (
+              <tr key={item._id} id={item._id} data-name={item.name}>
+                <td>{item.name}</td>
+                <td>
+                  {item.type === 'serie' ? commonPhrazes[lang].serie : commonPhrazes[lang].category}
+                </td>
+                <td>
+                  {item.icon && item.icon.length > 0 && (
+                    <FontAwesomeIcon icon={item.icon.split(' ')} size="lg" fixedWidth />
+                  )}
+                </td>
+                <td>
+                  <FontAwesomeIcon
+                    icon={item.isEnabled ? ['far', 'check-circle'] : ['far', 'times-circle']}
+                    size="lg"
+                    style={item.isEnabled ? { color: 'green' } : { color: '#a42733' }}
+                  />
+                </td>
+                <td>{`${item.creator.firstName} ${item.creator.lastName}`}</td>
+                <td>{new Date(item.createdAt).toLocaleDateString()}</td>
+                <StyledButtonsCell>
                   <Button
                     type="button"
-                    label={articleTypesPagePhrazes[lang].newType}
-                    labelIcon={['far', 'plus-square']}
-                    btnColor="green"
-                    btnSmall
-                  />
-                </NavLink>
-              </StyledSubheader>
-              <Table
-                headerItems={header}
-                className="fadeIn"
-                tblHover
-                tblHoverColor="blue"
-                tblStripped
-                tblHeaderColor="purple"
-              >
-                {fetchedData
-                  && fetchedData.map((item) => (
-                    <tr key={item._id} id={item._id} data-name={item.name}>
-                      <td id="name">{item.name}</td>
-                      <td>
-                        {item.type === 'serie'
-                          ? commonPhrazes[lang].serie
-                          : commonPhrazes[lang].category}
-                      </td>
-                      <td>
-                        <FontAwesomeIcon icon={item.icon.split(' ')} size="lg" fixedWidth />
-                      </td>
-                      <td>
-                        <FontAwesomeIcon
-                          icon={item.isEnabled ? ['far', 'check-circle'] : ['far', 'times-circle']}
-                          size="lg"
-                          style={item.isEnabled ? { color: 'green' } : { color: '#a42733' }}
-                        />
-                      </td>
-                      <td>{`${item.creator.firstName} ${item.creator.lastName}`}</td>
-                      <td>{new Date(item.createdAt).toLocaleDateString()}</td>
-                      <td
-                        style={{
-                          display: 'flex',
-                          justifyContent: 'space-around',
-                          flexFlow: 'row wrap',
-                        }}
-                      >
-                        <Link
-                          as={NavLink}
-                          to={`/admin/manage-article-type/${item._id}`}
-                          btncolor="blue"
-                        >
-                          <FontAwesomeIcon icon={['far', 'edit']} />
-                        </Link>
+                    btnColor="indygo"
+                    btnClick={() => push(`/admin/manage-article-type/${item._id}`)}
+                  >
+                    <FontAwesomeIcon icon={['fas', 'pen-nib']} fixedWidth />
+                  </Button>
+                  <Button type="button" btnColor="green" btnClick={showPreviewModalHandler}>
+                    <FontAwesomeIcon icon={['far', 'eye']} fixedWidth />
+                  </Button>
 
-                        <Button
-                          type="button"
-                          labelIcon={['far', 'eye']}
-                          btnColor="green"
-                          btnClick={setRecordToview}
-                          btnSmall
-                          btnIcon
-                        />
-
-                        <Button
-                          type="button"
-                          labelIcon={['far', 'trash-alt']}
-                          btnColor="red"
-                          btnClick={setRecordDelete}
-                          btnSmall
-                          btnIcon
-                        />
-                      </td>
-                    </tr>
-                  ))}
-              </Table>
-            </>
-          )}
-        </StyledAdminPageWrapper>
+                  <Button type="button" btnColor="red" btnClick={showDeleteModalHandler}>
+                    <FontAwesomeIcon icon={['far', 'trash-alt']} fixedWidth />
+                  </Button>
+                </StyledButtonsCell>
+              </tr>
+            ))}
+          </Table>
+        )}
       </AdminPageWrapper>
     </MainTemplate>
   );
 };
 
 export default AdminArticleTypes;
-// TODO change actions
