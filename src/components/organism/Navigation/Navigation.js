@@ -40,7 +40,9 @@ const Navigation = () => {
       <ShowMenuButton onClick={() => setShowMobileNav(true)}>
         <FontAwesomeIcon icon={['fas', 'bars']} size="2x" />
       </ShowMenuButton>
-      {showMobileNav && <Backdrop onClick={() => setShowMobileNav(false)} />}
+      {showMobileNav && (
+        <Backdrop onClick={() => setShowMobileNav(false)} bckdShow={showMobileNav} />
+      )}
       <MobileNav isShown={showMobileNav} />
     </>
   );
