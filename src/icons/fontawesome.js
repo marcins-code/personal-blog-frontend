@@ -2,6 +2,7 @@ import {
   faBars,
   faCogs,
   faSignInAlt,
+  faSignOutAlt,
   faExclamationCircle,
   faStream,
   faCaretSquareDown,
@@ -53,4 +54,5 @@ export const icons = {
   faPlusCircle,
   faSignal,
   faPenNib,
+  faSignOutAlt,
 };
