@@ -36,18 +36,18 @@ const CodemirrorTab = ({
       <Button
         style={{ marginRight: '20px' }}
         type="button"
-        btnOutline={!enableFirst}
-        label={labelFirst}
-        btnColor="blue"
+        btnColor={enableFirst ? 'blue' : 'dark'}
         btnClick={enableFirstHandler}
-      />
+      >
+        {labelFirst}
+      </Button>
       <Button
         type="button"
-        btnColor="blue"
-        btnOutline={!enableSecond}
-        label={labelSecond}
+        btnColor={enableSecond ? 'blue' : 'dark'}
         btnClick={enableSecondHandler}
-      />
+      >
+        {labelSecond}
+      </Button>
       {enableFirst ? (
         <CSSTransition in={enableFirst} timeout={2000}>
           <StyledCodemirrorArea>
