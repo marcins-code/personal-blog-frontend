@@ -47,7 +47,7 @@ const Navigation = () => {
         in={showMobileNav}
         mountOnEnter
         unmountOnExit
-        timeout={300}
+        timeout={700}
         classNames={{ enter: 'slide-in-left', exit: 'slide-out-left' }}
       >
         <MobileNav />
