@@ -6,7 +6,7 @@ import { commonPhrazes } from 'languages/commonPhrazes';
 import { PageContext } from 'context';
 
 const StyledErrorCode = styled.h1`
-  font-size: 15rem;
+  font-size: 10rem;
   text-align: center;
   color: ${({ theme }) => darken(0.12, theme.appBackgroundColor)};
   text-shadow: -1px 1px 1px ${({ theme }) => lighten(0.1, theme.appBackgroundColor)};
@@ -15,18 +15,26 @@ const StyledErrorCode = styled.h1`
 const StyledText = styled.h3`
   text-align: center;
 `;
-const ErrorBox = ({ errorCode }) => {
+const ErrorBox = ({ errorCode, children }) => {
   const { lang } = useContext(PageContext);
-  return (
+  return errorCode ? (
     <>
       <StyledErrorCode>{errorCode}</StyledErrorCode>
       <StyledText>{commonPhrazes[lang].errors[`e${errorCode}`]}</StyledText>
     </>
+  ) : (
+    <StyledErrorCode>{children}</StyledErrorCode>
   );
 };
 
 ErrorBox.propTypes = {
-  errorCode: PropTypes.number.isRequired,
+  errorCode: PropTypes.number,
+  children: PropTypes.node,
+};
+
+ErrorBox.defaultProps = {
+  children: undefined,
+  errorCode: undefined,
 };
 
 export default ErrorBox;
