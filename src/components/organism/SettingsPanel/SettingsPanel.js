@@ -151,7 +151,6 @@ const SettingsPanel = () => {
   const {
     isMobile,
     appTheme,
-    isAdminPage,
     navPosition,
     remeberSettings,
     appThemeHandler,
@@ -194,7 +193,7 @@ const SettingsPanel = () => {
               className={appTheme === 'chocolate' && 'active'}
             />
           </StyledSectionWrapper>
-          {!isAdminPage && !isMobile && (
+          {!isMobile && (
             <>
               <StyledDivider />
               <StyledLabel>{phrazes.chooseLayout}</StyledLabel>
