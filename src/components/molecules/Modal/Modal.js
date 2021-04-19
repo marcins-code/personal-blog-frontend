@@ -129,7 +129,7 @@ const Modal = ({
         mountOnEnter
         unmountOnExit
         timeout={1000}
-        classNames={{ enter: 'slide-in-blurred-top', exit: 'slide-out-blurred-top' }}
+        classNames={{ enter: 'scale-in-ver-center', exit: 'scale-out-vertical' }}
       >
         <StyledModalBody mdlSmall={mdlSmall} mdlBig={mdlBig}>
           {mdlHeader && (
