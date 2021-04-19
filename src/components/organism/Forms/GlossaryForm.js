@@ -115,14 +115,6 @@ const GlossaryForm = (props) => {
       setIsSubmitted(formik.isValid && formik.isSubmitting);
     },
   });
-  // const body = {
-  //   ...formik.values,
-  //   creator: auth.userId,
-  //   description: {
-  //     pl: descriptionPL,
-  //     en: descriptionEN,
-  //   },
-  // };
 
   const method = entryId ? 'PUT' : 'POST';
   const url = entryId ? `/glossary/${entryId}` : '/glossary';
@@ -151,10 +143,12 @@ const GlossaryForm = (props) => {
           response.status === 200
             && toast.success(commonPhrazes[lang].savedData, { autoClose: 2500 });
           if (response.status === 201) {
-            entryId(response.data._id);
+            console.log(response);
+            setEntryId(response.data._id);
             toast.success(commonPhrazes[lang].createdItem, { autoClose: 2500 });
           }
           setIsSubmitted(false);
+          console.log();
         })
         .catch((error) => {
           if (error.response) {
