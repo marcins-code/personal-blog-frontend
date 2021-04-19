@@ -15,7 +15,7 @@ export const adminMenuItems = [
   {
     name_en: 'articles',
     name_pl: 'artykuły',
-    path: '/admin',
+    path: '/admin/articles',
     exact: true,
   },
   { name_en: 'Types', name_pl: 'Typy', path: '/admin/article-types' },
