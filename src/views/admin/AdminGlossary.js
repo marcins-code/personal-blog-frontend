@@ -203,7 +203,7 @@ const AdminGlossary = (props) => {
             {` ${commonPhrazes[lang].records}`}
           </p>
           <Button type="button" btnColor="green" btnClick={() => push('/admin/manage-glossary')}>
-            <FontAwesomeIcon icon={['fas', 'plus-circle']} fixedWidth />
+            <FontAwesomeIcon icon={['fas', 'plus-circle']} fixedWidth transform="left-2" />
             {glossaryPagePhrazes[lang].newEntry}
           </Button>
         </StyledSubheader>
