@@ -55,7 +55,7 @@ const App = () => {
             <Route path="/series" component={Series} />
             <Route path="/glossary" component={Glossary} />
             <Route path="/contact" component={Contact} />
-            <Route path="/admin/articles" exact component={AdminArticles} />
+            <Route path="/admin/article" exact component={AdminArticles} />
             <Route path="/admin/article-types" component={AdminCategories} />
             <Route path="/admin/glossary" component={AdminGlossary} />
             <Route path="/authorization" component={Authorization} />
