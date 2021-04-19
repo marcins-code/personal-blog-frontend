@@ -4,6 +4,7 @@ import styled, { css } from 'styled-components';
 import {
   darken, transparentize, getContrast, lighten,
 } from 'polished';
+import classyFabric from 'assets/images/backgrounds/classy-fabric.png';
 
 const StyledTableWrapper = styled.div`
   position: relative;
@@ -38,13 +39,14 @@ const StyledTableHeader = styled.thead`
   ${(props) => props.tblColor
     && css`
       box-shadow: 0 2px 16px 1px rgba(0, 0, 0, 0.4);
-      background: linear-gradient(
-        90deg,
-        ${({ theme }) => darken(0.1, theme[props.tblColor])} 20%,
-        ${({ theme }) => darken(0.05, theme[props.tblColor])} 50%,
-        ${({ theme }) => darken(0.03, theme[props.tblColor])} 70%,
-        ${({ theme }) => darken(0.1, theme[props.tblColor])} 80%
-      );
+      background-image: url(${classyFabric}),
+        linear-gradient(
+          90deg,
+          ${({ theme }) => darken(0.1, theme[props.tblColor])} 20%,
+          ${({ theme }) => darken(0.05, theme[props.tblColor])} 50%,
+          ${({ theme }) => darken(0.03, theme[props.tblColor])} 70%,
+          ${({ theme }) => darken(0.1, theme[props.tblColor])} 80%
+        );
       & > tr {
         border-bottom: 5px inset ${({ theme }) => lighten(0.06, theme[props.tblColor])};
       }
