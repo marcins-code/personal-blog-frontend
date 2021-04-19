@@ -166,9 +166,8 @@ const AdminArticleTypes = () => {
       };
       axios.delete(`/article-type/${clickedRecordID}`, { headers }).then((response) => {
         if (response.status === 200) {
-          setFetchedData(
-            fetchedData && fetchedData.filter((item) => item._id !== response.data.id),
-          );
+          setFetchedData(fetchedData && fetchedData.filter((item) => item._id !== clickedRecordID));
+          setConfirmDelete(false);
           toast.success(commonPhrazes[lang].deletionSuccess, { autoClose: 3500 });
           setConfirmDelete(false);
           setClickedRecordID();
