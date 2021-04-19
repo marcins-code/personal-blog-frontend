@@ -13,6 +13,7 @@ import { useAuth } from 'hooks/useAuth';
 import ManageArticleTypes from 'views/admin/ManageArticleTypes';
 import AdminGlossary from 'views/admin/AdminGlossary';
 import ManageGlossary from 'views/admin/ManageGlossary';
+import ManageArticle from 'views/admin/ManageArticle';
 import Glossary from 'views/page/Glossary';
 import axios from 'axios';
 
@@ -54,7 +55,7 @@ const App = () => {
             <Route path="/series" component={Series} />
             <Route path="/glossary" component={Glossary} />
             <Route path="/contact" component={Contact} />
-            <Route path="/admin" exact component={AdminArticles} />
+            <Route path="/admin/articles" exact component={AdminArticles} />
             <Route path="/admin/article-types" component={AdminCategories} />
             <Route path="/admin/glossary" component={AdminGlossary} />
             <Route path="/authorization" component={Authorization} />
@@ -62,6 +63,8 @@ const App = () => {
             <Route path="/admin/manage-article-type/:atid" exact component={ManageArticleTypes} />
             <Route path="/admin/manage-glossary" exact component={ManageGlossary} />
             <Route path="/admin/manage-glossary/:gid" exact component={ManageGlossary} />
+            <Route path="/admin/manage-article" exact component={ManageArticle} />
+            <Route path="/admin/manage-article/:aid" exact component={ManageArticle} />
           </GlobalTemplate>
         </Switch>
       </BrowserRouter>
