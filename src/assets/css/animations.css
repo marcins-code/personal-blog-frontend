@@ -67,9 +67,9 @@
 	transition: margin 400ms;
   }
  
-
-
-/* Contetnt */
+ 
+ 
+  /* Contetnt */
 .content-enter {
 	margin-left: 190px !important;
 	transition: margin 800ms;
