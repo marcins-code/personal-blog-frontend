@@ -1,14 +1,13 @@
 import React from 'react';
 
 export const PageContext = React.createContext({
-  isMobile: false,
+  appTheme: 'dark',
+  navPosition: 'menu-top',
   lang: 'pl',
-  appTheme: 'chocolate',
   remeberSettings: false,
-  navPosition: 'menu - top',
+  isMobile: false,
   isAdminPage: false,
   appThemeHandler: () => {},
-  sidebarThemeHandler: () => {},
   navPositionHandler: () => {},
   remeberSettingsHandler: () => {},
   langSwitchHandler: () => {},
