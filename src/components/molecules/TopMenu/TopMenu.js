@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
-import { PageContext } from 'context';
+import { PageContext, AuthContext } from 'context';
 import styled from 'styled-components';
 import Link from 'components/atoms/Link/Link';
 import { NavLink } from 'react-router-dom';
 import { mainMenuItems, adminMenuItems } from 'languages/menus';
 import { CSSTransition } from 'react-transition-group';
 import { darken } from 'polished';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const StyledList = styled.ul`
   list-style: none;
@@ -93,13 +94,22 @@ const StyledTopMenuNavWrapper = styled.nav`
 `;
 
 const StyledNavigationWrapper = styled.div`
+  position: relative;
   z-index: 301;
 `;
 
+const StyledToggleMenuIcon = styled(FontAwesomeIcon)`
+  color: ${({ theme }) => theme.color};
+  filter: drop-shadow(
+    ${({ theme }) => (theme.themeName !== 'light' ? '1px 2px 2px rgb(24, 24, 24)' : '1px 2px 2px  rgb(44, 44, 44)')}
+  );
+  margin-right: 50px;
+  cursor: pointer;
+`;
+
 const TopMenu = () => {
-  const appContext = useContext(PageContext);
-  const { lang, isAdminPage, navPosition } = appContext;
-  const menuItems = isAdminPage ? adminMenuItems : mainMenuItems;
+  const { isAdminPage, navPosition, lang } = useContext(PageContext);
+  const { logout, isLoggedIn } = useContext(AuthContext);
 
   return (
     <CSSTransition
@@ -110,19 +120,51 @@ const TopMenu = () => {
     >
       <StyledNavigationWrapper>
         <StyledTopMenuNavWrapper id="top-navigation">
-          <StyledList>
-            {menuItems.map((menuItem) => (
-              <li key={menuItem.name_en}>
-                <Link as={NavLink} to={menuItem.path} exact={menuItem.exact}>
-                  {lang === 'pl' ? menuItem.name_pl : menuItem.name_en}
-                </Link>
+          {!isAdminPage ? (
+            <StyledList className="page-menu">
+              {mainMenuItems.map((menuItem) => (
+                <li key={menuItem.name_en}>
+                  <Link as={NavLink} to={menuItem.path} exact={menuItem.exact}>
+                    {lang === 'pl' ? menuItem.name_pl : menuItem.name_en}
+                  </Link>
+                </li>
+              ))}
+            </StyledList>
+          ) : (
+            <StyledList className="admin-menu">
+              {adminMenuItems.map((menuItem) => (
+                <li key={menuItem.name_en}>
+                  <Link as={NavLink} to={menuItem.path} exact={menuItem.exact}>
+                    {lang === 'pl' ? menuItem.name_pl : menuItem.name_en}
+                  </Link>
+                </li>
+              ))}
+              <li>
+                <Link onClick={logout}>Logout</Link>
               </li>
-            ))}
-          </StyledList>
+            </StyledList>
+          )}
+          {isLoggedIn && !isAdminPage && (
+            <Link as={NavLink} to="/admin/article" exact>
+              <StyledToggleMenuIcon icon={['fas', 'cogs']} size="2x" />
+            </Link>
+          )}
+
+          {isLoggedIn && isAdminPage && (
+            <Link as={NavLink} to="/" exact>
+              <StyledToggleMenuIcon icon={['far', 'file-alt']} size="2x" />
+            </Link>
+          )}
+
+          {!isLoggedIn && (
+            <Link as={NavLink} to="/authorization" exact>
+              <StyledToggleMenuIcon icon={['fas', 'sign-in-alt']} size="2x" />
+            </Link>
+          )}
         </StyledTopMenuNavWrapper>
       </StyledNavigationWrapper>
     </CSSTransition>
   );
 };
 
-export default TopMenu;
+export default React.memo(TopMenu);

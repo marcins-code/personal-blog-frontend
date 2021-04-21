@@ -26,6 +26,7 @@ import {
   faSave,
   faCheckCircle,
   faBookmark,
+  faFileAlt,
 } from '@fortawesome/free-regular-svg-icons';
 import { faDocker, faSymfony } from '@fortawesome/free-brands-svg-icons';
 
@@ -57,4 +58,5 @@ export const icons = {
   faPenNib,
   faSignOutAlt,
   faUserShield,
+  faFileAlt,
 };
