@@ -26,13 +26,12 @@ const GlobalTemplate = ({ children }) => {
   const {
     isMobile,
     appTheme,
-    navPosition,
-    remeberSettings,
     lang,
+    remeberSettings,
+    navPosition,
     isAdminPage,
-    navPositionHandler,
     appThemeHandler,
-    sidebarThemeHandler,
+    navPositionHandler,
     remeberSettingsHandler,
     langSwitchHandler,
   } = useAppSettings(pageInitSettings);
@@ -44,15 +43,14 @@ const GlobalTemplate = ({ children }) => {
       value={{
         isMobile,
         appTheme,
-        navPosition,
-        remeberSettings,
         lang,
+        remeberSettings,
+        navPosition,
         isAdminPage,
         appThemeHandler,
-        sidebarThemeHandler,
         navPositionHandler,
-        langSwitchHandler,
         remeberSettingsHandler,
+        langSwitchHandler,
       }}
     >
       <GlobalStyle />
