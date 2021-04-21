@@ -16,6 +16,7 @@ import {
   faSignal,
   faPenNib,
   faUserShield,
+  faDesktop,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faTimesCircle,
@@ -59,4 +60,5 @@ export const icons = {
   faSignOutAlt,
   faUserShield,
   faFileAlt,
+  faDesktop,
 };
