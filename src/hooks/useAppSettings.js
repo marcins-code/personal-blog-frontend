@@ -59,28 +59,28 @@ export const useAppSettings = (pageInitSettings) => {
     (e) => {
       setAppTheme(e.target.dataset.apptheme);
     },
-    [setAppTheme],
+    [appTheme],
   );
 
   const navPositionHandler = useCallback(
     (e) => {
       setNavPosition(e.target.checked ? 'sidebar' : 'menu-top');
     },
-    [setNavPosition],
+    [navPosition],
   );
 
   const langSwitchHandler = useCallback(
     (e) => {
       setLang(e.target.checked ? 'en' : 'pl');
     },
-    [setLang],
+    [lang],
   );
 
   const remeberSettingsHandler = useCallback(
     (e) => {
       setRemeberSettings(e.target.checked);
     },
-    [setLang],
+    [remeberSettings],
   );
 
   return {
