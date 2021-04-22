@@ -22,6 +22,8 @@ export const articlePagePhrazes = {
     seriePart: '#part',
     noCategoriesYet: 'No categories yet',
     noSeriesYet: 'No series yet',
+    descriptionPL: 'Article in polish',
+    descriptionEN: 'Article in english',
   },
 
   pl: {
@@ -48,5 +50,7 @@ export const articlePagePhrazes = {
     seriePart: '#część',
     noCategoriesYet: 'Nie ma jeszcze kategorii',
     noSeriesYet: 'Nie ma jeszcze serii',
+    descriptionPL: 'Artykuł po polsku',
+    descriptionEN: 'Artykuł po angielsku',
   },
 };
