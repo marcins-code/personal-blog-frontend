@@ -75,8 +75,10 @@ const Card = ({
   cardMedium,
   cardColor,
   cardAsTemplate,
+  style,
 }) => (
   <StyledCardBody
+    style={style}
     cardColor={cardColor}
     cardSmall={cardSmall}
     cardCenter={cardCenter}
@@ -98,6 +100,7 @@ Card.propTypes = {
   cardMedium: PropTypes.bool,
   cardColor: PropTypes.string,
   cardAsTemplate: PropTypes.bool,
+  style: PropTypes.instanceOf(Object),
 };
 
 Card.defaultProps = {
@@ -108,6 +111,7 @@ Card.defaultProps = {
   cardMedium: false,
   cardColor: '',
   cardAsTemplate: false,
+  style: undefined,
 };
 
 export default Card;
