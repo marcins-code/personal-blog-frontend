@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+/* eslint-disable no-unused-vars */
 import React, { useContext, useState, useEffect } from 'react';
 import * as Yup from 'yup';
 import { useParams, useHistory } from 'react-router-dom';
@@ -10,6 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { articlePagePhrazes } from 'languages/articlePagePhrazes';
 import { commonPhrazes } from 'languages/commonPhrazes';
 import { device } from 'themes/commonElements/mediaBreakpoints';
+import { useAxios } from 'hooks/useAxios';
 import FormikInput from 'components/molecules/FormikInput/FormikInput';
 import FormikSelect from 'components/molecules/FormikSelect/FormikSelect';
 import InlineSwitcher from 'components/molecules/InlineSwitcher/InlineSwitcher';
@@ -66,16 +69,13 @@ const StyledCotrolsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin-right: 50px;
-  /* align-content: center; */
   align-items: center;
-  /* justify-items: center; */
   justify-content: space-between;
   & > div {
     width: 100%;
   }
 `;
 const StyledCodemirrorWrapper = styled.div`
-  /* max-width: 830px; */
   flex-grow: 2.9;
 `;
 
@@ -88,18 +88,6 @@ const StyledButtonsWrapper = styled.div`
     margin-right: 20px;
   }
 `;
-
-// const StyledControlsWrapper = styled.div`
-//   display: flex;
-//   flex-wrap: wrap;
-//   flex-direction: row;
-//   justify-content: center;
-
-//   & > div:nth-of-type(2) {
-//     margin-top: 15px;
-//   }
-// `;
-
 // const fetchedDataToSelectOptions = (data, type, typeName, value, labelValue) => {
 //   let array = [];
 //   array = data.map((item) => {
@@ -120,90 +108,119 @@ const ArticleForm = () => {
     { value: 'serie', label: commonPhrazes[lang].serie },
   ];
 
-  const [isLoading, setIsLoadig] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const [articleTypeId, setaAticleTypeId] = useState();
-  const [descriptionPL, setDescriptionPL] = useState('\n\n\n\n\n');
-  const [descriptionEN, setDescriptionEN] = useState('\n\n\n\n\n');
+  const [articleId, setArticleId] = useState();
+  const [articleContentPl, setArticleContentPl] = useState('\n\n\n\n\n');
+  const [articleContentEn, setArticleContentEn] = useState('\n\n\n\n\n');
 
-  // get articleType
+  // get article types data for proper select boxes
+  const { isLoading, error, sendRequest: getEanbledArticleTypes } = useAxios();
   const [series, setSeries] = useState([]);
   const [seriesLength, setSeriesLength] = useState([]);
   const [categories, setCategories] = useState();
   const [categoriesLength, setcategoriesLength] = useState();
-  let seriesOptions = [];
-  let categoriesOptions = [];
-  useEffect(() => {
-    setIsLoadig(true);
-    axios
-      .get('/article-type')
-      .then((response) => response.data)
-      .then((data) => {
-        categoriesOptions = data.reduce((acc, { name, type }) => {
-          type === 'category' && acc.push({ value: name, label: name });
-          return acc;
-        }, []);
-        setCategories(categoriesOptions);
-        seriesOptions = data.reduce((acc, { name, type }) => {
-          type === 'serie' && acc.push({ value: name, label: name });
-          return acc;
-        }, []);
-        setSeries(seriesOptions);
-        setIsLoadig(false);
-      })
-      .catch((error) => {
-        if (error.response) {
-          setIsLoadig(false);
-          setIsError(error.response.status);
-          console.log(error.response);
-        }
-      });
-  }, []);
 
+  // general function for transform fetched data to select option object
+  const filterArticleTypes = (dataObj, typeType, setState) => {
+    let result = [];
+    result = dataObj.reduce((acc, { _id, name, type }) => {
+      type === typeType && acc.push({ value: _id, label: name });
+      return acc;
+    }, []);
+    setState(result);
+  };
+
+  // getting data with useAxios hook
+  useEffect(() => {
+    const dispatchData = (dataObj) => {
+      filterArticleTypes(dataObj, 'serie', setSeries);
+      filterArticleTypes(dataObj, 'category', setCategories);
+    };
+    getEanbledArticleTypes({ url: '/article-type/enabled' }, dispatchData);
+  }, [getEanbledArticleTypes]);
+
+  // set states for select fields controll
   useEffect(() => {
     series && setSeriesLength(series.length);
     categories && setcategoriesLength(categories.length);
   }, [series, categories]);
 
-  console.log(seriesLength);
+  // get articleType
+  // const [series, setSeries] = useState([]);
+  // const [seriesLength, setSeriesLength] = useState([]);
+  // const [categories, setCategories] = useState();
+  // const [categoriesLength, setcategoriesLength] = useState();
+  // let seriesOptions = [];
+  // let categoriesOptions = [];
+  // useEffect(() => {
+  //   setIsLoadig(true);
+  //   axios
+  //     .get('/article-type')
+  //     .then((response) => response.data)
+  //     .then((data) => {
+  //       categoriesOptions = data.reduce((acc, { name, type }) => {
+  //         type === 'category' && acc.push({ value: name, label: name });
+  //         return acc;
+  //       }, []);
+  //       setCategories(categoriesOptions);
+  //       seriesOptions = data.reduce((acc, { name, type }) => {
+  //         type === 'serie' && acc.push({ value: name, label: name });
+  //         return acc;
+  //       }, []);
+  //       setSeries(seriesOptions);
+  //       setIsLoadig(false);
+  //     })
+  //     .catch((error) => {
+  //       if (error.response) {
+  //         setIsLoadig(false);
+  //         setIsError(error.response.status);
+  //         console.log(error.response);
+  //       }
+  //     });
+  // }, []);
 
-  const typeChangeHandler = (e) => {
+  // useEffect(() => {
+  //   series && setSeriesLength(series.length);
+  //   categories && setcategoriesLength(categories.length);
+  // }, [series, categories]);
+
+  const typeChangeResetHandler = (e) => {
     formik.setFieldValue('serie', '', false);
+    formik.setFieldValue('seriePart', '', false);
     formik.setFieldValue('category', '', false);
     formik.setFieldValue('type', e.target.value, false);
   };
 
-  const { atid } = useParams();
+  // const { atid } = useParams();
 
   // get data is atid is in params
-  useEffect(() => {
-    if (atid) {
-      setIsLoadig(true);
-      axios
-        .get(`/article-type/${atid}`)
-        .then((response) => {
-          setaAticleTypeId(response.data._id);
-          formik.setFieldValue('name', response.data.name, false);
-          formik.setFieldValue('type', response.data.type, false);
-          formik.setFieldValue('icon', response.data.icon, false);
-          formik.setFieldValue('isEnabled', response.data.isEnabled);
-          setDescriptionPL(response.data.description.pl);
-          setDescriptionEN(response.data.description.en);
-          setIsLoadig(false);
-        })
-        .catch((error) => {
-          if (error.response) {
-            setIsSubmitted(false);
-            setIsError(error.response.status);
-          }
-        });
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (atid) {
+  //     setIsLoadig(true);
+  //     axios
+  //       .get(`/article-type/${atid}`)
+  //       .then((response) => {
+  //         setaAticleTypeId(response.data._id);
+  //         formik.setFieldValue('name', response.data.name, false);
+  //         formik.setFieldValue('type', response.data.type, false);
+  //         formik.setFieldValue('icon', response.data.icon, false);
+  //         formik.setFieldValue('isEnabled', response.data.isEnabled);
+  //         // setDescriptionPL(response.data.description.pl);
+  //         // setDescriptionEN(response.data.description.en);
+  //         setIsLoadig(false);
+  //       })
+  //       .catch((error) => {
+  //         if (error.response) {
+  //           setIsSubmitted(false);
+  //           setIsError(error.response.status);
+  //         }
+  //       });
+  //   }
+  // }, []);
 
   const formik = useFormik({
     initialValues: {
-      titlePL: '',
+      titlePl: '',
       titleEn: '',
       isEnabled: null,
       icon: '',
@@ -214,10 +231,10 @@ const ArticleForm = () => {
     },
 
     validationSchema: Yup.object({
-      titlePL: Yup.string()
+      titlePl: Yup.string()
         .trim()
         .min(3, `${commonPhrazes[lang].min} 3 ${commonPhrazes[lang].characters}`)
-        .max(15, `${commonPhrazes[lang].max} 15 ${commonPhrazes[lang].characters}`)
+        .max(150, `${commonPhrazes[lang].max} 150${commonPhrazes[lang].characters}`)
         .required(commonPhrazes[lang].fieldRequired),
       type: Yup.string().required(commonPhrazes[lang].fieldRequired),
       serie: Yup.string().when('type', {
@@ -239,67 +256,86 @@ const ArticleForm = () => {
     },
   });
 
-  console.log(formik.values.type);
-  // saving data pr create new entry
-  const method = articleTypeId ? 'PUT' : 'POST';
-  const url = articleTypeId ? `/article-type/${articleTypeId}` : '/article-type';
-  const data = JSON.stringify({
-    ...formik.values,
+  const method = articleId ? 'PUT' : 'POST';
+  const url = articleId ? `/article/${articleId._id}` : '/article';
+  const headers = { 'Content-Type': 'application/json', Authorization: `Bearer ${auth.token}` };
+  const body = {
+    title: { pl: formik.values.titlePl, en: formik.values.titleEn },
+    articleType: formik.values.category ? formik.values.category : formik.values.serie,
+    seriePart: formik.values.serie ? formik.values.seriePart : null,
+    content: { pl: articleContentPl, en: articleContentEn },
     creator: auth.userId,
-    description: {
-      pl: descriptionPL,
-      en: descriptionEN,
-    },
-  });
+    modifiedAt: new Date(Date.now()).toISOString(),
+    isEnabled: formik.values.isEnabled,
+  };
+
+  const { sendRequest: createSaveArtcile } = useAxios();
+
   useEffect(() => {
-    const headers = {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${auth.token}`,
-    };
-    if (isSubmitted) {
-      axios({
-        method,
-        url,
-        data,
-        headers,
-      })
-        .then((response) => {
-          response.status === 200
-            && toast.success(commonPhrazes[lang].savedData, { autoClose: 2500 });
-          if (response.status === 201) {
-            setaAticleTypeId(response.data._id);
-            toast.success(commonPhrazes[lang].createdItem, { autoClose: 2500 });
-          }
-          setIsSubmitted(false);
-        })
-        .catch((error) => {
-          if (error.response) {
-            console.log(error.response.data);
-            console.log(error.response.status);
-            console.log(error.response.headers);
-            toast.error(error.response.data.message, { autoClose: 2500 });
-            setIsSubmitted(false);
-          }
-        });
-    }
-  }, [isSubmitted]);
+    isSubmitted
+      && createSaveArtcile(
+        {
+          url,
+          method,
+          headers,
+          body,
+        },
+        setArticleId,
+      );
+    setIsSubmitted(false);
+  }, [createSaveArtcile, isSubmitted]);
+
+  console.log(articleId);
+
+  // useEffect(() => {
+  //   const headers = {
+  //     'Content-Type': 'application/json',
+  //     Authorization: `Bearer ${auth.token}`,
+  //   };
+  //   if (isSubmitted) {
+  //     axios({
+  //       method,
+  //       url,
+  //       data,
+  //       headers,
+  //     })
+  //       .then((response) => {
+  //         response.status === 200
+  //           && toast.success(commonPhrazes[lang].savedData, { autoClose: 2500 });
+  //         if (response.status === 201) {
+  //           setaAticleTypeId(response.data._id);
+  //           toast.success(commonPhrazes[lang].createdItem, { autoClose: 2500 });
+  //         }
+  //         setIsSubmitted(false);
+  //       })
+  //       .catch((error) => {
+  //         if (error.response) {
+  //           console.log(error.response.data);
+  //           console.log(error.response.status);
+  //           console.log(error.response.headers);
+  //           toast.error(error.response.data.message, { autoClose: 2500 });
+  //           setIsSubmitted(false);
+  //         }
+  //       });
+  //   }
+  // }, [isSubmitted]);
 
   return (
     <>
-      {isLoading && !isSubmitted && !isError && <Spinner text={commonPhrazes[lang].loading} />}
-      {isError && <ErrorBox errorCode={isError} />}
-      {!isLoading && !isError && (
+      {/* {isLoading && !isSubmitted && !error && <Spinner text={commonPhrazes[lang].loading} />} */}
+      {error && <ErrorBox errorCode={error} />}
+      {!isLoading && !error && (
         <form onSubmit={formik.handleSubmit} className="fadeIn" style={{ position: 'relative' }}>
           <StyleTitlesWrapper>
             <FormikInput
               type="text"
-              name="titlePL"
+              name="titlePl"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               label={articlePagePhrazes[lang].titlePl}
-              value={formik.values.titlePL.trimStart()}
-              touched={formik.touched.titlePL}
-              errors={formik.errors.titlePL}
+              value={formik.values.titlePl.trimStart()}
+              touched={formik.touched.titlePl}
+              errors={formik.errors.titlePl}
               placeholder={articlePagePhrazes[lang].enterTitlePl}
             />
             <FormikInput
@@ -321,7 +357,7 @@ const ArticleForm = () => {
                 name="type"
                 label={articlePagePhrazes[lang].type}
                 optionItems={iteoptionItems}
-                onChange={typeChangeHandler}
+                onChange={typeChangeResetHandler}
                 onBlur={formik.handleBlur}
                 value={formik.values.type}
                 touched={formik.touched.type}
@@ -355,7 +391,7 @@ const ArticleForm = () => {
                     />
                   </StyledSerieCotrollWrapper>
                 ) : (
-                  <p>duoa</p>
+                  <ErrorBox fontSmall>{articlePagePhrazes[lang].noSeriesYet}</ErrorBox>
                 ))}
 
               {categories
@@ -374,7 +410,7 @@ const ArticleForm = () => {
                     disabled
                   />
                 ) : (
-                  <p>dupa</p>
+                  <ErrorBox fontSmall>{articlePagePhrazes[lang].noCategoriesYet}</ErrorBox>
                 ))}
               <Divider style={{ margin: '20px 0' }} />
               <InlineSwitcher
@@ -402,14 +438,14 @@ const ArticleForm = () => {
 
             <StyledCodemirrorWrapper>
               <CodemirrorTab
-                labelFirst={commonPhrazes[lang].descriptionPL}
-                labelSecond={commonPhrazes[lang].descriptionEN}
-                titleFirst={commonPhrazes[lang].descriptionPL}
-                titleSecond={commonPhrazes[lang].descriptionEN}
-                codeValueFirst={descriptionPL}
-                codeValueSecond={descriptionEN}
-                setStateFuncFirst={setDescriptionPL}
-                setStateFuncSecond={setDescriptionEN}
+                labelFirst={articlePagePhrazes[lang].descriptionPL}
+                labelSecond={articlePagePhrazes[lang].descriptionEN}
+                titleFirst={articlePagePhrazes[lang].descriptionPL}
+                titleSecond={articlePagePhrazes[lang].descriptionEN}
+                codeValueFirst={articleContentPl}
+                codeValueSecond={articleContentEn}
+                setStateFuncFirst={setArticleContentPl}
+                setStateFuncSecond={setArticleContentEn}
               />
             </StyledCodemirrorWrapper>
           </StyledEditorWrapper>
