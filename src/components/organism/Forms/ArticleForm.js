@@ -1,14 +1,15 @@
 import React, { useContext, useState, useEffect } from 'react';
 import * as Yup from 'yup';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
 import { AuthContext, PageContext } from 'context';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { articleTypesPagePhrazes } from 'languages/articleTypesPagePhrazes';
+import { articlePagePhrazes } from 'languages/articlePagePhrazes';
 import { commonPhrazes } from 'languages/commonPhrazes';
+import { device } from 'themes/commonElements/mediaBreakpoints';
 import FormikInput from 'components/molecules/FormikInput/FormikInput';
 import FormikSelect from 'components/molecules/FormikSelect/FormikSelect';
 import InlineSwitcher from 'components/molecules/InlineSwitcher/InlineSwitcher';
@@ -18,34 +19,64 @@ import Button from 'components/atoms/Button/Button';
 import Divider from 'components/atoms/Divider/Divider';
 import ErrorBox from 'components/molecules/ErrorBox/ErrorBox';
 
-const StyledFormWrapper = styled.div`
-  margin-top: 20px;
+const StyleTitlesWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  flex-grow: 1;
-  & > div:nth-of-type(1) {
-    flex-grow: 0.3;
-    justify-items: center;
-    align-items: center;
-    margin-right: 20px;
+  flex-wrap: wrap;
+  width: 100%;
+  > div {
+    display: block;
+    width: 50%;
+    @media ${device.max.tablet} {
+      width: 100%;
+    }
   }
-  & > div:nth-of-type(2) {
-    flex-grow: 3;
+
+  @media ${device.max.tablet} {
+    flex-direction: column;
   }
 `;
 
-const StyledInputsWrapper = styled.div`
+const StyledSerieCotrollWrapper = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: start;
+  flex-direction: row;
+  flex-grow: 2;
+  & > div:nth-of-type(1) {
+    flex-grow: 1.8;
+  }
+  & > div:nth-of-type(2) {
+    max-width: 150px;
+  }
 `;
 
 const StyledEditorWrapper = styled.div`
   margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  flex-grow: 3;
+  margin-top: 50px;
+  align-content: center;
+  align-items: start;
+  justify-items: center;
+  justify-content: center;
 `;
 
+const StyledCotrolsWrapper = styled.div`
+  flex-grow: 0.1;
+  display: flex;
+  flex-direction: column;
+  margin-right: 50px;
+  /* align-content: center; */
+  align-items: center;
+  /* justify-items: center; */
+  justify-content: space-between;
+  & > div {
+    width: 100%;
+  }
+`;
 const StyledCodemirrorWrapper = styled.div`
-  max-width: 830px;
+  /* max-width: 830px; */
+  flex-grow: 2.9;
 `;
 
 const StyledButtonsWrapper = styled.div`
@@ -58,16 +89,27 @@ const StyledButtonsWrapper = styled.div`
   }
 `;
 
-const StyledControlsWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  justify-content: center;
+// const StyledControlsWrapper = styled.div`
+//   display: flex;
+//   flex-wrap: wrap;
+//   flex-direction: row;
+//   justify-content: center;
 
-  & > div:nth-of-type(2) {
-    margin-top: 15px;
-  }
-`;
+//   & > div:nth-of-type(2) {
+//     margin-top: 15px;
+//   }
+// `;
+
+// const fetchedDataToSelectOptions = (data, type, typeName, value, labelValue) => {
+//   let array = [];
+//   array = data.map((item) => {
+//     if (item.type === typeName) {
+//       return { value: item[value], label: item[labelValue] };
+//     }
+
+//     return array;
+//   });
+// };
 
 const ArticleForm = () => {
   const { push } = useHistory();
@@ -84,6 +126,53 @@ const ArticleForm = () => {
   const [articleTypeId, setaAticleTypeId] = useState();
   const [descriptionPL, setDescriptionPL] = useState('\n\n\n\n\n');
   const [descriptionEN, setDescriptionEN] = useState('\n\n\n\n\n');
+
+  // get articleType
+  const [series, setSeries] = useState([]);
+  const [seriesLength, setSeriesLength] = useState([]);
+  const [categories, setCategories] = useState();
+  const [categoriesLength, setcategoriesLength] = useState();
+  let seriesOptions = [];
+  let categoriesOptions = [];
+  useEffect(() => {
+    setIsLoadig(true);
+    axios
+      .get('/article-type')
+      .then((response) => response.data)
+      .then((data) => {
+        categoriesOptions = data.reduce((acc, { name, type }) => {
+          type === 'category' && acc.push({ value: name, label: name });
+          return acc;
+        }, []);
+        setCategories(categoriesOptions);
+        seriesOptions = data.reduce((acc, { name, type }) => {
+          type === 'serie' && acc.push({ value: name, label: name });
+          return acc;
+        }, []);
+        setSeries(seriesOptions);
+        setIsLoadig(false);
+      })
+      .catch((error) => {
+        if (error.response) {
+          setIsLoadig(false);
+          setIsError(error.response.status);
+          console.log(error.response);
+        }
+      });
+  }, []);
+
+  useEffect(() => {
+    series && setSeriesLength(series.length);
+    categories && setcategoriesLength(categories.length);
+  }, [series, categories]);
+
+  console.log(seriesLength);
+
+  const typeChangeHandler = (e) => {
+    formik.setFieldValue('serie', '', false);
+    formik.setFieldValue('category', '', false);
+    formik.setFieldValue('type', e.target.value, false);
+  };
 
   const { atid } = useParams();
 
@@ -107,7 +196,6 @@ const ArticleForm = () => {
           if (error.response) {
             setIsSubmitted(false);
             setIsError(error.response.status);
-            console.log(error.response);
           }
         });
     }
@@ -115,28 +203,43 @@ const ArticleForm = () => {
 
   const formik = useFormik({
     initialValues: {
-      name: '',
+      titlePL: '',
+      titleEn: '',
       isEnabled: null,
       icon: '',
       type: '',
+      serie: '',
+      category: '',
+      seriePart: '',
     },
+
     validationSchema: Yup.object({
-      name: Yup.string()
-        .trim()
-        .min(3, `${commonPhrazes[lang].min} 3 ${commonPhrazes[lang].characters}`)
-        .max(15, `${commonPhrazes[lang].max} 15 ${commonPhrazes[lang].characters}`)
-        .required(commonPhrazes[lang].fieldRequired),
-      icon: Yup.string()
+      titlePL: Yup.string()
         .trim()
         .min(3, `${commonPhrazes[lang].min} 3 ${commonPhrazes[lang].characters}`)
         .max(15, `${commonPhrazes[lang].max} 15 ${commonPhrazes[lang].characters}`)
         .required(commonPhrazes[lang].fieldRequired),
       type: Yup.string().required(commonPhrazes[lang].fieldRequired),
+      serie: Yup.string().when('type', {
+        is: 'serie',
+        then: Yup.string().required(commonPhrazes[lang].fieldRequired),
+      }),
+      category: Yup.string().when('type', {
+        is: 'category',
+        then: Yup.string().required(commonPhrazes[lang].fieldRequired),
+      }),
+      seriePart: Yup.string().when('type', {
+        is: 'serie',
+        then: Yup.string().required(commonPhrazes[lang].fieldRequired),
+      }),
     }),
+
     onSubmit: (values) => {
       setIsSubmitted(formik.isValid && formik.isSubmitting);
     },
   });
+
+  console.log(formik.values.type);
   // saving data pr create new entry
   const method = articleTypeId ? 'PUT' : 'POST';
   const url = articleTypeId ? `/article-type/${articleTypeId}` : '/article-type';
@@ -161,7 +264,6 @@ const ArticleForm = () => {
         headers,
       })
         .then((response) => {
-          console.log(response);
           response.status === 200
             && toast.success(commonPhrazes[lang].savedData, { autoClose: 2500 });
           if (response.status === 201) {
@@ -187,55 +289,105 @@ const ArticleForm = () => {
       {isLoading && !isSubmitted && !isError && <Spinner text={commonPhrazes[lang].loading} />}
       {isError && <ErrorBox errorCode={isError} />}
       {!isLoading && !isError && (
-        <form onSubmit={formik.handleSubmit} style={{ position: 'relative' }}>
-          <StyledFormWrapper className="fadeIn">
-            <StyledInputsWrapper>
-              <FormikInput
-                type="text"
-                name="name"
-                onChange={formik.handleChange}
+        <form onSubmit={formik.handleSubmit} className="fadeIn" style={{ position: 'relative' }}>
+          <StyleTitlesWrapper>
+            <FormikInput
+              type="text"
+              name="titlePL"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              label={articlePagePhrazes[lang].titlePl}
+              value={formik.values.titlePL.trimStart()}
+              touched={formik.touched.titlePL}
+              errors={formik.errors.titlePL}
+              placeholder={articlePagePhrazes[lang].enterTitlePl}
+            />
+            <FormikInput
+              type="text"
+              name="titleEn"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              label={articlePagePhrazes[lang].titleEn}
+              value={formik.values.titleEn.trimStart()}
+              touched={formik.touched.titleEn}
+              errors={formik.errors.titleEn}
+              placeholder={articlePagePhrazes[lang].enterTitleEn}
+            />
+          </StyleTitlesWrapper>
+          <Divider />
+          <StyledEditorWrapper>
+            <StyledCotrolsWrapper>
+              <FormikSelect
+                name="type"
+                label={articlePagePhrazes[lang].type}
+                optionItems={iteoptionItems}
+                onChange={typeChangeHandler}
                 onBlur={formik.handleBlur}
-                label={articleTypesPagePhrazes[lang].name}
-                value={formik.values.name.trimStart()}
-                touched={formik.touched.name}
-                errors={formik.errors.name}
-                placeholder={articleTypesPagePhrazes[lang].enterName}
+                value={formik.values.type}
+                touched={formik.touched.type}
+                errors={formik.errors.type}
+                placeholder={articlePagePhrazes[lang].chooseType}
               />
-              <FormikInput
-                type="text"
-                name="icon"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                label={articleTypesPagePhrazes[lang].icon}
-                value={formik.values.icon.trimStart()}
-                touched={formik.touched.icon}
-                errors={formik.errors.icon}
-                placeholder={articleTypesPagePhrazes[lang].addIcon}
+              {series
+                && formik.values.type === 'serie'
+                && (seriesLength > 0 ? (
+                  <StyledSerieCotrollWrapper className="serie">
+                    <FormikSelect
+                      name="serie"
+                      label={articlePagePhrazes[lang].chooseSerie}
+                      optionItems={series}
+                      placeholder={articlePagePhrazes[lang].chooseSerie}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.serie}
+                      touched={formik.touched.serie}
+                      errors={formik.errors.serie}
+                    />
+                    <FormikInput
+                      type="text"
+                      name="seriePart"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      label={articlePagePhrazes[lang].seriePart}
+                      value={formik.values.seriePart}
+                      touched={formik.touched.seriePart}
+                      errors={formik.errors.seriePart}
+                    />
+                  </StyledSerieCotrollWrapper>
+                ) : (
+                  <p>duoa</p>
+                ))}
+
+              {categories
+                && formik.values.type === 'category'
+                && (categoriesLength > 0 ? (
+                  <FormikSelect
+                    name="category"
+                    label={articlePagePhrazes[lang].chooseCategory}
+                    optionItems={categories}
+                    placeholder={articlePagePhrazes[lang].chooseCategory}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.category}
+                    touched={formik.touched.category}
+                    errors={formik.errors.category}
+                    disabled
+                  />
+                ) : (
+                  <p>dupa</p>
+                ))}
+              <Divider style={{ margin: '20px 0' }} />
+              <InlineSwitcher
+                isChecked={formik.values.isEnabled}
+                change={formik.handleChange}
+                switchColor="green"
+                notCheckedColor="red"
+                label={commonPhrazes[lang].published}
+                labelBefore={commonPhrazes[lang].no}
+                labelAfter={commonPhrazes[lang].yes}
+                switchName="isEnabled"
               />
-              <StyledControlsWrapper>
-                <FormikSelect
-                  name="type"
-                  label={articleTypesPagePhrazes[lang].type}
-                  optionItems={iteoptionItems}
-                  placeholder={commonPhrazes[lang].choose}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.type}
-                  touched={formik.touched.type}
-                  errors={formik.errors.type}
-                />
-                <InlineSwitcher
-                  isChecked={formik.values.isEnabled}
-                  change={formik.handleChange}
-                  switchColor="green"
-                  notCheckedColor="red"
-                  label={commonPhrazes[lang].published}
-                  labelBefore={commonPhrazes[lang].no}
-                  labelAfter={commonPhrazes[lang].yes}
-                  switchName="isEnabled"
-                />
-              </StyledControlsWrapper>
-              <Divider />
+              <Divider style={{ margin: '20px 0' }} />
               <StyledButtonsWrapper>
                 <Button type="submit" btnColor="green" labelIcon={['far', 'save']}>
                   <FontAwesomeIcon icon={['far', 'save']} fixedWidth />
@@ -246,22 +398,21 @@ const ArticleForm = () => {
                   {commonPhrazes[lang].close}
                 </Button>
               </StyledButtonsWrapper>
-            </StyledInputsWrapper>
-            <StyledEditorWrapper>
-              <StyledCodemirrorWrapper>
-                <CodemirrorTab
-                  labelFirst={commonPhrazes[lang].descriptionPL}
-                  labelSecond={commonPhrazes[lang].descriptionEN}
-                  titleFirst={commonPhrazes[lang].descriptionPL}
-                  titleSecond={commonPhrazes[lang].descriptionEN}
-                  codeValueFirst={descriptionPL}
-                  codeValueSecond={descriptionEN}
-                  setStateFuncFirst={setDescriptionPL}
-                  setStateFuncSecond={setDescriptionEN}
-                />
-              </StyledCodemirrorWrapper>
-            </StyledEditorWrapper>
-          </StyledFormWrapper>
+            </StyledCotrolsWrapper>
+
+            <StyledCodemirrorWrapper>
+              <CodemirrorTab
+                labelFirst={commonPhrazes[lang].descriptionPL}
+                labelSecond={commonPhrazes[lang].descriptionEN}
+                titleFirst={commonPhrazes[lang].descriptionPL}
+                titleSecond={commonPhrazes[lang].descriptionEN}
+                codeValueFirst={descriptionPL}
+                codeValueSecond={descriptionEN}
+                setStateFuncFirst={setDescriptionPL}
+                setStateFuncSecond={setDescriptionEN}
+              />
+            </StyledCodemirrorWrapper>
+          </StyledEditorWrapper>
         </form>
       )}
     </>
