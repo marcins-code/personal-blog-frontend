@@ -1,11 +1,9 @@
-/* eslint-disable max-len */
-/* eslint-disable no-unused-vars */
 import React, { useContext, useState, useEffect } from 'react';
 import * as Yup from 'yup';
 import { useParams, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import axios from 'axios';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 import { useFormik } from 'formik';
 import { AuthContext, PageContext } from 'context';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -88,16 +86,6 @@ const StyledButtonsWrapper = styled.div`
     margin-right: 20px;
   }
 `;
-// const fetchedDataToSelectOptions = (data, type, typeName, value, labelValue) => {
-//   let array = [];
-//   array = data.map((item) => {
-//     if (item.type === typeName) {
-//       return { value: item[value], label: item[labelValue] };
-//     }
-
-//     return array;
-//   });
-// };
 
 const ArticleForm = () => {
   const { push } = useHistory();
@@ -108,13 +96,15 @@ const ArticleForm = () => {
     { value: 'serie', label: commonPhrazes[lang].serie },
   ];
 
+  const [isLoading, setIsLoadig] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [articleId, setArticleId] = useState();
+  const [articleData, setArticleData] = useState();
   const [articleContentPl, setArticleContentPl] = useState('\n\n\n\n\n');
   const [articleContentEn, setArticleContentEn] = useState('\n\n\n\n\n');
 
-  // get article types data for proper select boxes
-  const { isLoading, error, sendRequest: getEanbledArticleTypes } = useAxios();
   const [series, setSeries] = useState([]);
   const [seriesLength, setSeriesLength] = useState([]);
   const [categories, setCategories] = useState();
@@ -132,57 +122,51 @@ const ArticleForm = () => {
 
   // getting data with useAxios hook
   useEffect(() => {
-    const dispatchData = (dataObj) => {
-      filterArticleTypes(dataObj, 'serie', setSeries);
-      filterArticleTypes(dataObj, 'category', setCategories);
-    };
-    getEanbledArticleTypes({ url: '/article-type/enabled' }, dispatchData);
-  }, [getEanbledArticleTypes]);
+    setIsLoadig(true);
+    if (aid) {
+      axios
+        .all([axios.get(`/article/${aid}`), axios.get('/article-type/enabled')])
+        .then((response) => {
+          console.log(response[1]);
+          filterArticleTypes(response[1].data, 'serie', setSeries);
+          filterArticleTypes(response[1].data, 'category', setCategories);
+          setArticleId(response[0].data._id);
+          formik.setFieldValue('isEnabled', response[0].data.isEnabled);
+          formik.setFieldValue('titlePl', response[0].data.title.pl);
+          formik.setFieldValue('titleEn', response[0].data.title.en);
+          formik.setFieldValue('type', response[0].data.articleType.type);
+          response[0].data.articleType.type === 'category'
+            && formik.setFieldValue('category', response[0].data.articleType._id);
+          response[0].data.articleType.type === 'serie'
+            && formik.setFieldValue('serie', response[0].data.articleType._id);
+          response[0].data.articleType.type === 'serie'
+            && formik.setFieldValue('seriePart', response[0].data.seriePart);
+          setArticleContentPl(response[0].data.content.pl);
+          setArticleContentEn(response[0].data.content.en);
+          setIsLoadig(false);
+        })
+        .catch((err) => {
+          if (err) {
+            setError(err.response.status || 'Something went wrong!');
+            console.log(err.response.status);
+            setIsLoadig(false);
+          }
+        });
+    } else {
+      axios.get('/article-type/enabled').then((response) => {
+        console.log(response);
+        filterArticleTypes(response.data, 'serie', setSeries);
+        filterArticleTypes(response.data, 'category', setCategories);
+        setIsLoadig(false);
+      });
+    }
+  }, []);
 
   // set states for select fields controll
   useEffect(() => {
     series && setSeriesLength(series.length);
     categories && setcategoriesLength(categories.length);
   }, [series, categories]);
-
-  // get articleType
-  // const [series, setSeries] = useState([]);
-  // const [seriesLength, setSeriesLength] = useState([]);
-  // const [categories, setCategories] = useState();
-  // const [categoriesLength, setcategoriesLength] = useState();
-  // let seriesOptions = [];
-  // let categoriesOptions = [];
-  // useEffect(() => {
-  //   setIsLoadig(true);
-  //   axios
-  //     .get('/article-type')
-  //     .then((response) => response.data)
-  //     .then((data) => {
-  //       categoriesOptions = data.reduce((acc, { name, type }) => {
-  //         type === 'category' && acc.push({ value: name, label: name });
-  //         return acc;
-  //       }, []);
-  //       setCategories(categoriesOptions);
-  //       seriesOptions = data.reduce((acc, { name, type }) => {
-  //         type === 'serie' && acc.push({ value: name, label: name });
-  //         return acc;
-  //       }, []);
-  //       setSeries(seriesOptions);
-  //       setIsLoadig(false);
-  //     })
-  //     .catch((error) => {
-  //       if (error.response) {
-  //         setIsLoadig(false);
-  //         setIsError(error.response.status);
-  //         console.log(error.response);
-  //       }
-  //     });
-  // }, []);
-
-  // useEffect(() => {
-  //   series && setSeriesLength(series.length);
-  //   categories && setcategoriesLength(categories.length);
-  // }, [series, categories]);
 
   const typeChangeResetHandler = (e) => {
     formik.setFieldValue('serie', '', false);
@@ -191,45 +175,22 @@ const ArticleForm = () => {
     formik.setFieldValue('type', e.target.value, false);
   };
 
-  // const { atid } = useParams();
-
-  // get data is atid is in params
-  // useEffect(() => {
-  //   if (atid) {
-  //     setIsLoadig(true);
-  //     axios
-  //       .get(`/article-type/${atid}`)
-  //       .then((response) => {
-  //         setaAticleTypeId(response.data._id);
-  //         formik.setFieldValue('name', response.data.name, false);
-  //         formik.setFieldValue('type', response.data.type, false);
-  //         formik.setFieldValue('icon', response.data.icon, false);
-  //         formik.setFieldValue('isEnabled', response.data.isEnabled);
-  //         // setDescriptionPL(response.data.description.pl);
-  //         // setDescriptionEN(response.data.description.en);
-  //         setIsLoadig(false);
-  //       })
-  //       .catch((error) => {
-  //         if (error.response) {
-  //           setIsSubmitted(false);
-  //           setIsError(error.response.status);
-  //         }
-  //       });
-  //   }
-  // }, []);
+  const { sendRequest: getArticleWhenAID } = useAxios();
+  const { aid } = useParams();
+  useEffect(() => {
+    aid && getArticleWhenAID({ url: `/article/${aid}` }, setArticleData);
+  }, []);
 
   const formik = useFormik({
     initialValues: {
       titlePl: '',
-      titleEn: '',
+      titleEn: articleData ? articleData.title.en : '',
       isEnabled: null,
-      icon: '',
       type: '',
       serie: '',
       category: '',
       seriePart: '',
     },
-
     validationSchema: Yup.object({
       titlePl: Yup.string()
         .trim()
@@ -245,9 +206,9 @@ const ArticleForm = () => {
         is: 'category',
         then: Yup.string().required(commonPhrazes[lang].fieldRequired),
       }),
-      seriePart: Yup.string().when('type', {
+      seriePart: Yup.number().when('type', {
         is: 'serie',
-        then: Yup.string().required(commonPhrazes[lang].fieldRequired),
+        then: Yup.number().required(commonPhrazes[lang].fieldRequired),
       }),
     }),
 
@@ -257,7 +218,7 @@ const ArticleForm = () => {
   });
 
   const method = articleId ? 'PUT' : 'POST';
-  const url = articleId ? `/article/${articleId._id}` : '/article';
+  const url = articleId ? `/article/${articleId}` : '/article';
   const headers = { 'Content-Type': 'application/json', Authorization: `Bearer ${auth.token}` };
   const body = {
     title: { pl: formik.values.titlePl, en: formik.values.titleEn },
@@ -269,62 +230,44 @@ const ArticleForm = () => {
     isEnabled: formik.values.isEnabled,
   };
 
-  const { sendRequest: createSaveArtcile } = useAxios();
-
   useEffect(() => {
     isSubmitted
-      && createSaveArtcile(
-        {
-          url,
-          method,
-          headers,
-          body,
-        },
-        setArticleId,
-      );
+      && axios({
+        method,
+        url,
+        headers,
+        data: body,
+      })
+        .then((response) => {
+          setIsSaving(true);
+          console.log(response);
+          setArticleId(response.data._id);
+          response.status === 201
+            && toast.success(commonPhrazes[lang].createdItem, { autoClose: 3500 });
+          response.status === 200
+            && toast.success(commonPhrazes[lang].savedData, { autoClose: 3500 });
+          setTimeout(() => {
+            setIsSaving(false);
+          }, 500);
+        })
+        .catch((err) => {
+          if (err) {
+            setIsSaving(true);
+            setError(err.response.status || 'Something went wrong!');
+            console.log(err.response.status);
+            setIsSaving(false);
+          }
+        });
     setIsSubmitted(false);
-  }, [createSaveArtcile, isSubmitted]);
-
-  console.log(articleId);
-
-  // useEffect(() => {
-  //   const headers = {
-  //     'Content-Type': 'application/json',
-  //     Authorization: `Bearer ${auth.token}`,
-  //   };
-  //   if (isSubmitted) {
-  //     axios({
-  //       method,
-  //       url,
-  //       data,
-  //       headers,
-  //     })
-  //       .then((response) => {
-  //         response.status === 200
-  //           && toast.success(commonPhrazes[lang].savedData, { autoClose: 2500 });
-  //         if (response.status === 201) {
-  //           setaAticleTypeId(response.data._id);
-  //           toast.success(commonPhrazes[lang].createdItem, { autoClose: 2500 });
-  //         }
-  //         setIsSubmitted(false);
-  //       })
-  //       .catch((error) => {
-  //         if (error.response) {
-  //           console.log(error.response.data);
-  //           console.log(error.response.status);
-  //           console.log(error.response.headers);
-  //           toast.error(error.response.data.message, { autoClose: 2500 });
-  //           setIsSubmitted(false);
-  //         }
-  //       });
-  //   }
-  // }, [isSubmitted]);
+  }, [isSubmitted]);
 
   return (
     <>
-      {/* {isLoading && !isSubmitted && !error && <Spinner text={commonPhrazes[lang].loading} />} */}
-      {error && <ErrorBox errorCode={error} />}
-      {!isLoading && !error && (
+      {(isLoading || isSaving) && (
+        <Spinner text={isLoading ? commonPhrazes[lang].loading : commonPhrazes[lang].saving} />
+      )}
+      {error && <ErrorBox fontLarge errorCode={error} />}
+      {!isLoading && !error && !isSaving && (
         <form onSubmit={formik.handleSubmit} className="fadeIn" style={{ position: 'relative' }}>
           <StyleTitlesWrapper>
             <FormikInput
@@ -380,7 +323,7 @@ const ArticleForm = () => {
                       errors={formik.errors.serie}
                     />
                     <FormikInput
-                      type="text"
+                      type="number"
                       name="seriePart"
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
