@@ -47,7 +47,7 @@ export const articlePagePhrazes = {
     chooseCategory: 'Wybierz kategorię',
     chooseSerie: 'Wybierz serię',
     chooseType: 'Wybierz typ artykułu',
-    seriePart: '#część',
+    seriePart: '#części',
     noCategoriesYet: 'Nie ma jeszcze kategorii',
     noSeriesYet: 'Nie ma jeszcze serii',
     descriptionPL: 'Artykuł po polsku',
